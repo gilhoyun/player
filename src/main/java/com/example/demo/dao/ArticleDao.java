@@ -3,8 +3,11 @@ package com.example.demo.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.example.demo.dto.Article;
 
+@Component
 public class ArticleDao {
 
 	private List<Article> articles;

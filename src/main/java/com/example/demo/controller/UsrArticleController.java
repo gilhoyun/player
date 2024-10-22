@@ -19,6 +19,16 @@ public class UsrArticleController {
 	public UsrArticleController() {
 		this.lastArticleId = 0;
 		this.articles = new ArrayList<>();
+		makeTestData();
+	}
+
+	private void makeTestData() {
+		for(int i = 1; i <= 10; i++) {
+			lastArticleId++;
+			Article article = new Article(lastArticleId, "제목" + i, "내용" + i);
+			articles.add(article);
+		}		
+		
 	}
 
 	@GetMapping("/usr/article/doWrite")

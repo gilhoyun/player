@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,15 +17,11 @@ public class UsrArticleController {
 	
 	private ArticleService articleService;
 
-	public UsrArticleController() {
-		this.lastArticleId = 3;
-
-		this.articleService = new ArticleService();
-		
-		
+	public UsrArticleController(ArticleService articleService) {
+		this.articleService = articleService;
+		this.lastArticleId = 3;	
 	}
 
-	
 	
 	@GetMapping("/usr/article/doWrite")
 	@ResponseBody

@@ -14,14 +14,11 @@ import com.example.demo.util.Util;
 
 @Controller
 public class UsrArticleController {
-
-	private int lastArticleId;
 	
 	private ArticleService articleService;
 
 	public UsrArticleController(ArticleService articleService) {
 		this.articleService = articleService;
-		this.lastArticleId = 3;	
 	}
 
 	
@@ -30,18 +27,18 @@ public class UsrArticleController {
 	public ResultData doWrite(String title, String body) {
 		
 		if (Util.isEmpty(title)) {
-			return ResultData.from("F-1", "제목을 입력해주세요.", null);
+			return ResultData.from("F-1", "제목을 입력해주세요.");
 		}
 		
 		if (Util.isEmpty(body)) {
-			return ResultData.from("F-2", "내용을 입력해주세요.", null);
+			return ResultData.from("F-2", "내용을 입력해주세요.");
 		}
 
 		articleService.writeArticle(title, body);
 		
 		int id = articleService.getLastInsertId();
 				
-		return ResultData.from("S-1", "내용을 입력했습니다.", articleService.getArticlebyId(id));
+		return ResultData.from("S-1", String.format("%d번 게시물을  작성했습니다.", id), articleService.getArticlebyId(id));
 	}
 
 
@@ -66,11 +63,11 @@ public class UsrArticleController {
 		Article foundArticle = articleService.getArticlebyId(id);
 
 		if (foundArticle == null) {
-			return ResultData.from("F-1", id + "번 게시물은 존개하지 않습니다.");
+			return ResultData.from("F-1", String.format("%d번 게시물은  존재하지 않습니다.", id));
 			
 		}
 
-		return ResultData.from("S-1", "상세보기", foundArticle);
+		return ResultData.from("S-1", String.format("%d번 게시물  상세보기.", id));
 
 	}
 
@@ -81,12 +78,14 @@ public class UsrArticleController {
 		Article foundArticle = articleService.getArticlebyId(id);
 				
 		if (foundArticle == null) {
-			return ResultData.from("F-1", id + "번 게시물은 존개하지 않습니다.");
+			return ResultData.from("F-1", String.format("%d번 게시물은  수정했습니다.", id));
+			
 		}	
 		
 		articleService.doModify(id, title, body);
 		
-		return ResultData.from("S-1", id + "번 게시물을 수정했습니다.");
+		
+		return ResultData.from("S-1", id + "번 게시물을 수정했습니다.", articleService.getArticlebyId(id));
 
 	}
 
@@ -97,12 +96,12 @@ public class UsrArticleController {
 		Article foundArticle = articleService.getArticlebyId(id);
 		
 		if (foundArticle == null) {
-			return ResultData.from("F-1", id + "번 게시물은 존개하지 않습니다.");
+			return ResultData.from("F-1", String.format("%d번 게시물은  존재하지 않습니다.", id));
 		}
 			
 		articleService.doDelete(id);
 		
-		return ResultData.from("S-1", id + "번 게시물을 삭제했습니다.");
+		return ResultData.from("S-1", String.format("%d번 게시물을  삭제했습니다.", id));
 		
 
 	}

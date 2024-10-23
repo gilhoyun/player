@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dto.Member;
+import com.example.demo.dto.ResultData;
 import com.example.demo.service.MemberService;
 import com.example.demo.util.Util;
 
@@ -20,33 +21,33 @@ public class UsrMemberController {
 
 	@GetMapping("/usr/member/doJoin")
 	@ResponseBody
-	public Object doJoin(String loginId, String loginPw, String loginPwChk, String name) {
+	public ResultData doJoin(String loginId, String loginPw, String loginPwChk, String name) {
 		
 		if (Util.isEmpty(loginId)) {
-			return "아이디를 입력해주세요";
+			return ResultData.from("F-1", "아이디를 입력해주세요.", null);
 		}
 		
 		Member member = memberService.getMemberByLoginId(loginId);
 		
 		if (member != null) {
-			return loginId + "은(는) 이미 사용중인 아이디입니다";
+			return  ResultData.from("F-2", String.format("[ %s ]은(는) 이미 사용중인 아이디입니다.", loginId), null);
 		}
 		
 		if (Util.isEmpty(loginPw)) {
-			return "비밀번호를 입력해주세요";
+			return ResultData.from("F-3", "비밀번호를 입력해주세요.", null);
 		}
 		if (Util.isEmpty(name)) {
-			return "이름을 입력해주세요";
+			return ResultData.from("F-4", "이름을 입력해주세요.", null);
 		}
 		
 		if (loginPw.equals(loginPwChk) == false) {
-			return "비밀번호가 일치하지 않습니다";
+			return ResultData.from("F-5", "비밀번호가 일치하지 않습니다.", null);
 		}
 		
 		memberService.joinMember(loginId, loginPw, name);
 		
 		int id = memberService.getLastInsertId();
 		
-		return memberService.getMemberById(id);
+		return ResultData.from("S-1", "회원가입 성공", memberService.getMemberById(id));
 	}
 }

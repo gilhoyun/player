@@ -33,16 +33,13 @@ public class ArticleService {
 		return articleDao.getArticles();
 	}
 
-	public void doModify(Article foundArticle, String title, String body) {
-		articleDao.getArticles(foundArticle, title, body);
+	public void doModify(int id, String title, String body) {
+		articleDao.doModify(id, title, body);
 	}
 
-	public void doDelete(Article foundArticle) {
-		articleDao.doDelete(foundArticle);
+	public void doDelete(int id) {
+		articleDao.doDelete(id);
 		
-	}
-	
-	
-	
+	}	
 
 }

@@ -2,7 +2,6 @@ package com.example.demo.dao;
 
 import java.util.List;
 
-<<<<<<< HEAD
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,51 +14,59 @@ import com.example.demo.dto.Article;
 public interface ArticleDao {
 
 
-	public Article writeArticle(int id, String title, String body); 
+	
+	
+	Article getLastInsertArticle = null;
+
+	@Insert("""
+	       INSERT INTO article
+            SET regDate = NOW()
+            , updateDate = NOW()
+            , title = #{title}
+            , `body` = #{body}
+	""")
+	public void writeArticle(String title, String body);
 
 	@Select("""
-				SELECT * 
+				SELECT *
 					FROM article
 					ORDER BY id DESC
 			""")
-	public List<Article> getArticles(); 
-=======
-import org.springframework.stereotype.Component;
+	public List<Article> getArticles();
 
-import com.example.demo.dto.Article;
-
-@Component
-public class ArticleDao {
->>>>>>> bc4c39dd04f94ea2a95ca66c970fb1c4e6f29697
-
-	
 	@Select("""
-			SELECT * 
+			SELECT *
 			   FROM article
 			   WHERE id = #{id}
 			""")
 	public Article getArticlebyId(int id);
-	
-    @Update("""
-    		<script>
-    		UPDATE article
-               SET updateDate = Now()
-               <if test= "title != null and title != ''">
-                  ,title = #{title}
-               </if>  
-               <if test= "body != null and body != ''">
-                  ,`body` = #{body}
-               </if> 
-               WHERE id = #{id}
-               </script>
-    		""")
-	public void doModify(int id, String title, String body);
-	
-	@Delete("""
-			DELETE 
-                FROM article  
-                WHERE id = #{id}
+
+	@Update("""
+			<script>
+			UPDATE article
+			         SET updateDate = Now()
+			         <if test= "title != null and title != ''">
+			            ,title = #{title}
+			         </if>
+			         <if test= "body != null and body != ''">
+			            ,`body` = #{body}
+			         </if>
+			         WHERE id = #{id}
+			         </script>
 			""")
-	public void doDelete(int id);		
+	public void doModify(int id, String title, String body);
+
+	@Delete("""
+			DELETE
+			             FROM article
+			             WHERE id = #{id}
+			""")
+	public void doDelete(int id);
+
+
+	@Select("""
+			SELECT LAST_INSERT_ID();
+			""")
+	public int getLastInsertId();
 
 }

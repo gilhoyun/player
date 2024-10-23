@@ -27,8 +27,12 @@ public class UsrArticleController {
 	@ResponseBody
 	public Article doWrite(String title, String body) {
 
-		lastArticleId++;
-		Article article = articleService.writeArticle(lastArticleId, title, body);
+		articleService.writeArticle(title, body);
+		
+		int id = articleService.getLastInsertId();
+		
+		Article article = articleService.getArticlebyId(id);
+			
 		return article;
 	}
 

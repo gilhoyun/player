@@ -2,6 +2,7 @@ package com.example.demo.dao;
 
 import java.util.List;
 
+<<<<<<< HEAD
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -22,6 +23,14 @@ public interface ArticleDao {
 					ORDER BY id DESC
 			""")
 	public List<Article> getArticles(); 
+=======
+import org.springframework.stereotype.Component;
+
+import com.example.demo.dto.Article;
+
+@Component
+public class ArticleDao {
+>>>>>>> bc4c39dd04f94ea2a95ca66c970fb1c4e6f29697
 
 	
 	@Select("""

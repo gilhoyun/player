@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,7 +23,7 @@ public class UsrArticleController {
 	
 	@GetMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultData doWrite(String title, String body) {
+	public ResultData<Article> doWrite(String title, String body) {
 		
 		if (Util.isEmpty(title)) {
 			return ResultData.from("F-1", "제목을 입력해주세요.");
@@ -44,7 +43,7 @@ public class UsrArticleController {
 
 	@GetMapping("/usr/article/showList")
 	@ResponseBody
-	public ResultData showList() {
+	public ResultData<List<Article>> showList() {
 		
 		List<Article> article = articleService.getArticles();
 		
@@ -58,7 +57,7 @@ public class UsrArticleController {
 
 	@GetMapping("usr/article/showDetail")
 	@ResponseBody
-	public ResultData showDetail(int id) {
+	public ResultData<Article> showDetail(int id) {
 
 		Article foundArticle = articleService.getArticlebyId(id);
 
@@ -73,7 +72,7 @@ public class UsrArticleController {
 
 	@GetMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultData doModify(int id, String title, String body) {
+	public ResultData<Article> doModify(int id, String title, String body) {
 
 		Article foundArticle = articleService.getArticlebyId(id);
 				
@@ -91,7 +90,7 @@ public class UsrArticleController {
 
 	@GetMapping("/usr/article/doDelete")
 	@ResponseBody
-	public ResultData doDelete(int id) {
+	public ResultData doDelete(int id) { // 데이터가 없어서 안써도 되지만 노란줄 신경쓰이면 아무거나 쓰면 됨
 		
 		Article foundArticle = articleService.getArticlebyId(id);
 		
@@ -103,7 +102,6 @@ public class UsrArticleController {
 		
 		return ResultData.from("S-1", String.format("%d번 게시물을  삭제했습니다.", id));
 		
-
 	}
 
 }

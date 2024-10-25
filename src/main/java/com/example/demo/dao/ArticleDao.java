@@ -13,32 +13,33 @@ import com.example.demo.dto.Article;
 @Mapper
 public interface ArticleDao {
 
-
-	
-	
 	Article getLastInsertArticle = null;
 
 	@Insert("""
-	       INSERT INTO article
-            SET regDate = NOW()
-            , updateDate = NOW()
-            , memberId =#{loginedMemberId}
-            , title = #{title}
-            , `body` = #{body}
-	""")
+			       INSERT INTO article
+			           SET regDate = NOW()
+			           , updateDate = NOW()
+			           , memberId =#{loginedMemberId}
+			           , title = #{title}
+			           , `body` = #{body}
+			""")
 	public void writeArticle(int loginedMemberId, String title, String body);
 
 	@Select("""
-				SELECT *
-					FROM article
-					ORDER BY id DESC
+		    SELECT article.*, `member`.loginId
+			FROM article
+			INNER JOIN `member`
+			ON article.memberid = `member`.id
+			 by article.id desc
 			""")
 	public List<Article> getArticles();
 
 	@Select("""
-			SELECT *
-			   FROM article
-			   WHERE id = #{id}
+			SELECT article.*, `member`.loginId
+			FROM article
+			INNER JOIN `member`
+			ON article.memberid = `member`.id
+			WHERE article.id = #{id}
 			""")
 	public Article getArticlebyId(int id);
 
@@ -64,10 +65,8 @@ public interface ArticleDao {
 			""")
 	public void doDelete(int id);
 
-
 	@Select("""
 			SELECT LAST_INSERT_ID();
 			""")
 	public int getLastInsertId();
-
 }

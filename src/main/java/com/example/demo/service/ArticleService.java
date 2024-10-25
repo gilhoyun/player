@@ -47,4 +47,5 @@ public class ArticleService {
 		return articleDao.getLastInsertId();
 	}
 
+
 }

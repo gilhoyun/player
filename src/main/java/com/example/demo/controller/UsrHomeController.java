@@ -8,8 +8,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class UsrHomeController {
 	
 	@GetMapping("/usr/home/main")
-	@ResponseBody
-	public String shoeMain() {
-		return "안녕하세요1";
+	public String showMain() {
+		return "usr/home/main";
 	}
+	
+	@GetMapping("/")
+	public String showRoot() {
+		return "redirect:/usr/home/main";
+	}
+	
+	
 }

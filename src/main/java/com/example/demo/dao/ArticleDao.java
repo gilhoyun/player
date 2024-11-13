@@ -30,7 +30,7 @@ public interface ArticleDao {
 			FROM article
 			INNER JOIN `member`
 			ON article.memberid = `member`.id
-			 by article.id desc
+			ORDER BY article.id desc
 			""")
 	public List<Article> getArticles();
 

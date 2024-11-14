@@ -8,7 +8,7 @@
 
 <section>
 	<div>
-		<table border=1>
+		<table>
 			<thead>
 				<tr>
 					<th>번호</th>

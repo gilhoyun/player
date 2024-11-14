@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'GongGothicMedium';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 폰트가져와서 밑에 작업 한번하기 */
+html * {
+	 font-family: 'GongGothicMedium';
+}
+

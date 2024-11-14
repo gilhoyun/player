@@ -21,7 +21,7 @@
 				<c:forEach var="article" items="${articles }">
 					<tr>
 						<td>${article.getId() }</td>
-						<td>${article.getTitle() }</td>
+						<td><a href="detail?id=${article.getId() }">${article.getTitle() }</a></td>  
 						<td>${article.getLoginId() }</td>
 						<td>${article.getRegDate().substring(2,16) }</td>
 					</tr>

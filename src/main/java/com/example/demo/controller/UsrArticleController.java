@@ -64,18 +64,19 @@ public class UsrArticleController {
 		return "usr/article/list";
 	}
 
-	@GetMapping("/usr/article/showDetail")
-	@ResponseBody
-	public ResultData<Article> showDetail(int id) {
+	@GetMapping("/usr/article/detail")
+	public String showDetail(Model model, int id) {
 
 		Article foundArticle = articleService.getArticlebyId(id);
+		
+		model.addAttribute("foundArticle", foundArticle);
 
 		if (foundArticle == null) {
-			return ResultData.from("F-1", String.format("%d번 게시물은  존재하지 않습니다.", id));
+			return id + "번 게시물은 존재하지 않습니다.";
 
 		}
 
-		return ResultData.from("S-1", String.format("%d번 게시물  상세보기.", id), foundArticle);
+		return "usr/article/detail";
 
 	}
 

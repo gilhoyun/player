@@ -59,9 +59,8 @@ public interface ArticleDao {
 	public void doModify(int id, String title, String body);
 
 	@Delete("""
-			DELETE
-			             FROM article
-			             WHERE id = #{id}
+			DELETE FROM article
+			WHERE id = #{id}
 			""")
 	public void doDelete(int id);
 

@@ -42,9 +42,9 @@
 			</thead>
 		</table>
 		<div class="mt-6 text-right flex justify-between ">
-			<button onclick="history.back();"
-				class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">뒤로가기</button>
-			<c:if test="${loginedMemberId == article.memberId}">
+			<button onclick="history.back();" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">뒤로가기</button>
+			
+			<c:if test="${rq.getLoginedMemberId() == article.memberId}">
 				<a onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;" href="doDelete?id=${foundArticle.id }" class="px-4 py-3 bg-red-500 text-white rounded hover:bg-red-600 transition">삭제</a>
 			</c:if>
 		</div>

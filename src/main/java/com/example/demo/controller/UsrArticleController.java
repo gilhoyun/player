@@ -67,17 +67,11 @@ public class UsrArticleController {
 	@GetMapping("/usr/article/detail")
 	public String showDetail(HttpSession session, Model model, int id) {
 
-		int loginedMemberId = -1;
-		
-		if (session.getAttribute("loginedMemberId") != null) { // 로그인 유무 확인
-
-			loginedMemberId = (int) session.getAttribute("loginedMemberId");
-		}
+		//로그인 체크 interceptor에서 실행(jsp는 그냥 요청에 접근 가능하므로 model로 보내지 않고 그냥 jsp에서 loginedMemberId를 쓸 수 있다)
 		
 		Article article = articleService.getArticlebyId(id);
 		
 		model.addAttribute("article", article);
-		model.addAttribute("loginedMemberId", loginedMemberId);
 
 		return "usr/article/detail";
 	}
@@ -117,26 +111,6 @@ public class UsrArticleController {
 	@GetMapping("/usr/article/doDelete")
 	@ResponseBody
 	public String doDelete(HttpSession session, int id) { // 데이터가 없어서 안써도 되지만 노란줄 신경쓰이면 아무거나 쓰면 됨
-
-//		int loginedMemberId = -1;
-//
-//		if (session.getAttribute("loginedMemberId") != null) {
-//
-//			loginedMemberId = (int) session.getAttribute("loginedMemberId");
-//		}
-//
-//		if (loginedMemberId == -1) {
-//			return ResultData.from("F-1", "로그인 후 이용할 수 있는 기능입니다");
-//		}
-//		Article foundArticle = articleService.getArticlebyId(id);
-//
-//		if (foundArticle == null) {
-//			return ResultData.from("F-3", String.format("%d번 게시물은  존재하지 않습니다.", id));
-//		}
-//
-//		if ((int) session.getAttribute("loginedMemberId") != foundArticle.getMemberId()) {
-//			return ResultData.from("F-2", "해당 게시글에 대한 권한이 없습니다");
-//		}
 
 		articleService.doDelete(id);
 

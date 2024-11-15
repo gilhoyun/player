@@ -17,17 +17,19 @@
 </head>
 
 <body>
-	<div>
-		<div><a href="${pageContext.request.contextPath}/">로고</a></div>
+	<div class="flex justify-between items-center p-4 bg-stone-400 text-white px-32">
+		<div>
+			<a href="${pageContext.request.contextPath}/" class="text-xl font-bold">logo</a>
+		</div>
 		
-		<ul>
-			<li><a href="${pageContext.request.contextPath}/">HOME</a></li>
-			<li><a href="${pageContext.request.contextPath}/usr/article/list">LIST</a></li>
+		<ul class="flex space-x-4">
+			<li><a href="${pageContext.request.contextPath}/" class="hover:underline">HOME</a></li>
+			<li><a href="${pageContext.request.contextPath}/usr/article/list" class="hover:underline">LIST</a></li>
 		</ul>
 	</div>
 
-	<section>
+	<section class="py-5 px-32">
 		<div>
-			<h1>${pageTitle }&nbsp;페이지</h1>
+			<h1 class="text-2xl font-semibold">${pageTitle } 페이지</h1>
 		</div>
 	</section>

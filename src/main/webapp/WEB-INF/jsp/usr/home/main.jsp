@@ -6,7 +6,7 @@
 
 <%@ include file="/WEB-INF/jsp/common/header.jsp" %>
 
-<section>
+<section class="px-32">
 	<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis laudantium quod expedita quae tenetur maxime modi commodi non esse minus nostrum voluptates necessitatibus ipsum reprehenderit architecto recusandae eligendi mollitia tempore.</div>
 	<div>안녕하세요</div>
 </section>

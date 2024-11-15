@@ -115,7 +115,7 @@ public class UsrArticleController {
 
 		articleService.doDelete(id);
 
-		return Util.jsReplace(String.format("%d번 게시물을 삭제했습니다.", id), "list");
+		return Util.jsReturn(String.format("%d번 게시물을 삭제했습니다.", id), "list");
 
 	}
 

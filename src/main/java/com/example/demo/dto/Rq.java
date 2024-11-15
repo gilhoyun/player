@@ -15,14 +15,15 @@ public class Rq {
 	private int loginedMemberId;
 	
 	private HttpServletResponse resp;
+	private HttpSession session;
 	
 	public Rq(HttpServletRequest req, HttpServletResponse resp) {
-		HttpSession session = req.getSession();
+		this.session = req.getSession();
 		
 		int loginedMemberId = -1;
 		
-		if (session.getAttribute("loginedMemberId") != null) {
-			loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		if (this.session.getAttribute("loginedMemberId") != null) {
+			loginedMemberId = (int) this.session.getAttribute("loginedMemberId");
 		}
 		
 		this.loginedMemberId = loginedMemberId;
@@ -30,12 +31,20 @@ public class Rq {
 	}
 
 	public void jsPrintReplace(String msg, String uri) {
-		resp.setContentType("text/html; charset=UTF-8;");//response를 이용한 화면 그리기(spring없이 순수한 자바로 웹을 개발할 때 필요한 응답 방식)
+		resp.setContentType("text/html; charset=UTF-8;");
 		
 		try {
-			resp.getWriter().append(Util.jsReplace(msg, uri));
+			resp.getWriter().append(Util.jsReturn(msg, uri));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void login(int loginedMemberId) {
+		this.session.setAttribute("loginedMemberId", loginedMemberId);
+	}
+
+	public void logout() {
+		this.session.removeAttribute("loginedMemberId");
 	}
 }

@@ -6,9 +6,33 @@
 
 <%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 
+<script>
+  const loginForm_onSubmit = function(form){ // 아이디, 비밀번호 입력하지 않으면 alert로 알려주기(공백검증)
+	  form.loginId.value = form.loginId.value.trim();
+	  form.loginPw.value = form.loginPw.value.trim();
+	  
+	  if(form.loginId.value == 0){
+		  alert('아이디를 입력해주세요.');
+		  form.loginId.focus(); // 커서 다시 아이디로 이동
+		  return;
+	  }
+	  
+	  if(form.loginPw.value == 0){
+		  alert('비밀번호를 입력해주세요.');
+		  form.loginPw.focus(); // 커서 다시 비밀번호로 이동
+		  return;
+	  }
+	  
+	  form.submit(); //입력한게 있을 때 실행(form에 있는게 그대로 전송)
+	  
+  }//form은 밑의 form의 this이다., value는 값이기 때문에 변수취급 할 수 있다.
+
+</script>
+
+
 <section class="px-auto py-8 ">
 	<div class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
-		<form action="doLogin" method="post">
+		<form action="doLogin" method="post" onsubmit="loginForm_onSubmit(this); return false;">
 			<div class="table-box">
 				<table class="w-full text-left border-collapse">
 					<thead>

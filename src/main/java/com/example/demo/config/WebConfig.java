@@ -31,6 +31,6 @@ public class WebConfig implements WebMvcConfigurer {
 				.addPathPatterns("/usr/member/doLogout");
 
 		registry.addInterceptor(needLogoutInterceptor).addPathPatterns("/usr/member/doJoin")
-		.addPathPatterns("/usr/member/login").addPathPatterns("/usr/member/doLogin");
+		        .addPathPatterns("/usr/member/login").addPathPatterns("/usr/member/doLogin");
 	}
 }

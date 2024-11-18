@@ -46,15 +46,11 @@ public interface ArticleDao {
 	@Update("""
 			<script>
 			UPDATE article
-			         SET updateDate = Now()
-			         <if test= "title != null and title != ''">
-			            ,title = #{title}
-			         </if>
-			         <if test= "body != null and body != ''">
-			            ,`body` = #{body}
-			         </if>
-			         WHERE id = #{id}
-			         </script>
+			       SET updateDate = Now()
+			          ,title = #{title}
+			          ,`body` = #{body}
+			       WHERE id = #{id}
+			</script>
 			""")
 	public void doModify(int id, String title, String body);
 

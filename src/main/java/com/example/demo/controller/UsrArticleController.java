@@ -28,35 +28,23 @@ public class UsrArticleController {
 		this.articleService = articleService;
 	}
 
-	@GetMapping("/usr/article/doWrite")
+	@GetMapping("/usr/article/write")
+	public String write() {
+
+		return "usr/article/write";
+	}
+	
+	@PostMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultData<Article> doWrite(HttpSession session, String title, String body) {
+	public String doWrite(HttpServletRequest req,String title, String body) {
 
-		int loginedMemberId = -1;
+		Rq rq = (Rq) req.getAttribute("rq");
 
-		if (session.getAttribute("loginedMemberId") != null) {
-
-			loginedMemberId = (int) session.getAttribute("loginedMemberId");
-		}
-		
-
-		if (loginedMemberId == -1) {
-			return ResultData.from("F-1", "로그인 후 이용할 수 있는 기능입니다");
-		}
-
-		if (Util.isEmpty(title)) {
-			return ResultData.from("F-2", "제목을 입력해주세요.");
-		}
-
-		if (Util.isEmpty(body)) {
-			return ResultData.from("F-3", "내용을 입력해주세요.");
-		}
-
-		articleService.writeArticle(loginedMemberId, title, body);
+		articleService.writeArticle(rq.getLoginedMemberId(), title, body);
 
 		int id = articleService.getLastInsertId();
 
-		return ResultData.from("S-1", String.format("%d번 게시물을  작성했습니다.", id), articleService.getArticlebyId(id));
+		return Util.jsReturn(String.format("%d번 게시물을 작성했습니다.", id), String.format("detail?id=%d", id));
 	}
 
 	@GetMapping("/usr/article/list")

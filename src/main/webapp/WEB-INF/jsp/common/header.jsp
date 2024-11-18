@@ -6,16 +6,18 @@
 <head>
 <meta charset="UTF-8">
 <title>${pageTitle }</title>
-<script src="https://cdn.tailwindcss.com"></script>
 <!-- 테일윈드CSS -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<!--데이지UI -->
+<link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
 <!-- JQuery -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <!-- 폰트어썸 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 <!-- Common css -->
 <link rel="stylesheet" href="/resource/common.css" />
+
 
 </head>
 
@@ -28,9 +30,23 @@
 		</div>
 
 		<ul class="flex space-x-4">
-			<li><a href="${pageContext.request.contextPath}/"
-				class="hover:underline">HOME</a></li>
-			<li><a
+		 <li>
+    <a href="${pageContext.request.contextPath}/"
+				class="hover:underline">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+      </svg>
+    </a>
+  </li><a
 				href="${pageContext.request.contextPath}/usr/article/list"
 				class="hover:underline">LIST</a></li>
 			<c:if test="${rq.getLoginedMemberId() == -1 }">

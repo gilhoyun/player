@@ -1,15 +1,18 @@
 package com.example.demo.controller;
 
+import java.text.Format;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dto.Article;
 import com.example.demo.dto.ResultData;
+import com.example.demo.dto.Rq;
 import com.example.demo.service.ArticleService;
 import com.example.demo.util.Util;
 
@@ -76,39 +79,40 @@ public class UsrArticleController {
 
 		return "usr/article/detail";
 	}
+	
+	@GetMapping("/usr/article/modify")
+	public String modify(Model model, int id) {
+		
+		Article article = articleService.getArticlebyId(id);
+		
+		model.addAttribute("article", article);
+		
+		return "usr/article/modify";
+	}
 
-	@GetMapping("/usr/article/doModify")
+	@PostMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultData<Article> doModify(HttpSession session, int id, String title, String body) {
+	public String doModify(HttpServletRequest req, int id, String title, String body) {
+		
+		Rq rq = (Rq) req.getAttribute("rq");
 
-		int loginedMemberId = -1;
+		Article article = articleService.getArticlebyId(id);
 
-		if (session.getAttribute("loginedMemberId") != null) {
-
-			loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		if (article == null) {
+			return Util.jsReturn(String.format("%d번 게시물은 존재하지않습니다.", article.getId()), "/");
 		}
 
-		if (loginedMemberId == -1) {
-			return ResultData.from("F-1", "로그인 후 이용할 수 있는 기능입니다");
-		}
-
-		Article foundArticle = articleService.getArticlebyId(id);
-
-		if (foundArticle == null) {
-			return ResultData.from("F-2", String.format("%d번 게시물은 없습니다.", id));
-
-		}
-
-		if (loginedMemberId != foundArticle.getMemberId()) {
-			return ResultData.from("F-3", "해당 게시글에 대한 권한이 없습니다");
+		if (rq.getLoginedMemberId() != article.getMemberId()) {
+			return Util.jsReturn("해당 게시글에 대한 권한이 없습니다", "/");
 		}
 
 		articleService.doModify(id, title, body);
 
-		return ResultData.from("S-1", id + "번 게시물을 수정했습니다.", articleService.getArticlebyId(id));
+		return Util.jsReturn(String.format("%d번 게시물을 수정했습니다.", article.getId()), String.format("detail?id=%d", id));
 
 	}
-
+//	114번째 줄 = 수정후 다시 디테일로 돌아가기
+	
 	@GetMapping("/usr/article/doDelete")
 	@ResponseBody
 	public String doDelete(HttpSession session, int id) { // 데이터가 없어서 안써도 되지만 노란줄 신경쓰이면 아무거나 쓰면 됨

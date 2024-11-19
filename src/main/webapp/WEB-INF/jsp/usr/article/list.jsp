@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c"%>
 
-<c:set var="pageTitle" value="목록" />
+<c:set var="pageTitle" value="${board.getName() } 게시판" />
 
 <%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 

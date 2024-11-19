@@ -25,7 +25,7 @@
             <p></p>
         </div>
     </main>
-    <footer class="footer bg-neutral text-neutral-content p-10 px-32">
+    <footer class="footer bg-neutral text-neutral-content p-5 px-32">
         <nav>
             <h6 class="footer-title">Services</h6>
             <a class="link link-hover">Branding</a>

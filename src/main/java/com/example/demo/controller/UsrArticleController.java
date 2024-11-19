@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dto.Article;
+import com.example.demo.dto.Board;
 import com.example.demo.dto.ResultData;
 import com.example.demo.dto.Rq;
 import com.example.demo.service.ArticleService;
@@ -36,11 +37,11 @@ public class UsrArticleController {
 	
 	@PostMapping("/usr/article/doWrite")
 	@ResponseBody
-	public String doWrite(HttpServletRequest req,String title, String body) {
+	public String doWrite(HttpServletRequest req, int boardId ,String title, String body) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 
-		articleService.writeArticle(rq.getLoginedMemberId(), title, body);
+		articleService.writeArticle(rq.getLoginedMemberId(), boardId, title, body);
 
 		int id = articleService.getLastInsertId();
 
@@ -48,10 +49,14 @@ public class UsrArticleController {
 	}
 
 	@GetMapping("/usr/article/list")
-	public String showList(Model model) {
-		List<Article> articles = articleService.getArticles();
+	public String showList(Model model, int boardId) {
+		
+		Board board = articleService.getBoardId(boardId);
+		
+		List<Article> articles = articleService.getArticles(boardId);
 		
 		model.addAttribute("articles", articles);
+		model.addAttribute("board", board);
 		
 		return "usr/article/list";
 	}

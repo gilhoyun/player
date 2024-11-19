@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.ArticleDao;
 import com.example.demo.dto.Article;
+import com.example.demo.dto.Board;
 
 
 @Service
@@ -19,18 +20,18 @@ public class ArticleService {
 		this.articleDao = articleDao;
 	}
 
-	public void writeArticle(int loginedMemberId, String title, String body) {
+	public void writeArticle(int loginedMemberId, int boardId, String title, String body) {
 		
-		articleDao.writeArticle(loginedMemberId, title,body);
+		articleDao.writeArticle(loginedMemberId, boardId, title,body);
 	}
 
 	public Article getArticlebyId(int id) {
 		return articleDao.getArticlebyId(id);
 	}
 
-	public List<Article> getArticles() {
+	public List<Article> getArticles(int boardId) {
 		
-		return articleDao.getArticles();
+		return articleDao.getArticles(boardId);
 	}
 
 	public void doModify(int id, String title, String body) {
@@ -45,6 +46,11 @@ public class ArticleService {
 	public int getLastInsertId() {
 		
 		return articleDao.getLastInsertId();
+	}
+
+	public Board getBoardId(int boardId) {
+		
+		return articleDao.getBoardId(boardId);
 	}
 
 

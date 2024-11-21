@@ -29,9 +29,9 @@ public class ArticleService {
 		return articleDao.getArticlebyId(id);
 	}
 
-	public List<Article> getArticles(int boardId) {
+	public List<Article> getArticles(int boardId, int limitPage) {
 		
-		return articleDao.getArticles(boardId);
+		return articleDao.getArticles(boardId, limitPage);
 	}
 
 	public void doModify(int id, String title, String body) {
@@ -51,6 +51,15 @@ public class ArticleService {
 	public Board getBoardId(int boardId) {
 		
 		return articleDao.getBoardId(boardId);
+	}
+
+	public int articlesCnt(int boardId) {
+		return articleDao.articlesCnt(boardId);
+	}
+
+	public void boardListProcess(int page) {
+
+		
 	}
 
 

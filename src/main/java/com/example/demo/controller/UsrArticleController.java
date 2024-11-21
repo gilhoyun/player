@@ -19,6 +19,7 @@ import com.example.demo.util.Util;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.Builder.Default;
 
 @Controller
 public class UsrArticleController {
@@ -49,14 +50,31 @@ public class UsrArticleController {
 	}
 
 	@GetMapping("/usr/article/list")
-	public String showList(Model model, int boardId) {
+	public String showList(Model model, int boardId, @RequestParam(defaultValue = "1") int page) {
 		
 		Board board = articleService.getBoardId(boardId);
 		
-		List<Article> articles = articleService.getArticles(boardId);
+		int limitFrom =  (page - 1) * 10;
 		
-		model.addAttribute("articles", articles);
+		List<Article> articles = articleService.getArticles(boardId, limitFrom);		
+		int articlesCnt = articleService.articlesCnt(boardId);
+		
+		int totalPagesCnt = (int) Math.ceil((double)articlesCnt / 10); 
+		
+		int from = ((page - 1) / 5) * 5 + 1;
+	    int end = from + 4; 
+		
+		if(end > totalPagesCnt) {
+			end = totalPagesCnt;
+		}
+		
 		model.addAttribute("board", board);
+		model.addAttribute("articles", articles);
+		model.addAttribute("articlesCnt", articlesCnt);
+		model.addAttribute("totalPagesCnt", totalPagesCnt);
+		model.addAttribute("from", from);
+		model.addAttribute("end", end);
+		model.addAttribute("page", page);
 		
 		return "usr/article/list";
 	}

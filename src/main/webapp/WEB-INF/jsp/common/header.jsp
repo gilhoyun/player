@@ -50,6 +50,7 @@
   </li><a href="${pageContext.request.contextPath}/usr/article/list?boardId=2" class="hover:underline">자유</a></li>
 			<c:if test="${rq.getLoginedMemberId() == -1 }">
 				<li><a href="${pageContext.request.contextPath}/usr/member/login" class="hover:underline">LOGIN</a></li>
+				<li><a href="${pageContext.request.contextPath}/usr/member/join" class="hover:underline">JOIN</a></li>
 			</c:if>	
 			<c:if test="${rq.getLoginedMemberId() != -1 }">	
 				<li><a href="${pageContext.request.contextPath}/usr/member/doLogout" class="hover:underline">LOGOUT</a></li>

@@ -39,4 +39,12 @@ public interface MemberDao {
 			""")
 	int getLastInsertId();
 	
+	@Update("""
+			UPDATE `member`
+				SET updateDate = NOW()
+					, loginPw = #{loginPw}
+				WHERE id = #{loginedMemberId}
+			""")
+	void modifyPassword(int loginedMemberId, String loginPw);
+	
 }

@@ -81,4 +81,6 @@ public interface ArticleDao {
 			WHERE boardId = #{boardId}
 			""")
 	public int articlesCnt(int boardId);
+	
+	
 }

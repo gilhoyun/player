@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -94,4 +95,47 @@ public class UsrMemberController {
 		
 		return ResultData.from("S-1", String.format("[ %s ]은(는) 사용가능한 아이디입니다", loginId));
 	}
+	
+	@GetMapping("/usr/member/myPage")
+	public String myPage(HttpServletRequest req, Model model) {
+		Rq rq = (Rq) req.getAttribute("rq");
+		Member member = memberService.getMemberById(rq.getLoginedMemberId());
+		
+		model.addAttribute("member", member);
+		
+		return "usr/member/myPage";
+	}
+	
+	@GetMapping("/usr/member/checkPw")
+	public String checkPw() {
+		return "usr/member/checkPw";
+	}
+	
+	@GetMapping("/usr/member/getMemberById")
+	@ResponseBody
+	public ResultData<Member> getMemberById(HttpServletRequest req) {
+		
+		Rq rq = (Rq) req.getAttribute("rq");
+		
+		Member member = memberService.getMemberById(rq.getLoginedMemberId());
+		
+		return ResultData.from("S-1", "회원정보 조회", member);
+	}
+	
+	@PostMapping("/usr/member/doCheckPw")
+	public String doCheckPw() {
+		return "usr/member/modifyPw";
+	}
+	
+	@PostMapping("/usr/member/doModifyPw")
+	@ResponseBody
+	public String doModifyPw(HttpServletRequest req, String loginPw) {
+		Rq rq = (Rq) req.getAttribute("rq");
+		
+		memberService.modifyPassword(rq.getLoginedMemberId(), loginPw);
+		
+		rq.logout();
+		return Util.jsReturn("비밀번호 수정이 완료되었습니다. 다시 로그인 해주세요", "login");
+	}
+	
 }

@@ -53,7 +53,8 @@
 				<li><a href="${pageContext.request.contextPath}/usr/member/join" class="hover:underline">JOIN</a></li>
 			</c:if>	
 			<c:if test="${rq.getLoginedMemberId() != -1 }">	
-				<li><a href="${pageContext.request.contextPath}/usr/member/doLogout" class="hover:underline">LOGOUT</a></li>
+			    <li class="link link-hover"><a class="hover:underline" href="${pageContext.request.contextPath}/usr/member/myPage">MYPAGE</a></li>
+				<li class="link link-hover"><a href="${pageContext.request.contextPath}/usr/member/doLogout" class="hover:underline">LOGOUT</a></li>
 			</c:if>
 		</ul>
 	</div>

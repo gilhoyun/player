@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dto.Article;
 import com.example.demo.dto.Board;
+import com.example.demo.dto.Reply;
 import com.example.demo.dto.ResultData;
 import com.example.demo.dto.Rq;
 import com.example.demo.service.ArticleService;
+import com.example.demo.service.ReplyService;
 import com.example.demo.util.Util;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,9 +27,11 @@ import lombok.Builder.Default;
 public class UsrArticleController {
 
 	private ArticleService articleService;
-
-	public UsrArticleController(ArticleService articleService) {
+	private ReplyService replyService;
+	
+	public UsrArticleController(ArticleService articleService, ReplyService replyService) {
 		this.articleService = articleService;
+		this.replyService = replyService;
 	}
 
 	@GetMapping("/usr/article/write")
@@ -82,11 +86,12 @@ public class UsrArticleController {
 	@GetMapping("/usr/article/detail")
 	public String showDetail(HttpSession session, Model model, int id) {
 
-		//로그인 체크 interceptor에서 실행(jsp는 그냥 요청에 접근 가능하므로 model로 보내지 않고 그냥 jsp에서 loginedMemberId를 쓸 수 있다)
-		
 		Article article = articleService.getArticlebyId(id);
 		
+		List<Reply> replies = replyService.getReplies("article", id);
+		
 		model.addAttribute("article", article);
+		model.addAttribute("replies", replies);
 
 		return "usr/article/detail";
 	}

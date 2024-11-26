@@ -17,26 +17,44 @@ public interface ArticleDao {
 	Article getLastInsertArticle = null;
 
 	@Insert("""
-			       INSERT INTO article
-			           SET regDate = NOW()
-			           , updateDate = NOW()
-			           , boardId = #{boardId}
-			           , memberId =#{loginedMemberId}
-			           , title = #{title}
-			           , `body` = #{body}
+			 INSERT INTO article
+			     SET regDate = NOW()
+			     , updateDate = NOW()
+			     , boardId = #{boardId}
+			     , memberId =#{loginedMemberId}
+			     , title = #{title}
+			     , `body` = #{body}
 			""")
 	public void writeArticle(int loginedMemberId, int boardId, String title, String body);
 
 	@Select("""
-		    SELECT article.*, `member`.loginId
+			<script>
+			   SELECT article.*, `member`.loginId
 			FROM article
 			INNER JOIN `member`
 			ON article.memberid = `member`.id
 			WHERE article.boardId = #{boardId}
+			<if test="searchKeyword != ''">
+					<choose>
+						<when test="searchType == 'title'">
+							AND article.title LIKE CONCAT('%', #{searchKeyword}, '%')
+						</when>
+						<when test="searchType == 'body'">
+							AND article.body LIKE CONCAT('%', #{searchKeyword}, '%')
+						</when>
+						<otherwise>
+							AND (
+								article.title LIKE CONCAT('%', #{searchKeyword}, '%')
+								OR article.body LIKE CONCAT('%', #{searchKeyword}, '%')
+							)
+						</otherwise>
+					</choose>
+				</if>
 			ORDER BY article.id desc
 			LIMIT #{limitFrom} , 10
+			</script>
 			""")
-	public List<Article> getArticles(int boardId, int limitFrom);
+	public List<Article> getArticles(int boardId, int limitFrom, String searchType, String searchKeyword);
 
 	@Select("""
 			SELECT article.*, `member`.loginId
@@ -76,11 +94,28 @@ public interface ArticleDao {
 	public Board getBoardId(int boardId);
 
 	@Select("""
-			SELECT COUNT(id)
-			FROM article
-			WHERE boardId = #{boardId}
+			<script>
+			SELECT COUNT(*)
+				FROM article
+				WHERE boardId = #{boardId}
+				<if test="searchKeyword != ''">
+					<choose>
+						<when test="searchType == 'title'">
+							AND title LIKE CONCAT('%', #{searchKeyword}, '%')
+						</when>
+						<when test="searchType == 'body'">
+							AND `body` LIKE CONCAT('%', #{searchKeyword}, '%')
+						</when>
+						<otherwise>
+							AND (
+								title LIKE CONCAT('%', #{searchKeyword}, '%')
+								OR `body` LIKE CONCAT('%', #{searchKeyword}, '%')
+							)
+						</otherwise>
+					</choose>
+				</if>
+			</script>
 			""")
-	public int articlesCnt(int boardId);
-	
-	
+	public int articlesCnt(int boardId, String searchType, String searchKeyword);
+
 }

@@ -7,9 +7,35 @@
 <%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 
 <section class="py-8 ">
-	<div class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md relative">
+	<div
+		class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md relative">
 		<h2 class="text-2xl font-semibold text-gray-800 mb-6">게시물</h2>
-		<div>총: ${articlesCnt}개</div>
+		<div class="w-full mx-auto mb-4 flex justify-between items-center text-sm">
+			<div class="flex items-center">총: ${articlesCnt}개</div>
+			<form class="flex items-center">
+				<input type="hidden" name="boardId" value="${board.getId() }" /> <select
+					class="select select-bordered select-sm mr-2" name="searchType">
+					<option value="title"
+						<c:if test="${searchType == 'title' }">selected="selected"</c:if>>제목</option>
+					<option value="body"
+						<c:if test="${searchType == 'body' }">selected="selected"</c:if>>내용</option>
+					<option value="title,body"
+						<c:if test="${searchType == 'title,body' }">selected="selected"</c:if>>제목
+						+ 내용</option>
+				</select> <label
+					class="input input-bordered input-sm flex items-center gap-2 w-60">
+					<input type="text" class="grow" name="searchKeyword"
+					placeholder="검색어를 입력해주세요" maxlength="25" value="${searchKeyword }" />
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
+						fill="currentColor" class="h-4 w-4 opacity-70">
+                <path fill-rule="evenodd"
+							d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+							clip-rule="evenodd" />
+            </svg>
+				</label>
+				<button type="submit" class="hidden">검색</button>
+			</form>
+		</div>
 		<table class="w-full text-left border-collapse ">
 			<thead>
 				<tr class="border-b ">
@@ -33,29 +59,34 @@
 		</table>
 		<div class="mt-3 flex justify-center">
 			<div class="mt-3 flex justify-center">
-				<div class="join">	
-				
-				<c:set var="path" value="?boardId=${board.id }"/>
-				
-				  <c:if test="${from != 1}">
-				    <a href="${path }&cPage=1" class="join-item btn">-</a> 
-				    <a href="${path }&page=${from - 1}" class="join-item btn">«</a> 
-				  </c:if>	
-				    
-				   <c:forEach var="i" begin="${from }" end="${end }" >
-					 <a href="${path }&page=${i}" class="join-item btn btn-square ${page == i ? 'btn-active' : ''}" type="radio" name="options"/>${i }</a> 
-				   </c:forEach>	
-				   	
-				   <c:if test="${end != totalPagesCnt }">	   
-					<a href="${path }&page=${end + 1}" class="join-item btn">»</a> 
-					<a href="${path }&page=${totalPagesCnt }" class="join-item btn">-</a> 
-				   </c:if>		 
+				<div class="join">
+
+					<c:set var="path"
+						value="?boardId=${board.id }&searchType=${searchType }&searchKeyword=${searchKeyword }" />
+
+					<c:if test="${from != 1}">
+						<a href="${path }&cPage=1" class="join-item btn"><<</a>
+						<a href="${path }&page=${from - 1}" class="join-item btn"><</a>
+					</c:if>
+
+					<c:forEach var="i" begin="${from }" end="${end }">
+						<a href="${path }&page=${i}"
+							class="join-item btn btn-square ${page == i ? 'btn-active' : ''}"
+							type="radio" name="options" />${i }</a>
+					</c:forEach>
+
+					<c:if test="${end != totalPagesCnt }">
+						<a href="${path }&page=${end + 1}" class="join-item btn">></a>
+						<a href="${path }&page=${totalPagesCnt }" class="join-item btn">>></a>
+					</c:if>
 				</div>
 			</div>
 
 			<c:if test="${rq.getLoginedMemberId() != -1 }">
 				<div class="mx-auto flex justify-end my-3">
-					<a class="px-4 py-2 bg-stone-500 text-white rounded hover:bg-stone-600 transition" href="write">글쓰기</a>
+					<a
+						class="px-4 py-2 bg-stone-500 text-white rounded hover:bg-stone-600 transition"
+						href="write">글쓰기</a>
 				</div>
 			</c:if>
 		</div>

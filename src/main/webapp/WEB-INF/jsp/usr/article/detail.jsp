@@ -138,7 +138,7 @@
 		<h2 class="text-2xl font-semibold text-gray-800 mb-6">댓글</h2>
 		
           <c:forEach var="reply" items="${replies }">
-			<div id="${reply.getId() }" class="py-2 border-b-2 border-slate-200 pl-20">
+			<div id="${reply.getId() }" class="py-2 border-b-2 border-slate-200">
 				<div class="flex justify-between items-center">
 					<div class="font-semibold">${reply.getLoginId() }</div>
 				    <c:if test="${rq.getLoginedMemberId() == reply.memberId }">

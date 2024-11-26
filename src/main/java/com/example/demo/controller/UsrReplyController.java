@@ -45,4 +45,23 @@ public class UsrReplyController {
 		
 		return Util.jsReturn(String.format("댓글을 작성했습니다."), String.format("../article/detail?id=%d", relId));	 
 	}
+	
+	@PostMapping("/usr/reply/doModify")
+	@ResponseBody
+	public String doModify(int id, int relId, String body) {
+
+		replyService.modifyReply(id, body);
+
+		return Util.jsReturn(String.format("%d번 댓글을 수정했습니다", id), String.format("../article/detail?id=%d", relId));
+	}
+
+	@GetMapping("/usr/reply/doDelete")
+	@ResponseBody
+	public String doDelete(int id, int relId) {
+
+		replyService.deleteReply(id);
+
+		return Util.jsReturn(String.format("%d번 댓글을 삭제했습니다", id), String.format("../article/detail?id=%d", relId));
+	}
+
 }

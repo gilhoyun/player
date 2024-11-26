@@ -22,8 +22,7 @@
 </head>
 
 <body>
-	<div
-		class="flex justify-between items-center p-4 bg-stone-400 text-white px-32">
+	<div class="flex justify-between items-center p-4 bg-stone-400 text-white px-32">
 		<div>
 			<a href="${pageContext.request.contextPath}/"
 				class="text-xl font-bold">PLAYER</a>

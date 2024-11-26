@@ -52,6 +52,8 @@ public class UsrArticleController {
 
 		return Util.jsReturn(String.format("%d번 게시물을 작성했습니다.", id), String.format("detail?id=%d", id));
 	}
+	
+
 
 	@GetMapping("/usr/article/list")
 	public String showList(Model model, int boardId, @RequestParam(defaultValue = "1") int page) {

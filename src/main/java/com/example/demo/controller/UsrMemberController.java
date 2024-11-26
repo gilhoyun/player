@@ -138,4 +138,14 @@ public class UsrMemberController {
 		return Util.jsReturn("비밀번호 수정이 완료되었습니다. 다시 로그인 해주세요", "login");
 	}
 	
+	@GetMapping("/usr/member/getLoginId")
+	@ResponseBody
+	public String getLoginId(HttpServletRequest req) {
+		Rq rq = (Rq) req.getAttribute("rq");
+
+		Member member = memberService.getMemberById(rq.getLoginedMemberId());
+
+		return member.getLoginId();
+	}
+	
 }

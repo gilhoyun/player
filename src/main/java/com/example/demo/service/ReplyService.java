@@ -30,4 +30,12 @@ public class ReplyService {
 	public List<Reply> getReplies(String relTypeCode, int relId) {
 		return replyDao.getReplies(relTypeCode, relId);
 	}
+	
+	public void modifyReply(int id, String body) {
+		replyDao.modifyReply(id, body);
+	}
+
+	public void deleteReply(int id) {
+		replyDao.deleteReply(id);
+	}
 }

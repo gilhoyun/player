@@ -62,4 +62,9 @@ public class ArticleService {
 		
 	}
 
+	public void increaseViews(int id) {
+		articleDao.increaseViews(id);
+		
+	}
+
 }

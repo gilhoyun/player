@@ -80,8 +80,6 @@
 		originalId = null;
 	}
 	
-	
-	
 </script>
 
 
@@ -101,6 +99,10 @@
 				<tr class="border-b">
 					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">수정일</th>
 					<td class="p-4">${article.updateDate.substring(2,16)}</td>
+				</tr>
+				<tr class="border-b">
+					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">조회수</th>
+					<td class="p-4">${article.views}</td>
 				</tr>
 				<tr class="border-b">
 					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">작성자</th>

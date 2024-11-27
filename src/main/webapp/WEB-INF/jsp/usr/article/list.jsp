@@ -43,6 +43,7 @@
 					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">제목</th>
 					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">작성자</th>
 					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">작성일</th>
+					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">조회수</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -53,6 +54,7 @@
 							href="detail?id=${article.getId()}">${article.getTitle()}</a></td>
 						<td class="text-center p-4">${article.getLoginId()}</td>
 						<td class="text-center p-4">${article.getRegDate().substring(2,16)}</td>
+						<td class="text-center p-4">${article.getViews()}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

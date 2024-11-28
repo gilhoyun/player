@@ -18,4 +18,8 @@ public class Article {
 	
 	private String loginId;
 	private int like;
+	
+	public String getForPrintBody( ) {
+		return this.body.replaceAll("\n", "<br />");
+	}
 }

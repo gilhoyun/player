@@ -5,32 +5,13 @@
 
 <%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 
-<script>
-	const modifyForm_onSubmit = function(form) {
-		form.title.value = form.title.value.trim();
-		form.body.value = form.body.value.trim();
-
-		if (form.title.value == 0) {
-			alert('제목을 입력해주세요.');
-			form.title.focus();
-			return;
-		}
-
-		if (form.body.value == 0) {
-			alert('내용을 입력해주세요.');
-			form.body.focus();
-			return;
-		}
-
-		form.submit();
-	}
-</script>
+<%@ include file="/WEB-INF/jsp/common/toastUiEditorLib.jsp" %>
 
 
 <!-- input name은 폼을 제출할 때 서버로 전송, 서버에서는 이 id를 사용하여 어떤 게시글을 수정할 것인지 판단 -->
 <section class="px-auto py-8 ">
-	<div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
-		<form action="doModify" method="post" onsubmit="modifyForm_onSubmit(this); return false;">
+	<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+		<form action="doModify" method="post" onsubmit="submitForm(this); return false;">
 			<input name="id" type="hidden" value="${article.id }" />
 			<div class="table-box">
 				<table class="w-full text-left border-collapse">
@@ -57,13 +38,18 @@
 						</tr>
 						<tr>
 							<th class="text-center py-2 px-4 font-medium text-gray-700 bg-gray-100">내용</th>
-							<td class="py-2 px-4"><textarea name="body" class="border p-2 rounded w-full" placeholder="내용을 입력해주세요.">${article.body }</textarea></td>
+							<td class="py-2 px-4">
+							    <input type="hidden" name="body">
+								<div id="toast-ui-editor">
+								  <script>${article.getBody() }</script>
+								</div>
+							</td>
 						</tr>
 					</thead>
 				</table>
 			</div>
 			<div class="text-right mt-4">
-				<button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">수정</button>
+				<button type="submit" class="px-6 py-2 bg-stone-500 text-white rounded hover:bg-stone-600 transition">수정</button>
 			</div>
 		</form>
 	</div>

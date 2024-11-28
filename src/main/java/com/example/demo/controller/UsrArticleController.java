@@ -58,7 +58,7 @@ public class UsrArticleController {
 
 
 	@GetMapping("/usr/article/list")
-	public String showList(Model model, int boardId, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "title")String searchType, @RequestParam(defaultValue = "")String searchKeyword) {
+	public String showList(Model model, @RequestParam(defaultValue = "2")int boardId, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "title")String searchType, @RequestParam(defaultValue = "")String searchKeyword) {
 		
 		Board board = articleService.getBoardId(boardId);
 		

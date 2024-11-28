@@ -157,7 +157,7 @@ const clickLikePoint = async function() {
 				</tr >
 				<tr class="border-b">
 					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">내용</th>
-					<td class="p-4 whitespace-pre-wrap">${article.body}</td>
+					<td class="p-4 whitespace-pre-wrap">${article.getForPrintBody()}</td>
 				</tr>
 				<tr class="border-b">
 					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">추천수</th>

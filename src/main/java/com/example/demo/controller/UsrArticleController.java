@@ -58,7 +58,7 @@ public class UsrArticleController {
 
 
 	@GetMapping("/usr/article/list")
-	public String showList(Model model, @RequestParam(defaultValue = "2")int boardId, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "title")String searchType, @RequestParam(defaultValue = "")String searchKeyword) {
+	public String showList(Model model, int boardId, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "title")String searchType, @RequestParam(defaultValue = "")String searchKeyword) {
 		
 		Board board = articleService.getBoardId(boardId);
 		
@@ -156,11 +156,11 @@ public class UsrArticleController {
 	
 	@GetMapping("/usr/article/doDelete")
 	@ResponseBody
-	public String doDelete(HttpSession session, int id) { // 데이터가 없어서 안써도 되지만 노란줄 신경쓰이면 아무거나 쓰면 됨
+	public String doDelete(HttpSession session, int id, int boardId) { // 데이터가 없어서 안써도 되지만 노란줄 신경쓰이면 아무거나 쓰면 됨
 
 		articleService.doDelete(id);
 
-		return Util.jsReturn(String.format("%d번 게시물을 삭제했습니다.", id), "list");
+		return Util.jsReturn(String.format("%d번 게시물을 삭제했습니다.", id), String.format("list?boardId=%d", boardId));
 
 	}
 

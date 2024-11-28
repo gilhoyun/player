@@ -10,7 +10,7 @@
 	<div
 		class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md relative">
 		<h2 class="text-2xl font-semibold text-gray-800 mb-6">게시물</h2>
-		<div class="w-full mx-auto mb-4 flex justify-between items-center text-sm">
+		<div class="w-full mx-auto mb-2 flex justify-between items-center text-sm">
 			<div class="flex items-center">총: ${articlesCnt}개</div>
 			<form class="flex items-center">
 				<input type="hidden" name="boardId" value="${board.getId() }" /> <select
@@ -41,7 +41,7 @@
 			  <colgroup>
 					<col width="80" />
 					<col />
-					<col width="50" />
+					<col width="80" />
 					<col width="160" />
 					<col width="80"/>
 					<col width="80"/>

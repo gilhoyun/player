@@ -179,7 +179,7 @@ const clickLikePoint = async function() {
 			<div class="flex space-x-4">
 				<c:if test="${rq.getLoginedMemberId() == article.getMemberId() }">
 					<a onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
-						href="doDelete?id=${article.getId()}"
+						href="doDelete?id=${article.getId()}&boardId=${article.boardId}"
 						class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">삭제</a>
 				</c:if>
 				<c:if test="${rq.getLoginedMemberId() == article.getMemberId() }">

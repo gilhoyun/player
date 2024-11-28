@@ -23,6 +23,8 @@
 		if (${rq.getLoginedMemberId() != -1 }) {
 			getLoginId();
 		}
+		
+		getLikePoint();
 	})
 	
 	const getLoginId = function() {
@@ -80,6 +82,47 @@
 		originalId = null;
 	}
 	
+const clickLikePoint = async function() {
+		
+		let likePointBtn = $('#likePointBtn > i').hasClass('fa-solid');
+		
+		await $.ajax({
+			url : '/usr/likePoint/clickLikePoint',
+			type : 'GET',
+			data : {
+				relTypeCode : 'article',
+				relId : ${article.getId() },
+				likePointBtn : likePointBtn
+			}
+		})
+		
+		await getLikePoint();
+	}
+	
+	const getLikePoint = function() {
+		$.ajax({
+			url : '/usr/likePoint/getLikePoint',
+			type : 'GET',
+			data : {
+				relTypeCode : 'article',
+				relId : ${article.getId() }
+			},
+			dataType : 'json',
+			success : function(data) {
+				$('#likeCnt').html(data.data);
+				
+				if (data.success) {
+					$('#likePointBtn').html(`<i class="fa-solid fa-heart"></i>`);
+				} else {
+					$('#likePointBtn').html(`<i class="fa-regular fa-heart"></i>`);
+				}
+			},
+			error : function(xhr, status, error) {
+				console.log(error);
+			}
+		})
+	}
+	
 </script>
 
 
@@ -111,10 +154,24 @@
 				<tr class="border-b">
 					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">제목</th>
 					<td class="p-4">${article.title}</td>
-				</tr>
-				<tr>
+				</tr >
+				<tr class="border-b">
 					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">내용</th>
 					<td class="p-4 whitespace-pre-wrap">${article.body}</td>
+				</tr>
+				<tr class="border-b">
+					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">추천수</th>
+					<td  class="p-4 whitespace-pre-wrap">
+						<c:if test="${rq.getLoginedMemberId() == -1 }">
+							  <span id="likeCnt"></span>
+						</c:if>
+						<c:if test="${rq.getLoginedMemberId() != -1 }">
+							<button class="btn btn-sm text-base" onclick="clickLikePoint();">
+							  <span id="likeCnt"></span>
+							  <span id="likePointBtn"></span>
+							</button>
+						</c:if>
+					</td>
 				</tr>
 			</thead>
 		</table>

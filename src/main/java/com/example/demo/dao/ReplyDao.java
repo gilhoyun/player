@@ -28,7 +28,7 @@ public interface ReplyDao {
 	void replyWrite(int memberId, String relTypeCode, int relId, String body);
 	
 	@Select("""
-			SELECT r.*, m.loginId
+		SELECT r.*, m.loginId
 				FROM reply AS r
 				INNER JOIN `member` AS m
 				ON r.memberId = m.id

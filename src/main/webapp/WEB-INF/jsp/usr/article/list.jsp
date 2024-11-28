@@ -44,6 +44,7 @@
 					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">작성자</th>
 					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">작성일</th>
 					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">조회수</th>
+					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">추천수</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -55,6 +56,7 @@
 						<td class="text-center p-4">${article.getLoginId()}</td>
 						<td class="text-center p-4">${article.getRegDate().substring(2,16)}</td>
 						<td class="text-center p-4">${article.getViews()}</td>
+						<td class="text-center p-4">${article.getLike() }</td>
 					</tr>
 				</c:forEach>
 			</tbody>

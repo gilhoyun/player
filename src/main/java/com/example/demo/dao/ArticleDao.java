@@ -29,29 +29,35 @@ public interface ArticleDao {
 
 	@Select("""
 			<script>
-			   SELECT article.*, `member`.loginId
-			FROM article
-			INNER JOIN `member`
-			ON article.memberid = `member`.id
-			WHERE article.boardId = #{boardId}
-			<if test="searchKeyword != ''">
+			SELECT a.*
+					, m.loginId
+					, IFNULL(SUM(l.point), 0) AS `like`
+				FROM article AS a
+				INNER JOIN `member` AS m
+				ON a.memberId = m.id
+				LEFT JOIN likePoint AS l
+				ON l.relTypeCode = 'article'
+				AND l.relId = a.id
+				WHERE a.boardId = #{boardId}
+				<if test="searchKeyword != ''">
 					<choose>
 						<when test="searchType == 'title'">
-							AND article.title LIKE CONCAT('%', #{searchKeyword}, '%')
+							AND a.title LIKE CONCAT('%', #{searchKeyword}, '%')
 						</when>
 						<when test="searchType == 'body'">
-							AND article.body LIKE CONCAT('%', #{searchKeyword}, '%')
+							AND a.body LIKE CONCAT('%', #{searchKeyword}, '%')
 						</when>
 						<otherwise>
 							AND (
-								article.title LIKE CONCAT('%', #{searchKeyword}, '%')
-								OR article.body LIKE CONCAT('%', #{searchKeyword}, '%')
-							)
+								a.title LIKE CONCAT('%', #{searchKeyword}, '%')
+								OR a.body LIKE CONCAT('%', #{searchKeyword}, '%')
+							) 
 						</otherwise>
 					</choose>
 				</if>
-			ORDER BY article.id desc
-			LIMIT #{limitFrom} , 10
+				GROUP BY a.id
+				ORDER BY a.id DESC
+				LIMIT #{limitFrom}, 10
 			</script>
 			""")
 	public List<Article> getArticles(int boardId, int limitFrom, String searchType, String searchKeyword);
@@ -121,7 +127,7 @@ public interface ArticleDao {
 	@Update("""
 			UPDATE article
 				SET views = views + 1
-				WHERE id = #{id}	
+				WHERE id = #{id}		
 			""")
 	public void increaseViews(int id);
 

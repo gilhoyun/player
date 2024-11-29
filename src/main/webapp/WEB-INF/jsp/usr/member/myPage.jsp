@@ -36,7 +36,7 @@
 		<div class="mt-6 text-right flex justify-between items-center">
 			<button onclick="history.back();" class="px-4 py-2 bg-stone-400 text-white rounded hover:bg-stone-600 transition">뒤로가기</button>
             <div class="flex space-x-4">
-				<a class="px-4 py-2 bg-stone-500 text-white rounded hover:bg-stone-600 transition" href="checkPw">정보수정</a>
+				<a class="px-4 py-2 bg-stone-400 text-white rounded hover:bg-stone-600 transition" href="checkPw">정보수정</a>
 			</div>
 		</div>
 	</div>

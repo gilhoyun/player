@@ -69,10 +69,9 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<div class="mt-3 flex justify-center">
-			<div class="mt-3 flex justify-center">
+		<div class="mt-3 flex justify-between items-center">
+			<div class="flex-grow flex justify-center">
 				<div class="join">
-
 					<c:set var="path"
 						value="?boardId=${board.id }&searchType=${searchType }&searchKeyword=${searchKeyword }" />
 
@@ -95,16 +94,14 @@
 			</div>
 
 			<c:if test="${rq.getLoginedMemberId() != -1 }">
-				<div class="mx-auto flex justify-end my-3">
+				<div>
 					<a
-						class="px-4 py-2 bg-stone-500 text-white rounded hover:bg-stone-600 transition"
+						class="px-4 py-2 bg-stone-400 text-white rounded hover:bg-stone-600 transition"
 						href="write">글쓰기</a>
 				</div>
 			</c:if>
 		</div>
 	</div>
 </section>
-
-<%-- ${path } 공통으로 묶어둠 --%>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

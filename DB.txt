@@ -74,19 +74,19 @@ INSERT INTO `member`
 	SET regDate = NOW()
 			, updateDate = NOW()
 			, loginId = 'test1'
-			, loginPw = 'test1'
+			, loginPw = SHA2('test1', 256)
 			, `name` = '유저1';
 INSERT INTO `member`
 	SET regDate = NOW()
 			, updateDate = NOW()
 			, loginId = 'test2'
-			, loginPw = 'test2'
+			, loginPw = SHA2('test2', 256)
 			, `name` = '유저2';
 INSERT INTO `member`
 	SET regDate = NOW()
 			, updateDate = NOW()
 			, loginId = 'test3'
-			, loginPw = 'test3'
+			, loginPw = SHA2('test3', 256)
 			, `name` = '유저3';
 			
 INSERT INTO board

@@ -17,8 +17,9 @@
 		}
 		
 		let member = await getMemberById();
+		let inputLoginPw = await encryptSHA256(form.loginPw.value);
 		
-		if (member.data.loginPw != form.loginPw.value) {
+		if (member.data.loginPw != inputLoginPw) {
 			alert('비밀번호가 일치하지 않습니다');
 			form.loginPw.value = '';
 			form.loginPw.focus();
@@ -34,6 +35,19 @@
 			type : 'GET',
 			dataType : 'json'
 		})
+	}
+	
+	async function encryptSHA256(input) {
+	    const encoder = new TextEncoder(); // 입력 문자열을 UTF-8 바이트로 인코딩
+	    const data = encoder.encode(input);
+	    
+	    // SHA-256 해싱
+	    const hash = await crypto.subtle.digest("SHA-256", data);
+	    
+	    // 해싱 결과를 16진수 문자열로 변환
+	    return Array.from(new Uint8Array(hash))
+	        .map(byte => byte.toString(16).padStart(2, '0')) // 각 바이트를 16진수로 변환
+	        .join('');
 	}
 </script>
 

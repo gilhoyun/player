@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class team {
+public class Team {
 	private int id;
 	private String teamName;
 	private String region;

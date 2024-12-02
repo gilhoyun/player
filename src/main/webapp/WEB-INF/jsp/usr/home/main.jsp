@@ -52,7 +52,7 @@
 	</div>
 </section>
 
-<section class="px-96 py-5 bg-gray-50">
+<section class="px-96 py-5 bg-gray-100">
   <h2 class="text-center text-4xl font-bold mb-8">| 이달의 선수 |</h2>
   <div class="container mx-auto flex flex-row gap-8">
     <!-- 선수 사진 영역 -->

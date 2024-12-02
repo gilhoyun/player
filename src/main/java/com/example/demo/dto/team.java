@@ -7,16 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Member {
+public class team {
 	private int id;
+	private String teamName;
+	private String region;
+	private String slogan;
+	private byte[] teamImage;
+	private int createdBy;
 	private String regDate;
 	private String updateDate;
-	private String loginId;
-	private String loginPw;
-	private String name;
-	private byte[] profileImage;
-
 }
-
-
-

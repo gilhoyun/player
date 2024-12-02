@@ -1,10 +1,11 @@
 package com.example.demo.controller;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.nio.file.Files;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.Member;
 import com.example.demo.dto.ResultData;
@@ -19,33 +21,73 @@ import com.example.demo.dto.Rq;
 import com.example.demo.service.MemberService;
 import com.example.demo.util.Util;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class UsrMemberController {
-	
-	private MemberService memberService;
-	
-	public UsrMemberController(MemberService memberService) {
-		this.memberService = memberService;
-	}
-	
-	@GetMapping("/usr/member/join")
-	public String join() {
-		
-		return "usr/member/join";
-	}
-	
-	@PostMapping("/usr/member/doJoin")
-	@ResponseBody
-	public String doJoin(String loginId, String loginPw, String name) {
-			
-		memberService.joinMember(loginId, Util.encryptSHA256(loginPw), name);
-	
-		return Util.jsReturn(String.format("%s님의 가입을 환영합니다~", loginId), "/");
-	}
+
+    private MemberService memberService;
+
+    public UsrMemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
+
+    @GetMapping("/usr/member/join")
+    public String join() {
+        return "usr/member/join";
+    }
+
+    @PostMapping("/usr/member/doJoin")
+    @ResponseBody
+    public String doJoin(String loginId, String loginPw, String name, @RequestParam("profileImage") MultipartFile profileImage) {
+        byte[] profileImageData = null;
+
+        try {
+            if (!profileImage.isEmpty()) {
+                profileImageData = profileImage.getBytes(); // 파일 데이터를 바이트 배열로 변환
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Util.jsReturn("파일 업로드 실패", null);
+        }
+
+        memberService.joinMember(loginId, Util.encryptSHA256(loginPw), name, profileImageData);
+
+        return Util.jsReturn(String.format("%s님의 가입을 환영합니다~", loginId), "/");
+    }
+
+    @GetMapping("/usr/member/getMemberById")
+    @ResponseBody
+    public ResultData<Member> getMemberById(HttpServletRequest req) {
+        Rq rq = (Rq) req.getAttribute("rq");
+
+        Member member = memberService.getMemberById(rq.getLoginedMemberId());
+
+        return ResultData.from("S-1", "회원정보 조회", member);
+    }
+
+    @GetMapping("/usr/member/profileImage")
+    @ResponseBody
+    public ResponseEntity<byte[]> getProfileImage(HttpServletRequest req) {
+        Rq rq = (Rq) req.getAttribute("rq");
+        Member member = memberService.getMemberById(rq.getLoginedMemberId());
+
+        if (member == null || member.getProfileImage() == null) {
+            // 기본 프로필 이미지를 반환
+            try {
+                File defaultImage = new File("path/to/default/avatar.jpg");
+                byte[] defaultImageBytes = Files.readAllBytes(defaultImage.toPath());
+                return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(defaultImageBytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(member.getProfileImage());
+    }
 	
 	@GetMapping("/usr/member/login")
 	public String login() {
@@ -109,17 +151,6 @@ public class UsrMemberController {
 	@GetMapping("/usr/member/checkPw")
 	public String checkPw() {
 		return "usr/member/checkPw";
-	}
-	
-	@GetMapping("/usr/member/getMemberById")
-	@ResponseBody
-	public ResultData<Member> getMemberById(HttpServletRequest req) {
-		
-		Rq rq = (Rq) req.getAttribute("rq");
-		
-		Member member = memberService.getMemberById(rq.getLoginedMemberId());
-		
-		return ResultData.from("S-1", "회원정보 조회", member);
 	}
 	
 	@PostMapping("/usr/member/doCheckPw")

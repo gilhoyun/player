@@ -14,14 +14,16 @@ import com.example.demo.dto.Member;
 @Mapper
 public interface MemberDao {
 	@Insert("""
-			INSERT INTO `member`
-				SET regDate = NOW()
-					, updateDate = NOW()
-					, loginId = #{loginId}
-					, loginPw = #{loginPw}
-					, name = #{name}
-			""")
-	void joinMember(String loginId, String loginPw, String name);
+		    INSERT INTO `member`
+		        SET regDate = NOW()
+		            , updateDate = NOW()
+		            , loginId = #{loginId}
+		            , loginPw = #{loginPw}
+		            , name = #{name}
+		            , profileImage = #{profileImage}
+		    """)
+		void joinMember(String loginId, String loginPw, String name, byte[] profileImage);
+
 	@Select("""
 			SELECT *
 				FROM `member`

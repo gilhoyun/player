@@ -19,9 +19,11 @@ import com.example.demo.dto.Reply;
 import com.example.demo.dto.ResultData;
 import com.example.demo.dto.Rq;
 import com.example.demo.dto.Team;
+import com.example.demo.dto.TeamReply;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.MemberService;
 import com.example.demo.service.ReplyService;
+import com.example.demo.service.TeamReplyService;
 import com.example.demo.service.TeamService;
 import com.example.demo.util.Util;
 
@@ -36,10 +38,12 @@ public class UsrTeamController {
 
 	private TeamService teamService;
 	private MemberService memberService;
+	private TeamReplyService teamReplyService;
 
-	public UsrTeamController(TeamService teamService, MemberService memberService) {
+	public UsrTeamController(TeamService teamService, MemberService memberService, TeamReplyService teamReplyService) {
 		this.teamService = teamService;
 		this.memberService = memberService;
+		this.teamReplyService = teamReplyService;
 	}
 
 	@GetMapping("/usr/team/createTeam") // 대소문자 수정
@@ -141,32 +145,35 @@ public class UsrTeamController {
 	
 	@GetMapping("/usr/team/detail")
 	public String teamDetail(HttpServletRequest req, HttpServletResponse resp, Model model, int id) {
-		
-		Cookie[] cookies = req.getCookies();
-		boolean isViewed = false;
+	    // Existing view counting logic
+	    Cookie[] cookies = req.getCookies();
+	    boolean isViewed = false;
 
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("viewedArticle_" + id)) {
-					isViewed = true;
-					break;
-				}
-			}
-		}
+	    if (cookies != null) {
+	        for (Cookie cookie : cookies) {
+	            if (cookie.getName().equals("viewedTeam_" + id)) {
+	                isViewed = true;
+	                break;
+	            }
+	        }
+	    }
 
-		if (!isViewed) {
-			teamService.increaseViews(id);
-			Cookie cookie = new Cookie("viewedArticle_" + id, "true");
-			cookie.setMaxAge(60*30);
-			resp.addCookie(cookie);
-		}
-		
-	
-		Team team = teamService.getTeambyId(id);
-			
-		model.addAttribute("team", team);
-
-		return "usr/team/detail";
+	    if (!isViewed) {
+	        teamService.increaseViews(id);
+	        Cookie cookie = new Cookie("viewedTeam_" + id, "true");
+	        cookie.setMaxAge(60*30);
+	        resp.addCookie(cookie);
+	    }
+	    
+	    // Fetch team replies
+	    List<TeamReply> replies = teamReplyService.getReplies(id);
+	    
+	    Team team = teamService.getTeambyId(id);
+	        
+	    model.addAttribute("team", team);
+	    model.addAttribute("replies", replies);
+	    
+	    return "usr/team/detail";
 	}
 	
 	

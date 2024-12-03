@@ -45,17 +45,31 @@
 
                 <!-- 팀 메뉴 -->
                 <div class="dropdown dropdown-end">
-                    <a href="javascript:void(0);" class="hover:underline text-center">팀</a>
-                    <ul tabindex="0" class="menu menu-sm dropdown-content mt-6 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-black border border-gray-500">
-                        <c:choose>
-                            <c:when test="${not hasTeam}">
-                                <li><a href="${pageContext.request.contextPath}/usr/team/CreateTeam">팀 창단</a></li>
-                            </c:when>
-                        </c:choose>
-                        <li><a href="${pageContext.request.contextPath}/usr/article/list?boardId=2">팀 찾기</a></li>
-                        <li><a href="${pageContext.request.contextPath}/usr/team/myTeam">내 팀보기</a></li>
-                    </ul>
-                </div>
+    <a href="javascript:void(0);" class="hover:underline text-center">팀</a>
+    <ul tabindex="0" class="menu menu-sm dropdown-content mt-6 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-black border border-gray-500">
+        <c:choose>
+
+            <c:when test="${rq.getLoginedMemberId() == -1}">
+                <li><a href="${pageContext.request.contextPath}/usr/team/findTeam">팀 찾기</a></li>
+                <li><a href="${pageContext.request.contextPath}/usr/team/findTeam">팀 리그</a></li>
+            </c:when>
+            
+    
+            <c:when test="${rq.getLoginedMemberId() != -1 and not rq.hasTeam()}">
+                <li><a href="${pageContext.request.contextPath}/usr/team/createTeam">팀 창단</a></li>
+                <li><a href="${pageContext.request.contextPath}/usr/team/findTeam">팀 찾기</a></li>
+                <li><a href="${pageContext.request.contextPath}/usr/team/findTeam">팀 리그</a></li>
+            </c:when>
+            
+   
+            <c:otherwise>
+                <li><a href="${pageContext.request.contextPath}/usr/team/myTeam">내 팀보기</a></li>
+                <li><a href="${pageContext.request.contextPath}/usr/team/findTeam">팀 찾기</a></li>
+                <li><a href="${pageContext.request.contextPath}/usr/team/findTeam">팀 리그</a></li>
+            </c:otherwise>
+        </c:choose>
+    </ul>
+</div>
 
                 <div class="dropdown dropdown-end">
                     <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">

@@ -44,11 +44,11 @@ public interface TeamDao {
 	List<Team> getTeamsByCreatedBy(Integer createdBy);
 
 	@Select("""
-            SELECT COUNT(*)
-            FROM `team`
-            WHERE createdBy = #{memberId}
-            """)
-	Object getTeamByMemberId(int memberId);
+		    SELECT COUNT(*)
+		    FROM `team`
+		    WHERE createdBy = #{memberId}
+		    """)
+		int countTeamByMemberId(int memberId);
 
 
 }

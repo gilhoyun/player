@@ -39,10 +39,9 @@ public class UsrTeamController {
 		this.teamService = teamService;
 	}
 
-	@GetMapping("/usr/team/CreateTeam")
-	public String CreateTeam() {
-
-		return "usr/team/CreateTeam";
+	@GetMapping("/usr/team/createTeam") // 대소문자 수정
+	public String createTeam() { // 메서드 이름도 카멜 케이스로 수정
+	    return "usr/team/CreateTeam";
 	}
 
 	@PostMapping("/usr/team/doCreateTeam")

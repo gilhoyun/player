@@ -46,8 +46,8 @@ public class TeamService {
 
 
 	public boolean hasTeam(int memberId) {
-        return teamDao.getTeamByMemberId(memberId) != null;
-    }
+	    return teamDao.countTeamByMemberId(memberId) > 0;
+	}
 
 	
 }

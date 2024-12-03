@@ -64,39 +64,39 @@
 	};
 
 	const loginIdDupChk = function(el) {
-		el.value = el.value.trim();
+	    el.value = el.value.trim();
 
-		let loginIdDupChkMsg = $('#loginIdDupChkMsg');
+	    let loginIdDupChkMsg = $('#loginIdDupChkMsg');
 
-		if (!el.value) {
-			loginIdDupChkMsg.removeClass('text-green-500');
-			loginIdDupChkMsg.addClass('text-red-500');
-			loginIdDupChkMsg.html(`<span>아이디는 필수 입력 정보입니다</span>`);
-			return;
-		}
+	    if (!el.value) {
+	        loginIdDupChkMsg.removeClass('text-green-500');
+	        loginIdDupChkMsg.addClass('text-red-500');
+	        loginIdDupChkMsg.html('아이디는 필수 입력 정보입니다');
+	        return;
+	    }
 
-		$.ajax({
-			url: '/usr/member/loginIdDupChk',
-			type: 'GET',
-			data: { loginId: el.value },
-			dataType: 'json',
-			success: function(data) {
-				if (data.success) {
-					loginIdDupChkMsg.removeClass('text-red-500');
-					loginIdDupChkMsg.addClass('text-green-500');
-					loginIdDupChkMsg.html(`<span>${data.resultMsg}</span>`);
-					validLoginId = el.value;
-				} else {
-					loginIdDupChkMsg.removeClass('text-green-500');
-					loginIdDupChkMsg.addClass('text-red-500');
-					loginIdDupChkMsg.html(`<span>${data.resultMsg}</span>`);
-					validLoginId = null;
-				}
-			},
-			error: function(xhr, status, error) {
-				console.log('Error: ' + error);
-			},
-		});
+	    $.ajax({
+	        url: '/usr/member/loginIdDupChk',
+	        type: 'GET',
+	        data: { loginId: el.value },
+	        dataType: 'json',
+	        success: function(data) {
+	            if (data.success) {
+	                loginIdDupChkMsg.removeClass('text-red-500');
+	                loginIdDupChkMsg.addClass('text-green-500');
+	                loginIdDupChkMsg.text(data.resultMsg);
+	                validLoginId = el.value;
+	            } else {
+	                loginIdDupChkMsg.removeClass('text-green-500');
+	                loginIdDupChkMsg.addClass('text-red-500');
+	                loginIdDupChkMsg.text(data.resultMsg);
+	                validLoginId = null;
+	            }
+	        },
+	        error: function(xhr, status, error) {
+	            console.log('Error: ' + error);
+	        },
+	    });
 	};
 </script>
 

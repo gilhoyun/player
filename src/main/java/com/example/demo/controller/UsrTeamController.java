@@ -20,6 +20,7 @@ import com.example.demo.dto.ResultData;
 import com.example.demo.dto.Rq;
 import com.example.demo.dto.Team;
 import com.example.demo.service.ArticleService;
+import com.example.demo.service.MemberService;
 import com.example.demo.service.ReplyService;
 import com.example.demo.service.TeamService;
 import com.example.demo.util.Util;
@@ -34,9 +35,11 @@ import lombok.Builder.Default;
 public class UsrTeamController {
 
 	private TeamService teamService;
+	private MemberService memberService;
 
-	public UsrTeamController(TeamService teamService) {
+	public UsrTeamController(TeamService teamService, MemberService memberService) {
 		this.teamService = teamService;
+		this.memberService = memberService;
 	}
 
 	@GetMapping("/usr/team/createTeam") // 대소문자 수정
@@ -59,7 +62,7 @@ public class UsrTeamController {
 	        if (createdBy == null) {
 	            return Util.jsReturn("로그인 정보가 없습니다.", null);
 	        }
-
+	        
 	        // 팀 가입 서비스 호출
 	        teamService.joinTeam(teamName, region, slogan, teamImageBytes, createdBy);
 	    } catch (IOException e) {
@@ -104,4 +107,67 @@ public class UsrTeamController {
 	    // myTeam 페이지로 이동
 	    return "usr/team/myTeam";
 	}
+	
+	
+	@GetMapping("/usr/team/teamList")
+	public String teamList(Model model,  @RequestParam(defaultValue = "1") int page,  @RequestParam(defaultValue = "teamName") String searchType, @RequestParam(defaultValue = "") String searchKeyword) {
+
+	    int limitFrom = (page - 1) * 10;
+
+	    List<Team> teams = teamService.getTeams(limitFrom, searchType, searchKeyword);
+	    int teamsCnt = teamService.teamsCnt(searchType, searchKeyword);
+
+	    int totalPagesCnt = (int) Math.ceil((double) teamsCnt / 10);
+
+	    int from = ((page - 1) / 5) * 5 + 1;
+	    int end = from + 4;
+
+	    if (end > totalPagesCnt) {
+	        end = totalPagesCnt;
+	    }
+
+	    model.addAttribute("teams", teams);
+	    model.addAttribute("teamsCnt", teamsCnt);
+	    model.addAttribute("totalPagesCnt", totalPagesCnt);
+	    model.addAttribute("from", from);
+	    model.addAttribute("end", end);
+	    model.addAttribute("page", page);
+	    model.addAttribute("searchType", searchType);
+	    model.addAttribute("searchKeyword", searchKeyword);
+
+	    return "usr/team/teamList";
+	}
+	
+	
+	@GetMapping("/usr/team/detail")
+	public String teamDetail(HttpServletRequest req, HttpServletResponse resp, Model model, int id) {
+		
+		Cookie[] cookies = req.getCookies();
+		boolean isViewed = false;
+
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("viewedArticle_" + id)) {
+					isViewed = true;
+					break;
+				}
+			}
+		}
+
+		if (!isViewed) {
+			teamService.increaseViews(id);
+			Cookie cookie = new Cookie("viewedArticle_" + id, "true");
+			cookie.setMaxAge(60*30);
+			resp.addCookie(cookie);
+		}
+		
+	
+		Team team = teamService.getTeambyId(id);
+			
+		model.addAttribute("team", team);
+
+		return "usr/team/detail";
+	}
+	
+	
 }

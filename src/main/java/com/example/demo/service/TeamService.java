@@ -26,12 +26,11 @@ public class TeamService {
 	}
 
 	public void joinTeam(String teamName, String region, String slogan, byte[] teamImage, Integer createdBy) {
-	    // 팀 이름 중복 체크
 	    if (teamDao.getTeamByTeamName(teamName) != null) {
 	        throw new RuntimeException("이미 존재하는 팀 이름입니다.");
 	    }
 
-	    // 팀 가입
+
 	    teamDao.joinTeam(teamName, region, slogan, teamImage, createdBy);
 	}
 
@@ -47,6 +46,24 @@ public class TeamService {
 
 	public boolean hasTeam(int memberId) {
 	    return teamDao.countTeamByMemberId(memberId) > 0;
+	}
+
+	public List<Team> getTeams(int limitFrom, String searchType, String searchKeyword) {
+	    return teamDao.getTeams(limitFrom, searchType, searchKeyword);
+	}
+
+	public int teamsCnt(String searchType, String searchKeyword) {
+	    return teamDao.teamsCnt(searchType, searchKeyword);
+	}
+
+	public Team getTeambyId(int id) {
+		
+		return teamDao.getTeambyId(id);
+	}
+
+	public void increaseViews(int id) {
+		teamDao.increaseViews(id);
+		
 	}
 
 	

@@ -17,7 +17,7 @@
 				<img src="https://j.gifs.com/pZ9zQX.gif" alt="팀리그"
 					class="h-20 w-20 object-cover rounded-lg">
 			</div>
-			<p class="mt-3 text-gray-800">구장 예약</p>
+			<p>구장 예약</p>
 		</a>
 
 		<!-- 팀원 모집 -->
@@ -27,13 +27,13 @@
 				<img src="https://j.gifs.com/K8A6Zl.gif" alt="팀원 모집"
 					class="h-20 w-20 object-cover rounded-lg">
 			</div>
-			<p class="mt-3 text-gray-800">팀 리그</p>
+			<p>팀 리그</p>
 		</a>
 
 		<!-- 게스트 모집 -->
-		<a href="${pageContext.request.contextPath}/guest/recruit"
+		<a href="${pageContext.request.contextPath}/usr/team/teamList"
 			class="flex flex-col items-center transition">
-			<div class="">
+			<div>
 				<img src="https://j.gifs.com/Z8ZWV2.gif" alt="게스트 모집"
 					class="h-20 w-20 object-cover rounded-lg">
 			</div>
@@ -43,11 +43,11 @@
 		<!-- 팀 만들기 -->
 		<a href="${pageContext.request.contextPath}/team/create"
 			class="flex flex-col items-center transition">
-			<div class="">
+			<div>
 				<img src="https://j.gifs.com/46W9Rg.gif" alt="팀 만들기"
 					class="h-20 w-20 object-cover rounded-lg">
 			</div>
-			<p class="mt-3 text-gray-800">팀 매칭</p>
+			<p>팀 매칭</p>
 		</a>
 	</div>
 </section>

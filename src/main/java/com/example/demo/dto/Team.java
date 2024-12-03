@@ -15,5 +15,7 @@ public class Team {
 	private byte[] teamImage;
 	private int createdBy;
 	private String regDate;
-	private String updateDate;
+	private String updateDate;	
+	private String teamLeaderLoginId;
+	private int views;
 }

@@ -18,16 +18,17 @@ import com.example.demo.dto.Team;
 public interface TeamDao {
 
 	@Insert("""
-			    INSERT INTO team
-			        SET teamName = #{teamName},
-			            region = #{region},
-			            slogan = #{slogan},
-			            teamImage = #{teamImage},
-			            createdBy = #{createdBy},  -- createdBy 값 추가
-			            regDate = NOW(),
-			            updateDate = NOW()
-			""")
-	void joinTeam(String teamName, String region, String slogan, byte[] teamImage, Integer createdBy);
+		    INSERT INTO team
+		        SET teamName = #{teamName},
+		            region = #{region},
+		            slogan = #{slogan},
+		            teamImage = #{teamImage},
+		            createdBy = #{createdBy},
+		            teamLeader = #{createdBy}, 
+		            regDate = NOW(),
+		            updateDate = NOW()
+		""")
+		void joinTeam(String teamName, String region, String slogan, byte[] teamImage, Integer createdBy);
 
 	@Select("""
 			SELECT *
@@ -50,5 +51,59 @@ public interface TeamDao {
 		    """)
 		int countTeamByMemberId(int memberId);
 
+	
+	@Select("""
+			<script>
+			SELECT t.*, m.loginId as teamLeaderLoginId
+			FROM team t
+			JOIN member m ON t.teamLeader = m.id
+			WHERE 1=1
+			<if test="searchKeyword != ''">
+			<if test="searchType == 'teamName'">
+			AND t.teamName LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
+			<if test="searchType == 'teamLeader'">
+			AND m.loginId LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
+			</if>
+			ORDER BY t.id DESC
+			LIMIT #{limitFrom}, 10
+			</script>
+			""")
+			List<Team> getTeams(int limitFrom, String searchType, String searchKeyword);
+
+			@Select("""
+			<script>
+			SELECT COUNT(*)
+			FROM team t
+			JOIN member m ON t.teamLeader = m.id
+			WHERE 1=1
+			<if test="searchKeyword != ''">
+			<if test="searchType == 'teamName'">
+			AND t.teamName LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
+			<if test="searchType == 'teamLeader'">
+			AND m.loginId LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
+			</if>
+			</script>
+			""")
+			int teamsCnt(String searchType, String searchKeyword);
+
+			@Select("""
+				    SELECT t.*, m.loginId as teamLeaderLoginId
+				    FROM team t
+				    JOIN member m ON t.teamLeader = m.id
+				    WHERE t.id = #{id}
+				    """)
+		  Team getTeambyId(int id);
+
+			
+		@Select("""
+				UPDATE `team`
+				SET views = views + 1
+				WHERE id = #{id}
+				""")
+		void increaseViews(int id);
 
 }

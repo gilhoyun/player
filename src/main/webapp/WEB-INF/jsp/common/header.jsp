@@ -50,21 +50,21 @@
         <c:choose>
 
             <c:when test="${rq.getLoginedMemberId() == -1}">
-                <li><a href="${pageContext.request.contextPath}/usr/team/findTeam">팀 찾기</a></li>
+                <li><a href="${pageContext.request.contextPath}/usr/team/teamList">팀 찾기</a></li>
                 <li><a href="${pageContext.request.contextPath}/usr/team/findTeam">팀 리그</a></li>
             </c:when>
             
     
             <c:when test="${rq.getLoginedMemberId() != -1 and not rq.hasTeam()}">
                 <li><a href="${pageContext.request.contextPath}/usr/team/createTeam">팀 창단</a></li>
-                <li><a href="${pageContext.request.contextPath}/usr/team/findTeam">팀 찾기</a></li>
+                <li><a href="${pageContext.request.contextPath}/usr/team/teamList">팀 찾기</a></li>
                 <li><a href="${pageContext.request.contextPath}/usr/team/findTeam">팀 리그</a></li>
             </c:when>
             
    
             <c:otherwise>
                 <li><a href="${pageContext.request.contextPath}/usr/team/myTeam">내 팀보기</a></li>
-                <li><a href="${pageContext.request.contextPath}/usr/team/findTeam">팀 찾기</a></li>
+                <li><a href="${pageContext.request.contextPath}/usr/team/teamList">팀 찾기</a></li>
                 <li><a href="${pageContext.request.contextPath}/usr/team/findTeam">팀 리그</a></li>
             </c:otherwise>
         </c:choose>

@@ -72,33 +72,35 @@
 </div>
 
                 <div class="dropdown dropdown-end">
-                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-                        <div class="w-8 rounded-full border border-gray-500">
-                            <c:choose>
-                                <c:when test="${rq.getLoginedMemberId() != -1}">
-                                    <img src="${pageContext.request.contextPath}/usr/member/profileImage" alt="User Avatar" />
-                                </c:when>
-                                <c:otherwise>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="text-gray-600">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                    </svg>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                    </div>
-                    <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-black border border-gray-500">
-                        <c:choose>
-                            <c:when test="${rq.getLoginedMemberId() == -1}">
-                                <li><a href="${pageContext.request.contextPath}/usr/member/login">로그인</a></li>
-                                <li><a href="${pageContext.request.contextPath}/usr/member/join">회원가입</a></li>
-                            </c:when>
-                            <c:otherwise>
-                                <li><a href="${pageContext.request.contextPath}/usr/member/myPage">마이페이지</a></li>
-                                <li><a href="${pageContext.request.contextPath}/usr/member/doLogout">로그아웃</a></li>
-                            </c:otherwise>
-                        </c:choose>
-                    </ul>
-                </div>
+    <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+        <div class="w-8 rounded-full border border-gray-500">
+            <c:choose>
+                <c:when test="${rq.getLoginedMemberId() != -1}">
+                    <!-- 로그인한 사용자의 프로필 이미지 출력 -->
+                    <img src="${pageContext.request.contextPath}/usr/member/profileImage?memberId=${rq.getLoginedMemberId()}" alt="User Avatar" />
+                </c:when>
+                <c:otherwise>
+                    <!-- 기본 아이콘 이미지 표시 -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="text-gray-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </div>
+    <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-black border border-gray-500">
+        <c:choose>
+            <c:when test="${rq.getLoginedMemberId() == -1}">
+                <li><a href="${pageContext.request.contextPath}/usr/member/login">로그인</a></li>
+                <li><a href="${pageContext.request.contextPath}/usr/member/join">회원가입</a></li>
+            </c:when>
+            <c:otherwise>
+                <li><a href="${pageContext.request.contextPath}/usr/member/myPage">마이페이지</a></li>
+                <li><a href="${pageContext.request.contextPath}/usr/member/doLogout">로그아웃</a></li>
+            </c:otherwise>
+        </c:choose>
+    </ul>
+</div>
             </div>
         </nav>
     </header>

@@ -27,11 +27,11 @@
     </main>
     <footer class="footer bg-neutral text-neutral-content p-5 px-32">
         <nav>
-            <h6 class="footer-title">Services</h6>
-            <a class="link link-hover">Branding</a>
-            <a class="link link-hover">Design</a>
-            <a class="link link-hover">Marketing</a>
-            <a class="link link-hover">Advertisement</a>
+            <h6 class="footer-title">팀</h6>
+            <a class="link link-hover" href="${pageContext.request.contextPath}/usr/team/teamList">팀 찾기</a>
+            <a class="link link-hover">팀 리그</a>
+            <a class="link link-hover">팀 매칭</a>
+            <a class="link link-hover">구장 예약</a>
         </nav>
         <nav>
             <h6 class="footer-title">Company</h6>

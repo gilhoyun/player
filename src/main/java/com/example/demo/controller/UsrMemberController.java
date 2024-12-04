@@ -68,16 +68,17 @@ public class UsrMemberController {
 
     @GetMapping("/usr/member/profileImage")
     @ResponseBody
-    public ResponseEntity<byte[]> getProfileImage(HttpServletRequest req) {
-        Rq rq = (Rq) req.getAttribute("rq");
-        Member member = memberService.getMemberById(rq.getLoginedMemberId());
+    public ResponseEntity<byte[]> getProfileImage(@RequestParam("memberId") int memberId) {
+        Member member = memberService.getMemberById(memberId);
 
         if (member == null || member.getProfileImage() == null) {
             // 기본 프로필 이미지를 반환
             try {
-                File defaultImage = new File("path/to/default/avatar.jpg");
+                File defaultImage = new File("path/to/default/avatar.jpg"); // 기본 이미지 경로
                 byte[] defaultImageBytes = Files.readAllBytes(defaultImage.toPath());
-                return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(defaultImageBytes);
+                return ResponseEntity.ok()
+                        .contentType(MediaType.IMAGE_JPEG)
+                        .body(defaultImageBytes);
             } catch (IOException e) {
                 e.printStackTrace();
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

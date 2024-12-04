@@ -13,6 +13,7 @@ import com.example.demo.dto.Article;
 import com.example.demo.dto.Board;
 import com.example.demo.dto.Member;
 import com.example.demo.dto.Team;
+import com.example.demo.dto.TeamRanking;
 
 @Mapper
 public interface TeamDao {
@@ -105,5 +106,29 @@ public interface TeamDao {
 				WHERE id = #{id}
 				""")
 		void increaseViews(int id);
+
+		@Delete("""
+				DELETE FROM `team`
+				WHERE teamName = #{teamName}
+				""")
+		void doDeleteTeam(String teamName);
+
+		@Select("""
+				SELECT * 
+				FROM `team`
+				WHERE id = #{id}
+				""")
+		Team getTeamById(int id);
+
+		@Update("""
+			    UPDATE `team`
+			    SET wins = #{wins},
+			        draws = #{draws},
+			        losses = #{losses},
+			        points = #{points},
+			        updateDate = NOW()
+			    WHERE id = #{teamId}
+			""")
+		void updateTeamResults(int teamId, int wins, int draws, int losses, int points, int loginedMemberId);
 
 }

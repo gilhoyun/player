@@ -18,4 +18,8 @@ public class Team {
 	private String updateDate;	
 	private String teamLeaderLoginId;
 	private int views;
+	private int wins;
+	private int draws;
+	private int losses;
+	private int points;
 }

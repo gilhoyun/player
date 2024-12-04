@@ -232,7 +232,7 @@ const clickLikePoint = async function() {
                         </c:if>
                     </div>
                     <div class="text-lg my-1">${reply.getForPrintBody()}</div>
-                    <div class="text-xs text-gray-400">${reply.getRegDate()}</div>
+                    <div class="text-xs text-gray-400">${reply.getRegDate().substring(2,16)}</div>
                 </div>
             </div>
         </c:forEach>

@@ -13,6 +13,7 @@ import com.example.demo.dto.Article;
 import com.example.demo.dto.Board;
 import com.example.demo.dto.Member;
 import com.example.demo.dto.Team;
+import com.example.demo.dto.TeamRanking;
 
 
 @Service
@@ -66,5 +67,18 @@ public class TeamService {
 		
 	}
 
+	public void doDeleteTeam(String teamName) {
+		teamDao.doDeleteTeam(teamName);
+		
+	}
+
+	public Team getTeamById(int id) {
+		return teamDao.getTeamById(id);
+	}
+
+	public void updateTeamResults(int teamId, int wins, int draws, int losses, int points, int loginedMemberId) {
+		teamDao.updateTeamResults( teamId,  wins,  draws,  losses,  points,  loginedMemberId);
+		
+	}
 	
 }

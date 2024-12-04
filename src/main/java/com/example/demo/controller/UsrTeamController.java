@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.Article;
@@ -19,6 +20,7 @@ import com.example.demo.dto.Reply;
 import com.example.demo.dto.ResultData;
 import com.example.demo.dto.Rq;
 import com.example.demo.dto.Team;
+import com.example.demo.dto.TeamRanking;
 import com.example.demo.dto.TeamReply;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.MemberService;
@@ -177,4 +179,39 @@ public class UsrTeamController {
 	}
 	
 	
+	
+	@GetMapping("/usr/team/doDelete")
+	@ResponseBody
+	public String doDelete(int id, String teamName, @SessionAttribute("loginedMemberId") int loginedMemberId) {
+	    // 해당 팀 정보 가져오기
+	    Team team = teamService.getTeamById(id);
+	    
+	    // 로그인한 사용자와 팀 리더가 일치하는지 확인
+	    if (team.getCreatedBy() != loginedMemberId) {
+	        return Util.jsReturn("팀 리더만 팀을 해체할 수 있습니다.", "myTeam");
+	    }
+
+	    // 팀 삭제 처리
+	    teamService.doDeleteTeam(teamName);
+	    
+	    return Util.jsReturn(String.format("[ %s ] 팀을 해체했습니다.", teamName), "/");
+	}
+	
+	
+	
+	@PostMapping("/usr/team/saveResults")
+	@ResponseBody
+	public String saveResults( @RequestParam("teamId") int teamId, @RequestParam("wins") int wins, @RequestParam("draws") int draws, @RequestParam("losses") int losses, HttpServletRequest req) {
+	    // 총 승점 계산 (승=3점, 무=1점, 패=0점)
+	    int points = (wins * 3) + draws;
+
+	    // 로그인 정보 가져오기
+	    Rq rq = (Rq) req.getAttribute("rq");
+	    int loginedMemberId = rq.getLoginedMemberId();
+
+	    // 서비스 호출하여 데이터 업데이트
+	    teamService.updateTeamResults(teamId, wins, draws, losses, points, loginedMemberId);
+
+	    return Util.jsReturn("팀 성적이 업데이트되었습니다.", "/usr/team/myTeam");
+	}
 }

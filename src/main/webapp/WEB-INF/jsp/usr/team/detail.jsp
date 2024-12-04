@@ -50,29 +50,32 @@ const teamReplyModifyForm = function(i, body) {
     if (originalForm != null) {
         teamReplyModifyCancle(originalId);
     }
-    
+
     let replyForm = $('#' + i);
-    
+
     originalForm = replyForm.html();
     originalId = i;
-    
+
     let addHtml = `
-        <form action="/usr/teamReply/doModify" method="post" onsubmit="teamReplyForm_onSubmit(this); return false;">
+        <form action="/usr/teamReply/doModify" method="post" onsubmit="teamReplyForm_onSubmit(this); return false;" style="width: 100%;">
             <input type="hidden" name="id" value="\${i}" />
             <input type="hidden" name="relId" value="${team.getId()}" />
-            <div class="border-2 border-slate-200 rounded-xl px-4 mt-2">
+            <div class="border-2 border-slate-200 rounded-xl px-4 py-4 mt-2">
                 <div id="loginedMemberLoginId" class="mt-3 mb-2 font-semibold"></div>
-                <textarea style="resize:none;" class="textarea textarea-bordered textarea-md w-full" name="body">\${body}</textarea>
-                <div class="flex justify-end mb-2">
-                    <button onclick="teamReplyModifyCancle(\${i});" type="button" class="btn btn-active btn-sm mr-2">취소</button>
-                    <button class="btn btn-active btn-sm">수정</button>
+                <textarea 
+                    name="body" 
+                    class="textarea textarea-bordered w-full resize-none p-2" 
+                    style="height: 120px; font-size: 14px;">\${body}</textarea>
+                <div class="flex justify-end mt-2">
+                    <button type="button" onclick="teamReplyModifyCancle(\${i});" class="btn btn-sm bg-stone-500 hover:bg-stone-600 text-white mr-2">취소</button>
+                    <button type="submit" class="btn btn-sm bg-stone-500 hover:bg-stone-600 text-white">수정</button>
                 </div>
             </div>
         </form>`;
-        
+
     replyForm.html(addHtml);
     getLoginId();
-}
+};
 
 const teamReplyModifyCancle = function(i) {
     let replyForm = $('#' + i);
@@ -132,25 +135,40 @@ const teamReplyModifyCancle = function(i) {
      
      <!-- Display existing team replies -->
      <c:forEach var="reply" items="${replies}">
-       <div id="${reply.getId()}" class="py-2 border-b-2 border-slate-200">
-         <div class="flex justify-between items-center">
-           <div class="font-semibold">${reply.getLoginId()}</div>
-           <c:if test="${rq.getLoginedMemberId() == reply.memberId}">
-             <div class="dropdown mr-2">
-               <div tabindex="0" role="button" class="btn btn-sm btn-circle btn-ghost m-1">
-                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block h-5 w-5 stroke-current">
-                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
-                 </svg>
-               </div>
-               <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-24 p-2 shadow">
-                 <li><button onclick="teamReplyModifyForm(${reply.getId()}, '${reply.getBody()}');">수정</button></li>
-                 <li><a onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;" href="/usr/teamReply/doDelete?id=${reply.getId()}&relId=${team.getId()}">삭제</a></li>
-               </ul>
-             </div>
-           </c:if>
+       <div id="${reply.getId()}" class="py-2 border-b-2 border-slate-200 flex items-start space-x-4">
+         <!-- User profile image -->
+         <div class="avatar">
+           <div class="w-12 h-12 rounded-full border border-gray-300 overflow-hidden">
+             <img 
+               src="${pageContext.request.contextPath}/usr/member/profileImage?memberId=${reply.memberId}" 
+               alt="User Profile" 
+               onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/images/default-profile.png'; console.log('Failed to load profile image for memberId: ${reply.memberId}');" 
+               class="object-cover w-full h-full"
+             />
+           </div>
          </div>
-         <div class="text-lg my-1 ml-2">${reply.getForPrintBody()}</div>
-         <div class="text-xs text-gray-400">${reply.getRegDate()}</div>
+
+         <!-- Reply content -->
+         <div class="flex-grow">
+           <div class="flex justify-between items-center">
+             <div class="font-semibold">${reply.getLoginId()}</div>
+             <c:if test="${rq.getLoginedMemberId() == reply.memberId}">
+               <div class="dropdown mr-2">
+                 <div tabindex="0" role="button" class="btn btn-sm btn-circle btn-ghost m-1">
+                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block h-5 w-5 stroke-current">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                   </svg>
+                 </div>
+                 <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-24 p-2 shadow">
+                   <li><button onclick="teamReplyModifyForm(${reply.getId()}, '${reply.getBody()}');">수정</button></li>
+                   <li><a onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;" href="/usr/teamReply/doDelete?id=${reply.getId()}&relId=${team.getId()}">삭제</a></li>
+                 </ul>
+               </div>
+             </c:if>
+           </div>
+           <div class="text-lg my-1 ml-2">${reply.getForPrintBody()}</div>
+           <div class="text-xs text-gray-400">${reply.getRegDate()}</div>
+         </div>
        </div>
      </c:forEach>
      
@@ -175,6 +193,7 @@ const teamReplyModifyCancle = function(i) {
      </c:if>
    </div>
 </section>
+
 
 
 

@@ -150,8 +150,18 @@ public interface TeamDao {
 			    WHERE id = #{teamId}
 			""")
 			void updateTeamResults(int teamId, int wins, int draws, int losses, int points, int loginedMemberId);
+
+			
+			
+			@Select("""
+					SELECT * 
+					FROM `team`
+					ORDER BY points DESC, wins DESC, id ASC
+					""")
+			List<Team> getRankedTeams();
 		
 		
+			
 		
 
 

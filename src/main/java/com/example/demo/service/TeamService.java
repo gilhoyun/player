@@ -100,5 +100,9 @@ public class TeamService {
 	public Team getCurrentTeamResults(int teamId) {
 		return teamDao.getCurrentTeamResults( teamId);
 	}
+
+	public List<Team> getRankedTeams() {
+		return teamDao.getRankedTeams();
+	}
 	
 }

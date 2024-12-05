@@ -35,7 +35,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th class="text-center py-2 px-4 font-medium text-gray-700 bg-gray-100">팀 사진</th>
+                            <th class="text-center py-2 px-4 font-medium text-gray-700 bg-gray-100">팀 이미지</th>
                             <td class="py-2 px-4">
                                 <input name="teamImage" type="file" accept="image/*" class="border p-2 rounded w-full" />
                             </td>

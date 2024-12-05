@@ -21,7 +21,7 @@
 		</a>
 
 		<!-- 팀원 모집 -->
-		<a href="${pageContext.request.contextPath}/team/recruit"
+		<a href="${pageContext.request.contextPath}/usr/team/rankings"
 			class="flex flex-col items-center transition">
 			<div>
 				<img src="https://j.gifs.com/K8A6Zl.gif" alt="팀원 모집"

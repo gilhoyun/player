@@ -1,12 +1,8 @@
 package com.example.demo.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
-import org.apache.taglibs.standard.extra.spath.Path;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -229,25 +225,6 @@ public class UsrTeamController {
 	}
 
 	
-	
-	public String saveTeamImage(MultipartFile image) {
-        if (image == null || image.isEmpty()) {
-            return null;
-        }
-        try {
-            String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
-            String uploadDir = "/path/to/uploads/teamImages/";
-            java.nio.file.Path filePath = Paths.get(uploadDir + fileName);
-            Files.createDirectories(filePath.getParent());
-            image.transferTo(filePath.toFile());
-            return "/uploads/teamImages/" + fileName;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-	
-	
 	@PostMapping("/usr/team/saveResults")
 	@ResponseBody
 	public String saveResults( @RequestParam("teamId") int teamId, @RequestParam("wins") int wins, @RequestParam("draws") int draws, @RequestParam("losses") int losses, HttpServletRequest req) {
@@ -263,4 +240,12 @@ public class UsrTeamController {
 
 	    return Util.jsReturn("팀 성적이 업데이트되었습니다.", "/usr/team/myTeam");
 	}
+	
+	@GetMapping("/usr/team/rankings")
+	public String rankings(Model model) {
+	    List<Team> rankedTeams = teamService.getRankedTeams();
+	    model.addAttribute("rankedTeams", rankedTeams);
+	    return "usr/team/rankings";
+	}
+	
 }

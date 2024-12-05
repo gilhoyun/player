@@ -1,9 +1,12 @@
 package com.example.demo.controller;
 
 import java.io.IOException;
-import java.text.Format;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.taglibs.standard.extra.spath.Path;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,18 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.dto.Article;
-import com.example.demo.dto.Board;
-import com.example.demo.dto.Member;
-import com.example.demo.dto.Reply;
 import com.example.demo.dto.ResultData;
 import com.example.demo.dto.Rq;
 import com.example.demo.dto.Team;
-import com.example.demo.dto.TeamRanking;
 import com.example.demo.dto.TeamReply;
-import com.example.demo.service.ArticleService;
 import com.example.demo.service.MemberService;
-import com.example.demo.service.ReplyService;
 import com.example.demo.service.TeamReplyService;
 import com.example.demo.service.TeamService;
 import com.example.demo.util.Util;
@@ -32,8 +28,6 @@ import com.example.demo.util.Util;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import lombok.Builder.Default;
 
 @Controller
 public class UsrTeamController {
@@ -197,6 +191,61 @@ public class UsrTeamController {
 	    return Util.jsReturn(String.format("[ %s ] 팀을 해체했습니다.", teamName), "/");
 	}
 	
+	@GetMapping("/usr/team/modify")
+	public String modify(@RequestParam("id") int id, Model model) {
+	    Team team = teamService.getTeamById(id);
+	    model.addAttribute("team", team);
+	    return "usr/team/modify";
+	}
+
+	@PostMapping("/usr/team/doModify")
+	@ResponseBody
+	public String doModify(int id, String teamName, String region, String slogan,
+	    @RequestParam(value = "teamImage", required = false) MultipartFile teamImage,
+	    @SessionAttribute("loginedMemberId") int loginedMemberId
+	) {
+	    // 팀 정보 가져오기
+	    Team team = teamService.getTeamById(id);
+
+	    // 팀 리더 확인
+	    if (team == null || team.getCreatedBy() != loginedMemberId) {
+	        return Util.jsReturn("팀 리더만 팀을 수정할 수 있습니다.", "myTeam");
+	    }
+
+	    byte[] teamImageBytes = null;
+	    if (teamImage != null && !teamImage.isEmpty()) {
+	        try {
+	            teamImageBytes = teamImage.getBytes();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            return Util.jsReturn("이미지 업로드 중 오류가 발생했습니다.", "myTeam");
+	        }
+	    }
+
+	    // 팀 수정 처리
+	    teamService.doModifyTeam(id, teamName, region, slogan, teamImageBytes);
+
+	    return Util.jsReturn(String.format("[ %s ] 팀 정보가 수정되었습니다.", teamName), "/usr/team/myTeam");
+	}
+
+	
+	
+	public String saveTeamImage(MultipartFile image) {
+        if (image == null || image.isEmpty()) {
+            return null;
+        }
+        try {
+            String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
+            String uploadDir = "/path/to/uploads/teamImages/";
+            java.nio.file.Path filePath = Paths.get(uploadDir + fileName);
+            Files.createDirectories(filePath.getParent());
+            image.transferTo(filePath.toFile());
+            return "/uploads/teamImages/" + fileName;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 	
 	
 	@PostMapping("/usr/team/saveResults")

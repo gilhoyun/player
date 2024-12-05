@@ -56,25 +56,62 @@
 						</table>
 					</div>
 					<c:if test="${rq.getLoginedMemberId() == team.createdBy}">
-						<a onclick="if(confirm('정말 해체하시겠습니까?') == false) return false;"
-							href="/usr/team/doDelete?id=${team.id}&teamName=${team.teamName}"
-							class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">해체</a>
+						<div class="flex justify-end gap-4 mt-4">
+							<!-- 수정 버튼 -->
+							<a href="/usr/team/modify?id=${team.id}"
+								class="px-4 py-2 bg-stone-500 text-white rounded hover:bg-stone-600 transition">
+								수정 </a>
+
+							<!-- 해체 버튼 -->
+							<a onclick="if(confirm('정말 해체하시겠습니까?') == false) return false;"
+								href="/usr/team/doDelete?id=${team.id}&teamName=${team.teamName}"
+								class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">
+								해체 </a>
+						</div>
 					</c:if>
 
 					<c:if test="${rq.getLoginedMemberId() == team.createdBy}">
-						<form action="/usr/team/saveResults" method="post">
+						<form action="/usr/team/saveResults" method="post"
+							class="mt-6 p-4 bg-gray-50 rounded-lg shadow-md">
 							<input type="hidden" name="teamId" value="${team.id}" /> <input
-								type="hidden" name="teamName" value="${team.teamName}" /> <label
-								for="wins">승:</label> <input type="number" name="wins" id="wins"
-								min="0" value="0" required /> <label for="draws">무:</label> <input
-								type="number" name="draws" id="draws" min="0" value="0" required />
+								type="hidden" name="teamName" value="${team.teamName}" />
 
-							<label for="losses">패:</label> <input type="number" name="losses"
-								id="losses" min="0" value="0" required />
+							<h3 class="text-lg font-semibold text-gray-700 mb-4">팀 경기 결과
+								입력</h3>
 
+							<div class="grid grid-cols-3 gap-4">
+								<!-- 승 -->
+								<div>
+									<label for="wins"
+										class="block text-sm font-medium text-gray-600 mb-1">승:</label>
+									<input type="number" name="wins" id="wins" min="0" value="0"
+										required
+										class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" />
+								</div>
+
+								<!-- 무 -->
+								<div>
+									<label for="draws"
+										class="block text-sm font-medium text-gray-600 mb-1">무:</label>
+									<input type="number" name="draws" id="draws" min="0" value="0"
+										required
+										class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" />
+								</div>
+
+								<!-- 패 -->
+								<div>
+									<label for="losses"
+										class="block text-sm font-medium text-gray-600 mb-1">패:</label>
+									<input type="number" name="losses" id="losses" min="0"
+										value="0" required
+										class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" />
+								</div>
+							</div>
+
+							<!-- 저장 버튼 -->
 							<button type="submit"
-								class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">결과
-								저장</button>
+								class="mt-4 w-full py-2 px-4 bg-stone-500 text-white text-center font-medium rounded-lg hover:bg-stone-600 focus:ring-2 focus:ring-blue-400 focus:outline-none transition">
+								결과 저장</button>
 						</form>
 					</c:if>
 				</c:forEach>

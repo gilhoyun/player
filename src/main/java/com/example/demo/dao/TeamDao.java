@@ -119,8 +119,28 @@ public interface TeamDao {
 				WHERE id = #{id}
 				""")
 		Team getTeamById(int id);
-
+	
 		@Update("""
+				UPDATE `team`
+				SET updateDate = NOW() 
+				, teamName = #{teamName}
+				, region = #{region}
+				, slogan = #{slogan}
+				, teamImage = #{teamImage}
+				""")
+		void doModifyTeam(int id, String teamName, String region, String slogan, byte[] teamImage);
+		
+		
+		
+		
+		@Select("""
+			    SELECT wins, draws, losses, points
+			    FROM `team`
+			    WHERE id = #{teamId}
+			""")
+			Team getCurrentTeamResults(int teamId);
+
+			@Update("""
 			    UPDATE `team`
 			    SET wins = #{wins},
 			        draws = #{draws},
@@ -129,6 +149,10 @@ public interface TeamDao {
 			        updateDate = NOW()
 			    WHERE id = #{teamId}
 			""")
-		void updateTeamResults(int teamId, int wins, int draws, int losses, int points, int loginedMemberId);
+			void updateTeamResults(int teamId, int wins, int draws, int losses, int points, int loginedMemberId);
+		
+		
+		
+
 
 }

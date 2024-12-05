@@ -77,8 +77,28 @@ public class TeamService {
 	}
 
 	public void updateTeamResults(int teamId, int wins, int draws, int losses, int points, int loginedMemberId) {
-		teamDao.updateTeamResults( teamId,  wins,  draws,  losses,  points,  loginedMemberId);
-		
+	    // 현재 팀의 경기 결과 가져오기
+	    Team currentResults = teamDao.getCurrentTeamResults(teamId);
+	    if (currentResults == null) {
+	        throw new RuntimeException("팀 정보를 찾을 수 없습니다.");
+	    }
+
+	    // 누적 값 계산
+	    int newWins = currentResults.getWins() + wins;
+	    int newDraws = currentResults.getDraws() + draws;
+	    int newLosses = currentResults.getLosses() + losses;
+	    int newPoints = currentResults.getPoints() + points;
+
+	    // DB 업데이트
+	    teamDao.updateTeamResults(teamId, newWins, newDraws, newLosses, newPoints, loginedMemberId);
+	}
+
+	public void doModifyTeam(int id, String teamName, String region, String slogan, byte[] teamImageBytes) {
+	    teamDao.doModifyTeam(id, teamName, region, slogan, teamImageBytes);
+	}
+
+	public Team getCurrentTeamResults(int teamId) {
+		return teamDao.getCurrentTeamResults( teamId);
 	}
 	
 }

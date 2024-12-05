@@ -183,7 +183,7 @@ const teamReplyModifyCancle = function(i) {
                <tr>
                  <textarea style="resize:none;" name="body" class="border p-2 rounded w-full" placeholder="내용을 입력해주세요."></textarea>
                  <div class="flex justify-end mt-4">
-                   <button type="submit" class="px-6 py-2 bg-stone-500 text-white rounded hover:bg-stone-600 transition">작성</button>
+                   <button type="submit" class="px-6 py-2 bg-stone-400 text-white rounded hover:bg-stone-500 transition">작성</button>
                  </div>
                </tr>
              </thead>

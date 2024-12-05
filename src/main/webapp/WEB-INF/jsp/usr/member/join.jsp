@@ -141,7 +141,7 @@
 				</table>
 			</div>
 			<div class="text-right mt-4">
-				<button type="submit" class="px-6 py-2 bg-stone-500 text-white rounded hover:bg-stone-600 transition">가입</button>
+				<button type="submit" class="px-6 py-2 bg-stone-400 text-white rounded hover:bg-stone-500 transition">가입</button>
 			</div>
 		</form>
 	</div>

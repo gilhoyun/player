@@ -183,11 +183,11 @@ const clickLikePoint = async function() {
 				<c:if test="${rq.getLoginedMemberId() == article.getMemberId() }">
 					<a onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
 						href="doDelete?id=${article.getId()}&boardId=${article.boardId}"
-						class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">삭제</a>
+						class="px-4 py-2 bg-red-400 text-white rounded hover:bg-red-500 transition">삭제</a>
 				</c:if>
 				<c:if test="${rq.getLoginedMemberId() == article.getMemberId() }">
 					<a href="modify?id=${article.getId()}"
-						class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">수정
+						class="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-500 transition">수정
 					</a>
 				</c:if>
 			</div>

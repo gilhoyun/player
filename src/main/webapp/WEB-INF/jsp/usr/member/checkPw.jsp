@@ -68,7 +68,7 @@ return Array.from(new Uint8Array(hash))
 						<td colspan="2">
 							<div class="flex justify-end mt-4">
 								<button
-									class="px-6 py-2 bg-stone-400 text-white rounded hover:bg-stone-600 transition">확인</button>
+									class="px-6 py-2 bg-stone-400 text-white rounded hover:bg-stone-500 transition">확인</button>
 							</div>
 						</td>
 					</tr>

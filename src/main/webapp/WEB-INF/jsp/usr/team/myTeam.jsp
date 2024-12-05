@@ -59,13 +59,13 @@
 						<div class="flex justify-end gap-4 mt-4">
 							<!-- 수정 버튼 -->
 							<a href="/usr/team/modify?id=${team.id}"
-								class="px-4 py-2 bg-stone-500 text-white rounded hover:bg-stone-600 transition">
+								class="px-4 py-2 bg-stone-400 text-white rounded hover:bg-stone-500 transition">
 								수정 </a>
 
 							<!-- 해체 버튼 -->
 							<a onclick="if(confirm('정말 해체하시겠습니까?') == false) return false;"
 								href="/usr/team/doDelete?id=${team.id}&teamName=${team.teamName}"
-								class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">
+								class="px-4 py-2 bg-red-400 text-white rounded hover:bg-red-500 transition">
 								해체 </a>
 						</div>
 					</c:if>
@@ -110,7 +110,7 @@
 
 							<!-- 저장 버튼 -->
 							<button type="submit"
-								class="mt-4 w-full py-2 px-4 bg-stone-500 text-white text-center font-medium rounded-lg hover:bg-stone-600 focus:ring-2 focus:ring-blue-400 focus:outline-none transition">
+								class="mt-4 w-full py-2 px-4 bg-stone-400 text-white text-center font-medium rounded-lg hover:bg-stone-500 focus:ring-2 focus:ring-blue-400 focus:outline-none transition">
 								결과 저장</button>
 						</form>
 					</c:if>

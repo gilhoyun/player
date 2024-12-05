@@ -32,6 +32,7 @@
                     </tr>
                 </c:forEach>
             </tbody>
+            <span><i class="fa-solid fa-futbol"></i> 승 - 승점 3점 /  무 - 승점 1점 /  패 - 승점 0점</span>
         </table>
     </div>
 </section>

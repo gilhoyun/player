@@ -53,7 +53,7 @@
 						</label>
 						<tr>
 							<td
-								class="text-center  px-4 py-2 bg-stone-400 text-white rounded hover:bg-stone-600 transition"
+								class="text-center  px-4 py-2 bg-stone-400 text-white rounded hover:bg-stone-500 transition"
 								colspan="2">
 								<button>로그인</button>
 							</td>

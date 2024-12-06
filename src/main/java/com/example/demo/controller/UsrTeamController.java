@@ -261,7 +261,7 @@ public class UsrTeamController {
 	}
 	
 	@GetMapping("/usr/team/reservation")
-	public String showReservationPage(Model model) {
+	public String showReservationPage(Model model, @RequestParam(defaultValue = "1") int page) {
 	    try {
 	        StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088");
 	        urlBuilder.append("/" + URLEncoder.encode("6779454974676f6834334550777359", "UTF-8")); /* 인증키 */
@@ -306,18 +306,53 @@ public class UsrTeamController {
 	            reservation.put("imgUrl", node.path("IMGURL").asText());
 	            reservation.put("startTime", node.path("V_MIN").asText());
 	            reservation.put("endTime", node.path("V_MAX").asText());
+	            reservation.put("paymentMethod", node.path("PAYATNM").asText());
+	            reservation.put("serviceStatus", node.path("SVCSTATNM").asText());
+	            reservation.put("useTgtInfo", node.path("USETGTINFO").asText());
+
 	            reservations.add(reservation);
 	        }
 
-	        model.addAttribute("reservations", reservations);
-	        return "usr/team/reservation"; // Return view name
+	        // Pagination logic
+	        int totalItems = reservations.size();
+	        int itemsPerPage = 6;
+	        int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+	        int startIndex = (page - 1) * itemsPerPage;
+	        int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
 
+	        // Ensure the sublist indices are valid
+	        if (startIndex >= totalItems) {
+	            startIndex = totalItems;  // If startIndex is beyond the totalItems, set it to totalItems
+	        }
+
+	        if (startIndex < endIndex) {
+	            List<Map<String, String>> paginatedReservations = reservations.subList(startIndex, endIndex);
+	            model.addAttribute("reservations", paginatedReservations);
+	        } else {
+	            model.addAttribute("reservations", new ArrayList<>());  // Return an empty list if invalid range
+	        }
+
+	        // Pagination page range calculation (5 pages at a time)
+	        int fromPage = Math.max(1, (page - 1) / 5 * 5 + 1); // Ensure fromPage starts at 1
+	        int toPage = Math.min(fromPage + 4, totalPages);
+
+	        model.addAttribute("page", page);
+	        model.addAttribute("totalPages", totalPages);
+	        model.addAttribute("fromPage", fromPage);
+	        model.addAttribute("toPage", toPage);
+	        
+	        System.out.println(sb.toString()); 
+
+	        return "usr/team/reservation";
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        model.addAttribute("errorMessage", "API 호출 중 오류가 발생했습니다: " + e.getMessage());
 	        return "usr/team/reservation";
 	    }
 	}
+
+
+
 
 
 

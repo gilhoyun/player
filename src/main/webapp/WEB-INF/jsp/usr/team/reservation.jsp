@@ -1,0 +1,48 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c"%>
+
+<c:set var="pageTitle" value="구장 예약" />
+
+<%@ include file="/WEB-INF/jsp/common/header.jsp"%>
+
+<section class="py-8 ">
+    <div class="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-md relative">
+        <h1 class="text-2xl font-semibold text-gray-800 mb-6 text-center">구장 예약</h1>
+
+        <!-- Error message section -->
+        <c:if test="${not empty errorMessage}">
+            <div class="alert alert-error mb-6 p-4 bg-red-100 text-red-700 rounded-lg">
+                ${errorMessage}
+            </div>
+        </c:if>
+
+        <!-- Reservations section -->
+        <c:choose>
+            <c:when test="${not empty reservations}">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <c:forEach var="reservation" items="${reservations}">
+                        <div class="card w-full bg-white shadow-xl rounded-lg overflow-hidden">
+                            <figure class="px-6 pt-6">
+                                <img src="${reservation.imgUrl}" alt="풋살장 이미지" class="rounded-xl h-48 w-full object-cover" />
+                            </figure>
+                            <div class="card-body p-6 text-center">
+                                <h2 class="card-title text-md font-semibold text-gray-800 mb-4">${reservation.placeName}</h2>
+                                <p class="text-sm text-gray-600 mb-2"><strong>접수 시작:</strong> ${reservation.startDate.substring(2,16)}</p>
+                                <p class="text-sm text-gray-600 mb-2"><strong>접수 종료:</strong> ${reservation.endDate.substring(2,16)}</p>
+                                <p class="text-sm text-gray-600 mb-4"><strong>이용 시간:</strong> ${reservation.startTime} - ${reservation.endTime}</p>
+                                <a href="${reservation.url}" target="_blank" class="px-6 py-2 bg-stone-400 text-white rounded hover:bg-stone-500 transition">바로가기</a>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="text-center text-lg font-semibold text-gray-500">
+                    <p>현재 예약 가능한 풋살장이 없습니다.</p>
+                </div>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</section>
+
+<%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

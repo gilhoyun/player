@@ -11,7 +11,7 @@
 <section class="px-56 py-10">
 	<div class="grid grid-cols-4 gap-10 text-center">
 		<!-- 팀리그 -->
-		<a href="${pageContext.request.contextPath}/team/league"
+		<a href="${pageContext.request.contextPath}/usr/team/reservation"
 			class="flex flex-col items-center transition">
 			<div>
 				<img src="https://j.gifs.com/pZ9zQX.gif" alt="팀리그"

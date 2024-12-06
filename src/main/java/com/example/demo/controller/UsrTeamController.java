@@ -1,7 +1,17 @@
 package com.example.demo.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +30,8 @@ import com.example.demo.service.MemberService;
 import com.example.demo.service.TeamReplyService;
 import com.example.demo.service.TeamService;
 import com.example.demo.util.Util;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -247,5 +259,67 @@ public class UsrTeamController {
 	    model.addAttribute("rankedTeams", rankedTeams);
 	    return "usr/team/rankings";
 	}
+	
+	@GetMapping("/usr/team/reservation")
+	public String showReservationPage(Model model) {
+	    try {
+	        StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088");
+	        urlBuilder.append("/" + URLEncoder.encode("6779454974676f6834334550777359", "UTF-8")); /* 인증키 */
+	        urlBuilder.append("/" + URLEncoder.encode("json", "UTF-8")); /* 요청파일타입 */
+	        urlBuilder.append("/" + URLEncoder.encode("ListPublicReservationSport", "UTF-8")); /* 서비스명 */
+	        urlBuilder.append("/" + URLEncoder.encode("1", "UTF-8")); /* 요청시작위치 */
+	        urlBuilder.append("/" + URLEncoder.encode("63", "UTF-8")); /* 요청종료위치 */
+	        urlBuilder.append("/" + URLEncoder.encode("풋살장", "UTF-8"));
+
+	        URL url = new URL(urlBuilder.toString());
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	        conn.setRequestMethod("GET");
+	        conn.setRequestProperty("Content-type", "application/json");
+
+	        BufferedReader rd;
+	        if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+	            rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
+	        } else {
+	            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8));
+	        }
+
+	        StringBuilder sb = new StringBuilder();
+	        String line;
+	        while ((line = rd.readLine()) != null) {
+	            sb.append(line);
+	        }
+	        rd.close();
+	        conn.disconnect();
+
+	        // Parse JSON and extract reservation details
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        JsonNode rootNode = objectMapper.readTree(sb.toString());
+	        JsonNode rowsNode = rootNode.path("ListPublicReservationSport").path("row");
+
+	        List<Map<String, String>> reservations = new ArrayList<>();
+	        for (JsonNode node : rowsNode) {
+	            Map<String, String> reservation = new HashMap<>();
+	            reservation.put("placeName", node.path("PLACENM").asText());
+	            reservation.put("url", node.path("SVCURL").asText());
+	            reservation.put("startDate", node.path("RCPTBGNDT").asText());
+	            reservation.put("endDate", node.path("RCPTENDDT").asText());
+	            reservation.put("imgUrl", node.path("IMGURL").asText());
+	            reservation.put("startTime", node.path("V_MIN").asText());
+	            reservation.put("endTime", node.path("V_MAX").asText());
+	            reservations.add(reservation);
+	        }
+
+	        model.addAttribute("reservations", reservations);
+	        return "usr/team/reservation"; // Return view name
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        model.addAttribute("errorMessage", "API 호출 중 오류가 발생했습니다: " + e.getMessage());
+	        return "usr/team/reservation";
+	    }
+	}
+
+
+
 	
 }

@@ -46,45 +46,4 @@ public class UsrHomeController {
     public String publicDataPage(Model model) {
         return "usr/home/publicData";
     }
-
-    @GetMapping("/usr/home/apiCall")
-    @ResponseBody
-    public String callPublicApi() {
-        try {
-            StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088");
-            /* URL */
-            urlBuilder.append("/" + URLEncoder.encode("6779454974676f6834334550777359", "UTF-8")); /* 인증키 */
-            urlBuilder.append("/" + URLEncoder.encode("json", "UTF-8")); /* 요청파일타입 (xml, xmlf, xls, json) */
-            urlBuilder.append("/" + URLEncoder.encode("ListPublicReservationSport", "UTF-8")); /* 서비스명 */
-            urlBuilder.append("/" + URLEncoder.encode("1", "UTF-8")); /* 요청시작위치 */
-            urlBuilder.append("/" + URLEncoder.encode("1", "UTF-8")); /* 요청종료위치 */
-            urlBuilder.append("/" + URLEncoder.encode("풋살장", "UTF-8"));
- 
-            URL url = new URL(urlBuilder.toString());
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Content-type", "application/json"); // JSON 요청
-            System.out.println("Response code: " + conn.getResponseCode()); /* 연결 상태 확인 */
-
-            BufferedReader rd;
-            // 응답 코드 확인
-            if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-                rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
-            } else {
-                rd = new BufferedReader(new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8));
-            }
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = rd.readLine()) != null) {
-                sb.append(line);
-            }
-            rd.close();
-            conn.disconnect();
-            System.out.println(sb.toString());
-            return sb.toString(); // API 호출 결과 반환
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "API 호출 중 오류가 발생했습니다: " + e.getMessage(); // 오류 메시지 반환
-        }
-    }
 }

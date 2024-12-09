@@ -268,7 +268,7 @@ public class UsrTeamController {
 	        urlBuilder.append("/" + URLEncoder.encode("json", "UTF-8")); /* 요청파일타입 */
 	        urlBuilder.append("/" + URLEncoder.encode("ListPublicReservationSport", "UTF-8")); /* 서비스명 */
 	        urlBuilder.append("/" + URLEncoder.encode("1", "UTF-8")); /* 요청시작위치 */
-	        urlBuilder.append("/" + URLEncoder.encode("63", "UTF-8")); /* 요청종료위치 */
+	        urlBuilder.append("/" + URLEncoder.encode("50", "UTF-8")); /* 요청종료위치 */
 	        urlBuilder.append("/" + URLEncoder.encode("풋살장", "UTF-8"));
 
 	        URL url = new URL(urlBuilder.toString());
@@ -340,8 +340,6 @@ public class UsrTeamController {
 	        model.addAttribute("totalPages", totalPages);
 	        model.addAttribute("fromPage", fromPage);
 	        model.addAttribute("toPage", toPage);
-	        
-	        System.out.println(sb.toString()); 
 
 	        return "usr/team/reservation";
 	    } catch (Exception e) {
@@ -350,11 +348,5 @@ public class UsrTeamController {
 	        return "usr/team/reservation";
 	    }
 	}
-
-
-
-
-
-
 	
 }

@@ -22,5 +22,10 @@ public class TeamMemberService {
 		this.teamMemberDao = teamMemberDao;
 	}
 
+	public void updateMembershipStatus(Integer teamMemberId, String status) {
+		teamMemberDao.updateMembershipStatus(teamMemberId, status);
+		
+	}
+
 	
 }

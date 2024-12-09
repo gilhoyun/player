@@ -55,6 +55,7 @@
 							</tr>
 						</table>
 					</div>
+
 					<c:if test="${rq.getLoginedMemberId() == team.createdBy}">
 						<div class="flex justify-end gap-4 mt-4">
 							<!-- 수정 버튼 -->
@@ -114,6 +115,31 @@
 								결과 저장</button>
 						</form>
 					</c:if>
+
+
+					<c:if test="${rq.getLoginedMemberId() == team.createdBy}">
+						<c:forEach var="memberRequest" items="${pendingRequests}">
+							<h3 class="text-lg font-semibold text-gray-700 mb-4 mt-6">가입
+								요청</h3>
+							<div class="flex justify-between items-center border-b pb-4 mb-4">
+								<div>
+									<p class="font-medium text-gray-800">${memberRequest.memberName}</p>
+									<p class="text-sm text-gray-600">요청일:
+										${memberRequest.regDate.substring(0, 16)}</p>
+								</div>
+								<div class="flex gap-4">
+									<a
+										href="/usr/teamMember/approve?teamMemberId=${memberRequest.id}"
+										class="px-4 py-2 bg-stone-400 text-white rounded hover:bg-stone-500">
+										수락 </a> <a
+										href="/usr/teamMember/reject?teamMemberId=${memberRequest.id}"
+										class="px-4 py-2 bg-red-400 text-white rounded hover:bg-red-500">
+										거절 </a>
+								</div>
+							</div>
+						</c:forEach>
+					</c:if>
+
 				</c:forEach>
 			</c:when>
 			<c:otherwise>

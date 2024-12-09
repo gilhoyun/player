@@ -14,5 +14,11 @@ import com.example.demo.dto.Board;
 @Mapper
 public interface TeamMemberDao {
 
+	@Update("""
+		    UPDATE team_member
+		    SET status = #{status}
+		    WHERE id = #{teamMemberId}
+		""")
+		void updateMembershipStatus(Integer teamMemberId, String status);
 
 }

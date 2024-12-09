@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.dto.ResultData;
 import com.example.demo.dto.Rq;
 import com.example.demo.dto.Team;
+import com.example.demo.dto.TeamMember;
 import com.example.demo.dto.TeamReply;
 import com.example.demo.service.MemberService;
 import com.example.demo.service.TeamReplyService;
@@ -96,25 +97,28 @@ public class UsrTeamController {
 	
 	@GetMapping("/usr/team/myTeam")
 	public String myTeam(HttpServletRequest req, Model model) {
-	    // 로그인한 사용자 정보 가져오기
 	    Rq rq = (Rq) req.getAttribute("rq");
-
 	    Integer createdBy = rq.getLoginedMemberId();
 
-	    // 로그인 정보가 없으면 처리
-	    if (createdBy == null) {
-	        return Util.jsReturn("로그인 정보가 없습니다.", "/usr/member/login");
-	    }
 
-	    // 사용자가 생성한 팀 목록 가져오기
 	    List<Team> teams = teamService.getTeamsByCreatedBy(createdBy);
 
-	    // 모델에 팀 정보 추가
-	    model.addAttribute("teams", teams);
+	    List<TeamMember> pendingRequests = new ArrayList<>();
 
-	    // myTeam 페이지로 이동
+	    for (Team team : teams) {
+
+	        List<TeamMember> teamRequests = teamService.getPendingJoinRequests(team.getId());
+	        pendingRequests.addAll(teamRequests);
+
+	    }
+
+	    model.addAttribute("teams", teams);
+	    model.addAttribute("pendingRequests", pendingRequests);
+
+
 	    return "usr/team/myTeam";
 	}
+
 	
 	
 	@GetMapping("/usr/team/teamList")
@@ -268,7 +272,7 @@ public class UsrTeamController {
 	        urlBuilder.append("/" + URLEncoder.encode("json", "UTF-8")); /* 요청파일타입 */
 	        urlBuilder.append("/" + URLEncoder.encode("ListPublicReservationSport", "UTF-8")); /* 서비스명 */
 	        urlBuilder.append("/" + URLEncoder.encode("1", "UTF-8")); /* 요청시작위치 */
-	        urlBuilder.append("/" + URLEncoder.encode("50", "UTF-8")); /* 요청종료위치 */
+	        urlBuilder.append("/" + URLEncoder.encode("40", "UTF-8")); /* 요청종료위치 */
 	        urlBuilder.append("/" + URLEncoder.encode("풋살장", "UTF-8"));
 
 	        URL url = new URL(urlBuilder.toString());
@@ -347,6 +351,17 @@ public class UsrTeamController {
 	        model.addAttribute("errorMessage", "API 호출 중 오류가 발생했습니다: " + e.getMessage());
 	        return "usr/team/reservation";
 	    }
+	}
+	
+	@GetMapping("/usr/team/requestJoin")
+	@ResponseBody
+	public String requestJoin(@RequestParam("teamId") int teamId, HttpServletRequest req) {
+	    Rq rq = (Rq) req.getAttribute("rq");
+	    Integer loginedMemberId = rq.getLoginedMemberId();
+
+	    teamService.createJoinRequest(teamId, loginedMemberId);
+
+	    return Util.jsReturn("팀 가입 요청이 완료되었습니다.", "/usr/team/teamList");
 	}
 	
 }

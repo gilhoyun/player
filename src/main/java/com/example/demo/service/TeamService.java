@@ -13,7 +13,6 @@ import com.example.demo.dto.Article;
 import com.example.demo.dto.Board;
 import com.example.demo.dto.Member;
 import com.example.demo.dto.Team;
-import com.example.demo.dto.TeamMember;
 import com.example.demo.dto.TeamRanking;
 
 
@@ -104,19 +103,6 @@ public class TeamService {
 
 	public List<Team> getRankedTeams() {
 		return teamDao.getRankedTeams();
-	}
-
-	public List<TeamMember> getPendingJoinRequests(int id) {
-		return teamDao.getPendingJoinRequests(id);
-	}
-
-	public void createJoinRequest(int teamId, Integer loginedMemberId) {
-		teamDao.createJoinRequest(teamId, loginedMemberId);
-		
-	}
-
-	public List<TeamMember> getApprovedMembersByTeamId(int id) {
-		return teamDao.getApprovedMembersByTeamId(id);
 	}
 	
 }

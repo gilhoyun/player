@@ -19,6 +19,4 @@ public class TeamMember {
 	private String regDate;
 	private String updateDate;
 	private String memberName;
-	private String loginId;
-	private String name;
 }

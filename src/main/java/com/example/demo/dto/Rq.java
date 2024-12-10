@@ -2,6 +2,7 @@ package com.example.demo.dto;
 
 import java.io.IOException;
 
+import com.example.demo.service.TeamMemberService;
 import com.example.demo.service.TeamService;
 import com.example.demo.util.Util;
 
@@ -17,11 +18,13 @@ public class Rq {
 
     private HttpServletResponse resp;
     private HttpSession session;
-    private TeamService teamService; // TeamService 추가
+    private TeamService teamService; 
+    private TeamMemberService teamMemberService;
 
-    public Rq(HttpServletRequest req, HttpServletResponse resp, TeamService teamService) {
+    public Rq(HttpServletRequest req, HttpServletResponse resp, TeamService teamService, TeamMemberService teamMemberService) {
         this.session = req.getSession();
         this.teamService = teamService; // TeamService 주입
+        this.teamMemberService = teamMemberService;
 
         int loginedMemberId = -1;
 
@@ -51,11 +54,19 @@ public class Rq {
         this.session.removeAttribute("loginedMemberId");
     }
 
-    // 사용자가 팀을 생성했는지 여부 확인
+
     public boolean hasTeam() {
         if (this.loginedMemberId == -1) {
-            return false; // 로그인이 안 된 경우 false 반환
+            return false; 
         }
         return teamService.hasTeam(this.loginedMemberId);
     }
+    
+    public boolean isMemberOfAnyTeam() {
+        if (this.loginedMemberId == -1) {
+            return false; 
+        }
+        return teamMemberService.isUserMemberOfAnyTeam(this.loginedMemberId);
+    }
+
 }

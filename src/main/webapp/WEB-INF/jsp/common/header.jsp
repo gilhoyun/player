@@ -56,12 +56,22 @@
             
     
             <c:when test="${rq.getLoginedMemberId() != -1 and not rq.hasTeam()}">
-                <li><a href="${pageContext.request.contextPath}/usr/team/createTeam">팀 창단</a></li>
+                 <c:if test="${rq.getLoginedMemberId() != -1 and rq.isMemberOfAnyTeam()}">
+                  <li><a href="${pageContext.request.contextPath}/usr/teamMember/MemberTeam">내 팀보기</a></li>
+               </c:if>        
+                <c:if test="${rq.getLoginedMemberId() != -1 and not rq.isMemberOfAnyTeam()}">
+                  <li><a href="${pageContext.request.contextPath}/usr/team/createTeam">팀 창단</a></li>
+               </c:if>
                 <li><a href="${pageContext.request.contextPath}/usr/team/teamList">팀 찾기</a></li>
                 <li><a href="${pageContext.request.contextPath}/usr/team/rankings">팀 리그</a></li>
             </c:when>
             
-   
+            <c:when test="${rq.getLoginedMemberId() != -1 and rq.isMemberOfAnyTeam()}">
+                <li><a href="${pageContext.request.contextPath}/usr/teamMember/MemberTeam">내 팀보기</a></li>
+                <li><a href="${pageContext.request.contextPath}/usr/team/teamList">팀 찾기</a></li>
+                <li><a href="${pageContext.request.contextPath}/usr/team/rankings">팀 리그</a></li>
+            </c:when>
+           
             <c:otherwise>
                 <li><a href="${pageContext.request.contextPath}/usr/team/myTeam">내 팀보기</a></li>
                 <li><a href="${pageContext.request.contextPath}/usr/team/teamList">팀 찾기</a></li>

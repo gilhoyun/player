@@ -91,7 +91,7 @@ const teamReplyModifyCancle = function(i) {
 
 
 <section class="py-8 ">
-	<div class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
+	<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
 		<h2 class="text-2xl font-semibold text-gray-800 mb-6">팀 살펴보기</h2>
 		<table class="w-full text-left border-collapse">
 			<thead>
@@ -124,7 +124,7 @@ const teamReplyModifyCancle = function(i) {
 					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">조회수</th>
 					<td class="p-4">${team.views}</td>
 				</tr>
-				<c:if test="${rq.getLoginedMemberId() != -1 and not rq.hasTeam()}">
+				<c:if test="${rq.getLoginedMemberId() != -1 and not rq.hasTeam() and not rq.isMemberOfAnyTeam()}">
 					<tr class="border-b">
 						<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">팀
 							가입</th>
@@ -141,7 +141,7 @@ const teamReplyModifyCancle = function(i) {
 </section>
 
 <section>
-	<div class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
+	<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
 		<h2 class="text-2xl font-semibold text-gray-800 mb-6">팀 댓글</h2>
 
 		<!-- Display existing team replies -->

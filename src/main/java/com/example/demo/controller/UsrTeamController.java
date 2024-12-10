@@ -8,7 +8,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +27,7 @@ import com.example.demo.dto.Team;
 import com.example.demo.dto.TeamMember;
 import com.example.demo.dto.TeamReply;
 import com.example.demo.service.MemberService;
+import com.example.demo.service.TeamMemberService;
 import com.example.demo.service.TeamReplyService;
 import com.example.demo.service.TeamService;
 import com.example.demo.util.Util;
@@ -44,11 +44,13 @@ public class UsrTeamController {
 	private TeamService teamService;
 	private MemberService memberService;
 	private TeamReplyService teamReplyService;
+	private TeamMemberService teamMemberService;
 
-	public UsrTeamController(TeamService teamService, MemberService memberService, TeamReplyService teamReplyService) {
+	public UsrTeamController(TeamService teamService, MemberService memberService, TeamReplyService teamReplyService, TeamMemberService teamMemberService) {
 		this.teamService = teamService;
 		this.memberService = memberService;
 		this.teamReplyService = teamReplyService;
+		this.teamMemberService = teamMemberService;
 	}
 
 	@GetMapping("/usr/team/createTeam") // 대소문자 수정
@@ -68,10 +70,6 @@ public class UsrTeamController {
 	        // 세션에서 로그인한 사용자의 ID 가져오기
 	        Integer createdBy = (Integer) rq.getLoginedMemberId();  // "memberId"는 세션에 저장된 사용자 ID
 
-	        if (createdBy == null) {
-	            return Util.jsReturn("로그인 정보가 없습니다.", null);
-	        }
-	        
 	        // 팀 가입 서비스 호출
 	        teamService.joinTeam(teamName, region, slogan, teamImageBytes, createdBy);
 	    } catch (IOException e) {
@@ -97,28 +95,48 @@ public class UsrTeamController {
 	
 	@GetMapping("/usr/team/myTeam")
 	public String myTeam(HttpServletRequest req, Model model) {
+	    // 로그인한 사용자 정보 가져오기
 	    Rq rq = (Rq) req.getAttribute("rq");
+
 	    Integer createdBy = rq.getLoginedMemberId();
 
-
+	    // 사용자가 생성한 팀 목록 가져오기
 	    List<Team> teams = teamService.getTeamsByCreatedBy(createdBy);
 
+
 	    List<TeamMember> pendingRequests = new ArrayList<>();
-
 	    for (Team team : teams) {
-
-	        List<TeamMember> teamRequests = teamService.getPendingJoinRequests(team.getId());
-	        pendingRequests.addAll(teamRequests);
-
+	    	 List<TeamMember> teamRequests  = teamMemberService.getPendingRequestsByTeamId(team.getId());
+	    	 pendingRequests.addAll(teamRequests);
+	    }
+	    
+	    List<TeamMember> approvedMembers = new ArrayList<>();
+	    for (Team team : teams) {
+	        List<TeamMember> teamApprovedMembers = teamMemberService.getApprovedMembersByTeamId(team.getId());
+	        approvedMembers.addAll(teamApprovedMembers);
 	    }
 
+	    // 모델에 팀 정보와 가입 요청 목록 추가
 	    model.addAttribute("teams", teams);
 	    model.addAttribute("pendingRequests", pendingRequests);
-
-
+	    model.addAttribute("approvedMembers", approvedMembers);
+	    // myTeam 페이지로 이동
 	    return "usr/team/myTeam";
 	}
-
+	
+	@GetMapping("/usr/team/requestJoin")
+	@ResponseBody
+    public String requestJoin(int teamId, HttpServletRequest req) {
+		
+		Rq rq = (Rq) req.getAttribute("rq");
+        // 로그인한 회원 ID 가져오기
+        Integer memberId = rq.getLoginedMemberId();
+        
+        // 팀 가입 요청
+        teamMemberService.requestJoin(teamId, memberId);
+        
+        return Util.jsReturn("팀 가입 요청이 전송되었습니다.", "/usr/team/detail?id=" + teamId);
+    }
 	
 	
 	@GetMapping("/usr/team/teamList")
@@ -351,17 +369,6 @@ public class UsrTeamController {
 	        model.addAttribute("errorMessage", "API 호출 중 오류가 발생했습니다: " + e.getMessage());
 	        return "usr/team/reservation";
 	    }
-	}
-	
-	@GetMapping("/usr/team/requestJoin")
-	@ResponseBody
-	public String requestJoin(@RequestParam("teamId") int teamId, HttpServletRequest req) {
-	    Rq rq = (Rq) req.getAttribute("rq");
-	    Integer loginedMemberId = rq.getLoginedMemberId();
-
-	    teamService.createJoinRequest(teamId, loginedMemberId);
-
-	    return Util.jsReturn("팀 가입 요청이 완료되었습니다.", "/usr/team/teamList");
 	}
 	
 }

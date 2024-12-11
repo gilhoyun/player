@@ -55,5 +55,10 @@ public class TeamMemberService {
 		return teamMemberDao.getApprovedTeamsByMemberId(loginedMemberId);
 	}
 
+	public void doDelete(int memberId) {
+		teamMemberDao.doDelete(memberId);
+		
+	}
+
 	
 }

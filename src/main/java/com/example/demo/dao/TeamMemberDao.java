@@ -75,5 +75,11 @@ public interface TeamMemberDao {
 			""")
 	List<TeamMember> getApprovedTeamsByMemberId(Integer loginedMemberId);
 
+	 @Delete("""
+	 		DELETE FROM team_member
+			WHERE memberId = #{memberId}
+	 		""")
+	void doDelete(int memberId);
+
 
 }

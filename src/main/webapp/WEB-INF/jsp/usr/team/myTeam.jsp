@@ -155,7 +155,7 @@
 							</div>
 						</c:if>
 						<c:if test="${empty approvedMembers}">
-							<p class="mt-6 text-center text-gray-600">승인된 팀원이 없습니다.</p>
+							<p class="mt-6 text-center text-gray-600">팀원이 없습니다.</p>
 						</c:if>
 					</c:if>
 

@@ -16,31 +16,73 @@
 					<div class="border-b pb-6 mb-6">
 						<table class="w-full text-left border-collapse">
 							<tr class="border-b">
-								<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">창단일</th>
+								<th
+									class="text-center p-4 font-medium text-gray-700 bg-gray-100">창단일</th>
 								<td class="p-4">${team.regDate.substring(0, 16)}</td>
 							</tr>
 							<tr class="border-b">
-								<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">정보 수정일</th>
+								<th
+									class="text-center p-4 font-medium text-gray-700 bg-gray-100">정보
+									수정일</th>
 								<td class="p-4">${team.updateDate.substring(0, 16)}</td>
 							</tr>
 							<tr class="border-b">
-								<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">팀 명</th>
+								<th
+									class="text-center p-4 font-medium text-gray-700 bg-gray-100">팀
+									명</th>
 								<td class="p-4">${team.teamName}</td>
 							</tr>
 							<tr class="border-b">
-								<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">지역</th>
+								<th
+									class="text-center p-4 font-medium text-gray-700 bg-gray-100">지역</th>
 								<td class="p-4">${team.region}</td>
 							</tr>
 							<tr class="border-b">
-								<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">슬로건</th>
+								<th
+									class="text-center p-4 font-medium text-gray-700 bg-gray-100">슬로건</th>
 								<td class="p-4">${team.slogan}</td>
 							</tr>
 						</table>
 					</div>
-
 				</c:forEach>
 			</c:when>
 		</c:choose>
+		<form action="/usr/teamMember/doDelete" method="post" onsubmit="return confirm('정말 탈퇴하시겠습니까?');">
+			<input type="hidden" name="memberId" value="${rq.getLoginedMemberId()}" />
+			<button type="submit" class="px-4 py-2 bg-red-400 text-white rounded hover:bg-red-500 transition">탈퇴</button>
+		</form>
+
+
+		<c:if test="${not empty approvedMembers}">
+			<div class="mt-6">
+				<h3 class="text-lg font-semibold text-gray-700 mb-4 text-center">소속
+					선수</h3>
+				<div class="bg-white shadow rounded-lg overflow-hidden">
+					<table class="w-full">
+						<thead class="bg-gray-100">
+							<tr>
+								<th class="p-4 text-center text-sm font-medium text-gray-600">이름</th>
+								<th class="p-4 text-center text-sm font-medium text-gray-600">가입
+									날짜</th>
+								<th class="p-4 text-center text-sm font-medium text-gray-600">역할</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="member" items="${approvedMembers}">
+								<tr class="border-b">
+									<td class="p-4 text-center">${member.memberName}</td>
+									<td class="p-4 text-center">${member.regDate.substring(0, 16)}</td>
+									<td class="p-4 text-center"><c:choose>
+											<c:when test="${member.role == 'LEADER'}">팀장</c:when>
+											<c:otherwise>선수</c:otherwise>
+										</c:choose></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</c:if>
 	</div>
 </section>
 

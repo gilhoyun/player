@@ -22,6 +22,7 @@ CREATE TABLE `member`(
 	, loginPw VARCHAR(100) NOT NULL
 	, `name` VARCHAR(20) NOT NULL
 	, profileImage LONGBLOB DEFAULT NULL
+	, email VARCHAR(100) NOT NULL
 );
 
 ALTER TABLE `member` MODIFY COLUMN loginId VARCHAR(100) NOT NULL UNIQUE;
@@ -89,6 +90,8 @@ CREATE TABLE `team_member` (
     FOREIGN KEY (memberId) REFERENCES `member`(id) ON DELETE CASCADE
 );
 
+
+
 INSERT INTO article
 	SET regDate = NOW()
 			, updateDate = NOW()
@@ -116,20 +119,22 @@ INSERT INTO `member`
 			, updateDate = NOW()
 			, loginId = 'test1'
 			, loginPw = SHA2('test1', 256)
-			, `name` = '유저1';
+			, `name` = '유저1'
+			, email = 'test1@test.com';
 INSERT INTO `member`
 	SET regDate = NOW()
 			, updateDate = NOW()
 			, loginId = 'test2'
 			, loginPw = SHA2('test2', 256)
-			, `name` = '유저2';
+			, `name` = '유저2'
+			, email = 'test2@test.com';
 INSERT INTO `member`
 	SET regDate = NOW()
 			, updateDate = NOW()
 			, loginId = 'test3'
 			, loginPw = SHA2('test3', 256)
-			, `name` = '유저3';
-			
+			, `name` = '유저3'
+			, email = 'goh9788@naver.com';
 INSERT INTO board
 	SET `name` = '공지사항';
 INSERT INTO board
@@ -201,3 +206,6 @@ SELECT NOW()
         , CONCAT('제목_', FLOOR(RAND() * 10000))
         , CONCAT('내용_', FLOOR(RAND() * 10000))
     FROM article;
+    
+    
+    

@@ -26,13 +26,13 @@ public class TeamService {
 		this.teamDao = teamDao;
 	}
 
-	public void joinTeam(String teamName, String region, String slogan, byte[] teamImage, Integer createdBy) {
+	public void joinTeam(String teamName, String region, String slogan, String encodedImage, Integer createdBy) {
 	    if (teamDao.getTeamByTeamName(teamName) != null) {
 	        throw new RuntimeException("이미 존재하는 팀 이름입니다.");
 	    }
 
 
-	    teamDao.joinTeam(teamName, region, slogan, teamImage, createdBy);
+	    teamDao.joinTeam(teamName, region, slogan, encodedImage, createdBy);
 	}
 
 
@@ -104,5 +104,5 @@ public class TeamService {
 	public List<Team> getRankedTeams() {
 		return teamDao.getRankedTeams();
 	}
-	
+
 }

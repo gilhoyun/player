@@ -47,10 +47,12 @@
 				</c:forEach>
 			</c:when>
 		</c:choose>
-		<form action="/usr/teamMember/doDelete" method="post" onsubmit="return confirm('정말 탈퇴하시겠습니까?');">
-			<input type="hidden" name="memberId" value="${rq.getLoginedMemberId()}" />
-			<button type="submit" class="px-4 py-2 bg-red-400 text-white rounded hover:bg-red-500 transition">탈퇴</button>
-		</form>
+		<div class="flex justify-end mt-4">
+			<form action="/usr/teamMember/doDelete" method="post" onsubmit="return confirm('정말 탈퇴하시겠습니까?');">
+				<input type="hidden" name="memberId" value="${rq.getLoginedMemberId()}" />
+				<button type="submit" class="px-4 py-2 bg-red-400 text-white rounded hover:bg-red-500 transition">탈퇴</button>
+			</form>
+		</div>
 
 
 		<c:if test="${not empty approvedMembers}">

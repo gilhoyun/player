@@ -23,13 +23,13 @@ public interface TeamDao {
 		        SET teamName = #{teamName},
 		            region = #{region},
 		            slogan = #{slogan},
-		            teamImage = #{teamImage},
+		            teamImage = #{encodedImage},
 		            createdBy = #{createdBy},
 		            teamLeader = #{createdBy}, 
 		            regDate = NOW(),
 		            updateDate = NOW()
 		""")
-		void joinTeam(String teamName, String region, String slogan, byte[] teamImage, Integer createdBy);
+		void joinTeam(String teamName, String region, String slogan, String encodedImage, Integer createdBy);
 
 	@Select("""
 			SELECT *
@@ -121,15 +121,16 @@ public interface TeamDao {
 		Team getTeamById(int id);
 	
 		@Update("""
-				UPDATE `team`
-				SET updateDate = NOW() 
-				, teamName = #{teamName}
-				, region = #{region}
-				, slogan = #{slogan}
-				, teamImage = #{teamImage}
-				""")
-		void doModifyTeam(int id, String teamName, String region, String slogan, byte[] teamImage);
-		
+			    UPDATE `team`
+			    SET updateDate = NOW(), 
+			        teamName = #{teamName}, 
+			        region = #{region}, 
+			        slogan = #{slogan}, 
+			        teamImage = #{teamImageBytes}
+			    WHERE id = #{id}
+			""")
+		void doModifyTeam(int id, String teamName, String region, String slogan, byte[] teamImageBytes);
+
 		
 		
 		

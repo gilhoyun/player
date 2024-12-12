@@ -7,14 +7,23 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -60,23 +69,53 @@ public class UsrTeamController {
 
 	@PostMapping("/usr/team/doCreateTeam")
 	@ResponseBody
-	public String doCreateTeam(String teamName, String region, String slogan, @RequestParam("teamImage") MultipartFile teamImage, HttpServletRequest req) {
-		
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doCreateTeam(String teamName, String region, String slogan, 
+	                           @RequestParam("teamImage") MultipartFile teamImage, 
+	                           HttpServletRequest req) {
+	    Rq rq = (Rq) req.getAttribute("rq");
 	    try {
-	        // MultipartFile을 byte[]로 변환
-	        byte[] teamImageBytes = teamImage.getBytes();
+	        String encodedImage = null;
 
-	        // 세션에서 로그인한 사용자의 ID 가져오기
-	        Integer createdBy = (Integer) rq.getLoginedMemberId();  // "memberId"는 세션에 저장된 사용자 ID
+	        if (!teamImage.isEmpty()) {
+	            // MultipartFile을 Base64로 변환
+	            byte[] teamImageBytes = teamImage.getBytes();
+	            encodedImage = Base64.getEncoder().encodeToString(teamImageBytes);
+	        }
 
-	        // 팀 가입 서비스 호출
-	        teamService.joinTeam(teamName, region, slogan, teamImageBytes, createdBy);
+	        // 팀 생성
+	        Integer createdBy = (Integer) rq.getLoginedMemberId();
+	        teamService.joinTeam(teamName, region, slogan, encodedImage, createdBy);
+
 	    } catch (IOException e) {
 	        return Util.jsReturn("파일 업로드 실패", null);
 	    }
 
-	    return Util.jsReturn(String.format("%s팀의 창단을 환영합니다~", teamName), "/");
+	    return Util.jsReturn(String.format("%s팀의 창단을 환영합니다~", teamName), "myTeam");
+	}
+	
+	@GetMapping("/usr/team/teamImage/{teamId}")
+	@ResponseBody
+	public ResponseEntity<byte[]> getTeamImage(@PathVariable("teamId") int teamId) {
+	    Team team = teamService.getTeamById(teamId);
+
+	    byte[] imageBytes;
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.IMAGE_JPEG);
+
+	    if (team == null || team.getTeamImage() == null) {
+	        try {
+	            // 기본 이미지 파일을 로드
+	            Path defaultImagePath = Paths.get("src/main/resources/static/images/default-team.jpg");
+	            imageBytes = Files.readAllBytes(defaultImagePath);
+	        } catch (IOException e) {
+	            return ResponseEntity.notFound().build();
+	        }
+	    } else {
+	        // 저장된 Base64 이미지를 디코딩
+	        imageBytes = Base64.getDecoder().decode(team.getTeamImage());
+	    }
+
+	    return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
 	}
 	
 	@GetMapping("/usr/team/teamDupChk")
@@ -257,6 +296,7 @@ public class UsrTeamController {
 
 	    return Util.jsReturn(String.format("[ %s ] 팀 정보가 수정되었습니다.", teamName), "/usr/team/myTeam");
 	}
+
 
 	
 	@PostMapping("/usr/team/saveResults")

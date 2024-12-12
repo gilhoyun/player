@@ -28,7 +28,6 @@
 	}//form은 밑의 form의 this이다., value는 값이기 때문에 변수취급 할 수 있다.
 </script>
 
-
 <section class="px-auto py-8">
 	<div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
 		<form action="doLogin" method="post"
@@ -52,21 +51,21 @@
   </svg> <input type="text" name="loginPw" placeholder="PASSWORD" />
 						</label>
 						<tr>
-							<td
-								class="text-center  px-4 py-2 bg-stone-400 text-white rounded hover:bg-stone-500 transition"
-								colspan="2">
-								<button>로그인</button>
+							<td colspan="2">
+								<button class="w-full text-center px-4 py-2 bg-stone-400 text-white rounded hover:bg-stone-500 transition">로그인</button>
 							</td>
 						</tr>
 					</thead>
 				</table>
 			</div>
 		</form>
+		<div class="mt-4 flex justify-center">
+			<div>
+				<a class="" href="findLoginId">아이디</a>/ <a class=""
+					href="findLoginPw">비밀번호 찾기</a>
+			</div>
+		</div>
 	</div>
 </section>
-
-
-
-
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

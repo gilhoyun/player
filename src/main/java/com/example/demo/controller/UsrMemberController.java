@@ -39,7 +39,7 @@ public class UsrMemberController {
 
     @PostMapping("/usr/member/doJoin")
     @ResponseBody
-    public String doJoin(String loginId, String loginPw, String name, @RequestParam("profileImage") MultipartFile profileImage) {
+    public String doJoin(String loginId, String loginPw, String name, String email,@RequestParam("profileImage") MultipartFile profileImage) {
         byte[] profileImageData = null;
 
         try {
@@ -51,7 +51,7 @@ public class UsrMemberController {
             return Util.jsReturn("파일 업로드 실패", null);
         }
 
-        memberService.joinMember(loginId, Util.encryptSHA256(loginPw), name, profileImageData);
+        memberService.joinMember(loginId, Util.encryptSHA256(loginPw), name, email,profileImageData);
 
         return Util.jsReturn(String.format("%s님의 가입을 환영합니다~", loginId), "/");
     }
@@ -178,6 +178,56 @@ public class UsrMemberController {
 		Member member = memberService.getMemberById(rq.getLoginedMemberId());
 
 		return member.getLoginId();
+	}
+	
+	@GetMapping("/usr/member/findLoginId")
+	public String findLoginId() {
+		return "usr/member/findLoginId";
+	}
+	
+	@GetMapping("/usr/member/doFindLoginId")
+	@ResponseBody
+	public ResultData doFindLoginId(String name, String email) {
+		
+		Member member = memberService.getMemberByNameAndEmail(name, email);
+		
+		if (member == null) {
+			return ResultData.from("F-1", "입력하신 정보와 일치하는 회원이 없습니다");
+		}
+		
+		return ResultData.from("S-1", String.format("회원님의 아이디는 [ %s ] 입니다", member.getLoginId()));
+	}
+	
+	@GetMapping("/usr/member/findLoginPw")
+	public String findLoginPw() {
+		return "usr/member/findLoginPw";
+	}
+	
+	@GetMapping("/usr/member/doFindLoginPw")
+	@ResponseBody
+	public ResultData doFindLoginPw(String loginId, String email) {
+		
+		Member member = memberService.getMemberByLoginId(loginId);
+		
+		if (member == null) {
+			return ResultData.from("F-1", "입력하신 아이디와 일치하는 회원이 없습니다");
+		}
+		
+		if (member.getEmail().equals(email) == false) {
+			return ResultData.from("F-2", "이메일이 일치하지 않습니다");
+		}
+		
+		String tempPassword = Util.createTempPassword();
+		
+		try {
+			memberService.sendPasswordRecoveryEmail(member, tempPassword);
+		} catch (Exception e) {
+			return ResultData.from("F-3", "임시 패스워드 발송에 실패했습니다");
+		}
+		
+		memberService.modifyPassword(member.getId(), Util.encryptSHA256(tempPassword));
+		
+		return ResultData.from("S-1", "회원님의 이메일주소로 임시 패스워드가 발송되었습니다");
 	}
 	
 }

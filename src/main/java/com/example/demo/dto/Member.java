@@ -15,6 +15,7 @@ public class Member {
 	private String loginPw;
 	private String name;
 	private byte[] profileImage;
+	private String email;
 
 }
 

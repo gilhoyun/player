@@ -53,6 +53,12 @@
 			form.name.focus();
 			return false;
 		}
+		
+		if (!form.email.value) {
+			alert('이메일을 입력해주세요.');
+			form.email.focus();
+			return false;
+		}
 
 		if (!form.profileImage.value) {
 			alert('프로필 사진을 업로드해주세요.');
@@ -129,6 +135,12 @@
 							<th class="text-center py-2 px-4 font-medium text-gray-700 bg-gray-100">이름</th>
 							<td class="py-2 px-4">
 								<input name="name" type="text" class="border p-2 rounded w-full" placeholder="이름을 입력해주세요." />
+							</td>
+						</tr>
+						<tr>
+							<th class="text-center py-2 px-4 font-medium text-gray-700 bg-gray-100">이메일</th>
+							<td class="py-2 px-4">
+								<input name="email" type="text" class="border p-2 rounded w-full" placeholder="이메일을 입력해주세요." />
 							</td>
 						</tr>
 						<tr>

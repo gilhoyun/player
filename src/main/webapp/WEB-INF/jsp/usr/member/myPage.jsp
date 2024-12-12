@@ -31,6 +31,10 @@
 					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">이름</th>
 					<td class="p-4">${member.getName() }</td>
 				</tr>
+				<tr class="border-b">
+					<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">이메일</th>
+					<td class="p-4">${member.getEmail() }</td>
+				</tr>
 			</thead>
 		</table>
 		<div class="mt-6 text-right flex justify-between items-center">

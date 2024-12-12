@@ -2,6 +2,7 @@ package com.example.demo.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 public class Util {
 	public static boolean isEmpty(String str) {
@@ -66,6 +67,8 @@ public class Util {
         }
     }
 	
-	
+	public static String createTempPassword() {
+		return UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
+	}
 	
 }

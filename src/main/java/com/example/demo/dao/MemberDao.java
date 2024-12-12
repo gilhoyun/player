@@ -20,9 +20,10 @@ public interface MemberDao {
 		            , loginId = #{loginId}
 		            , loginPw = #{loginPw}
 		            , name = #{name}
+		            , email = #{email}
 		            , profileImage = #{profileImage}
 		    """)
-		void joinMember(String loginId, String loginPw, String name, byte[] profileImage);
+		void joinMember(String loginId, String loginPw, String name, String email, byte[] profileImage);
 
 	@Select("""
 			SELECT *
@@ -48,5 +49,14 @@ public interface MemberDao {
 				WHERE id = #{loginedMemberId}
 			""")
 	void modifyPassword(int loginedMemberId, String loginPw);
+	
+	
+	@Select("""
+			SELECT *
+				FROM `member`
+				WHERE `name` = #{name}
+				AND email = #{email}
+			""")
+	Member getMemberByNameAndEmail(String name, String email);
 	
 }

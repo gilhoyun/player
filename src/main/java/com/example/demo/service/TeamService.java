@@ -93,8 +93,8 @@ public class TeamService {
 	    teamDao.updateTeamResults(teamId, newWins, newDraws, newLosses, newPoints, loginedMemberId);
 	}
 
-	public void doModifyTeam(int id, String teamName, String region, String slogan, byte[] teamImageBytes) {
-	    teamDao.doModifyTeam(id, teamName, region, slogan, teamImageBytes);
+	public void doModifyTeam(int id, String teamName, String region, String slogan, String encodedImage) {
+	    teamDao.doModifyTeam(id, teamName, region, slogan, encodedImage);
 	}
 
 	public Team getCurrentTeamResults(int teamId) {

@@ -43,15 +43,15 @@
 								<td class="p-4">${team.slogan}</td>
 							</tr>
 							<tr class="border-b">
-								<th class="text-center p-4 font-medium text-gray-700 bg-gray-100">팀 이미지</th>
-								<td class="p-4">
-								   <c:if test="${not empty team.teamImage}">
-    <img src="/usr/team/teamImage/${team.id}" alt="팀 이미지" class="w-32 h-32 object-cover" />
-</c:if>
-<c:if test="${empty team.teamImage}">
-    <p>이미지가 없습니다.</p>
-</c:if>
-								</td>
+								<th
+									class="text-center p-4 font-medium text-gray-700 bg-gray-100">팀
+									이미지</th>
+								<td class="p-4"><c:if test="${not empty team.teamImage}">
+										<img src="/usr/team/teamImage/${team.id}" alt="팀 이미지"
+											class="w-32 h-32 object-cover" />
+									</c:if> <c:if test="${empty team.teamImage}">
+										<p>이미지가 없습니다.</p>
+									</c:if></td>
 							</tr>
 						</table>
 					</div>

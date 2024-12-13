@@ -121,15 +121,15 @@ public interface TeamDao {
 		Team getTeamById(int id);
 	
 		@Update("""
-			    UPDATE `team`
-			    SET updateDate = NOW(), 
-			        teamName = #{teamName}, 
-			        region = #{region}, 
-			        slogan = #{slogan}, 
-			        teamImage = #{teamImageBytes}
-			    WHERE id = #{id}
-			""")
-		void doModifyTeam(int id, String teamName, String region, String slogan, byte[] teamImageBytes);
+				UPDATE `team`
+				SET updateDate = NOW(),
+				    teamName = #{teamName},
+				    region = #{region},
+				    slogan = #{slogan},
+				    teamImage = COALESCE(#{encodedImage}, teamImage)
+				WHERE id = #{id}
+				""")
+				void doModifyTeam(int id, String teamName, String region, String slogan, String encodedImage);
 
 		
 		

@@ -77,12 +77,10 @@ public class UsrTeamController {
 	        String encodedImage = null;
 
 	        if (!teamImage.isEmpty()) {
-	            // MultipartFile을 Base64로 변환
 	            byte[] teamImageBytes = teamImage.getBytes();
 	            encodedImage = Base64.getEncoder().encodeToString(teamImageBytes);
 	        }
 
-	        // 팀 생성
 	        Integer createdBy = (Integer) rq.getLoginedMemberId();
 	        teamService.joinTeam(teamName, region, slogan, encodedImage, createdBy);
 
@@ -104,14 +102,12 @@ public class UsrTeamController {
 
 	    if (team == null || team.getTeamImage() == null) {
 	        try {
-	            // 기본 이미지 파일을 로드
 	            Path defaultImagePath = Paths.get("src/main/resources/static/images/default-team.jpg");
 	            imageBytes = Files.readAllBytes(defaultImagePath);
 	        } catch (IOException e) {
 	            return ResponseEntity.notFound().build();
 	        }
 	    } else {
-	        // 저장된 Base64 이미지를 디코딩
 	        imageBytes = Base64.getDecoder().decode(team.getTeamImage());
 	    }
 
@@ -281,18 +277,20 @@ public class UsrTeamController {
 	        return Util.jsReturn("팀 리더만 팀을 수정할 수 있습니다.", "myTeam");
 	    }
 
-	    byte[] teamImageBytes = null;
+	    String encodedImage = null;
 	    if (teamImage != null && !teamImage.isEmpty()) {
 	        try {
-	            teamImageBytes = teamImage.getBytes();
+	            // MultipartFile을 Base64로 변환
+	            byte[] teamImageBytes = teamImage.getBytes();
+	            encodedImage = Base64.getEncoder().encodeToString(teamImageBytes);
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	            return Util.jsReturn("이미지 업로드 중 오류가 발생했습니다.", "myTeam");
 	        }
 	    }
 
-	    // 팀 수정 처리
-	    teamService.doModifyTeam(id, teamName, region, slogan, teamImageBytes);
+	    // 팀 수정 처리 (이미지가 없으면 기존 이미지 유지)
+	    teamService.doModifyTeam(id, teamName, region, slogan, encodedImage);
 
 	    return Util.jsReturn(String.format("[ %s ] 팀 정보가 수정되었습니다.", teamName), "/usr/team/myTeam");
 	}

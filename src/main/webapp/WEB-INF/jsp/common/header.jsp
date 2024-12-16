@@ -84,7 +84,7 @@
                 </div>
 
                 <!-- 메시지 아이콘 (팀 메뉴 오른쪽에 위치) -->
-                <a href="${pageContext.request.contextPath}"
+                <a href="${pageContext.request.contextPath}/usr/chat/rooms"
                    class="hover:text-gray-200 transition flex items-center ml-4">
                     <i class="fa-regular fa-message"></i>
                 </a>

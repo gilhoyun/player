@@ -6,15 +6,14 @@
 
 <section class="px-auto py-8">
 	<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-		<h2 class="text-2xl font-bold mb-4">채팅 방 목록</h2>
-
-		<c:if test="${rq.getLoginedMemberId() != -1}">
-			<div class="mb-4">
+		<div class="flex justify-between items-center mb-4">
+			<h2 class="text-2xl font-bold">채팅</h2>
+			<c:if test="${rq.getLoginedMemberId() != -1}">
 				<button id="createRoomBtn"
-					class="btn bg-stone-400 text-white rounded hover:bg-stone-500">
-					새 채팅방 만들기</button>
-			</div>
-		</c:if>
+					class="btn bg-stone-400 text-white rounded hover:bg-stone-500 btn-sm">
+					채팅방 생성</button>
+			</c:if>
+		</div>
 		<div id="chatRoomList" class="space-y-4">
 			<c:forEach var="room" items="${rooms}">
 				<div class="card bg-base-100 shadow-xl">
@@ -72,38 +71,41 @@
 			document.getElementById('createRoomModal').showModal();
 		});
 
-		$('#submitRoomBtn').click(function() {
-		    const roomName = $('#roomNameInput').val().trim();
-		    const inviteMembers = $('#inviteMembers').val(); // Get selected member IDs
+		$('#submitRoomBtn').click(
+				function() {
+					const roomName = $('#roomNameInput').val().trim();
+					const inviteMembers = $('#inviteMembers').val(); // Get selected member IDs
 
-		    if (roomName && inviteMembers.length > 0) {
-		        $.ajax({
-		            url: '/usr/chat/rooms',
-		            type: 'POST',
-		            contentType: 'application/json',
-		            data: JSON.stringify({
-		                roomName: roomName,
-		                createdBy: userId,
-		                inviteMembers: inviteMembers
-		            }),
-		            success: function(response) {
-		                console.log('Room created:', response);
-		                console.log('Room ID:', response.roomId);
-		                
-		                // Explicit redirection with full URL
-		                window.location.href = window.location.origin + '/usr/chat/room/' + response.roomId;
-		            },
-		            error: function(xhr, status, error) {
-		                console.error('Room creation error:', xhr.responseText);
-		                console.error('Status:', status);
-		                console.error('Error:', error);
-		                alert('채팅방 생성 중 오류가 발생했습니다.');
-		            }
-		        });
-		    } else {
-		        alert('채팅방 이름과 초대할 회원을 선택해주세요.');
-		    }
-		});
+					if (roomName && inviteMembers.length > 0) {
+						$.ajax({
+							url : '/usr/chat/rooms',
+							type : 'POST',
+							contentType : 'application/json',
+							data : JSON.stringify({
+								roomName : roomName,
+								createdBy : userId,
+								inviteMembers : inviteMembers
+							}),
+							success : function(response) {
+								console.log('Room created:', response);
+								console.log('Room ID:', response.roomId);
+
+								// Explicit redirection with full URL
+								window.location.href = window.location.origin
+										+ '/usr/chat/room/' + response.roomId;
+							},
+							error : function(xhr, status, error) {
+								console.error('Room creation error:',
+										xhr.responseText);
+								console.error('Status:', status);
+								console.error('Error:', error);
+								alert('채팅방 생성 중 오류가 발생했습니다.');
+							}
+						});
+					} else {
+						alert('채팅방 이름과 초대할 회원을 선택해주세요.');
+					}
+				});
 	});
 </script>
 

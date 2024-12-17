@@ -95,7 +95,8 @@ CREATE TABLE chat_room (
     room_name VARCHAR(255) NOT NULL,
     created_by VARCHAR(100) NOT NULL,
     created_at DATETIME NOT NULL,
-    participant_count INT NOT NULL DEFAULT 1
+    participant_count INT NOT NULL DEFAULT 1,
+    invite_members TEXT
 );
 
 CREATE TABLE chat_message (
@@ -106,6 +107,14 @@ CREATE TABLE chat_message (
     TIMESTAMP DATETIME NOT NULL,
     is_read BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (room_id) REFERENCES chat_room(room_id) ON DELETE CASCADE
+);
+
+CREATE TABLE chat_room_member (
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    room_id VARCHAR(100) NOT NULL,
+    member_id INT UNSIGNED NOT NULL,
+    FOREIGN KEY (room_id) REFERENCES chat_room(room_id) ON DELETE CASCADE,
+    FOREIGN KEY (member_id) REFERENCES MEMBER(id) ON DELETE CASCADE
 );
 
 INSERT INTO article
@@ -211,6 +220,8 @@ SELECT * FROM `team`;
 SELECT * FROM teamReply;
 SELECT * FROM `team_member`;
 SELECT * FROM chat_room;
+SELECT * FROM chat_message;
+SELECT * FROM chat_room_member;
 
 
 INSERT INTO article

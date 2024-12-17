@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,4 +16,5 @@ public class ChatRoom {
     private String createdBy;
     private LocalDateTime createdAt;
     private int participantCount;
+    private List<String> inviteMembers;
 }

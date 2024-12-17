@@ -16,4 +16,6 @@ public class Chat {
     private LocalDateTime timestamp;
     private String roomId;
     private boolean isRead;
+    private String senderName; // Add this field for loginId
+    private byte[] senderProfileImage; // Add this field for profile image
 }

@@ -28,11 +28,12 @@
 
 		<!-- 게스트 모집 -->
 		<a href="${pageContext.request.contextPath}/usr/team/teamList"
-			class="flex flex-col items-center transition"> <img
-			src="https://j.gifs.com/Z8ZWV2.gif" alt="게스트 모집"
-			class="h-20 w-20 object-cover rounded-lg">
-
-			<p class="mt-3 text-gray-800">팀 찾기</p>
+			class="flex flex-col items-center transition"> 
+			<div>
+			   <img src="https://j.gifs.com/Z8ZWV2.gif" alt="게스트 모집"
+			     class="h-20 w-20 object-cover rounded-lg">
+            </div>
+			<p>팀 찾기</p>
 		</a>
 
 		<!-- 팀 만들기 -->

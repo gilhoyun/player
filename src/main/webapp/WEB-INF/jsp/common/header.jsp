@@ -39,7 +39,7 @@
                 <!-- Board Links (Dropdown) -->
                 <div class="dropdown dropdown-end">
                     <!-- 게시글 메뉴 -->
-                    <a href="javascript:void(0);" class="hover:underline text-center">게시글</a>
+                    <a href="javascript:void(0);" class="hover:text-gray-200 text-center">게시글</a>
                     <ul tabindex="0" class="menu menu-sm dropdown-content mt-6 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-black border border-gray-500">
                         <li><a href="${pageContext.request.contextPath}/usr/article/list?boardId=1">공지사항</a></li>
                         <li><a href="${pageContext.request.contextPath}/usr/article/list?boardId=2">자유</a></li>
@@ -48,7 +48,7 @@
 
                 <!-- 팀 메뉴 -->
                 <div class="dropdown dropdown-end">
-                    <a href="javascript:void(0);" class="hover:underline text-center">팀</a>
+                    <a href="javascript:void(0);" class="hover:text-gray-200 text-center">팀</a>
                     <ul tabindex="0" class="menu menu-sm dropdown-content mt-6 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-black border border-gray-500">
                         <c:choose>
 

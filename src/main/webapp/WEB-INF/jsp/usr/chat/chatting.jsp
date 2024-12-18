@@ -54,8 +54,7 @@
 							</div>
 						</div>
 						<div class="chat-header">
-							<!-- Display loginId -->
-							<time class="text-xs opacity-50">${message.timestamp}</time>
+							<time class="text-xs opacity-50">${message.formattedTimestamp}</time>
 						</div>
 						<div class="chat-bubble">${message.content}</div>
 						<div class="chat-footer opacity-50">${message.senderName}</div>

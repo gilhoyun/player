@@ -4,14 +4,25 @@
 
 <%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 
-<section class="px-56 py-10">
+
+<section class="px-10 py-5">
+	<!-- 배너 이미지 추가 -->
+	<div class="relative">
+		<img src="https://d31wz4d3hgve8q.cloudfront.net/media/banner-6member_pc.png" 
+		     alt="배너 이미지" 
+		     class="w-full max-w-4xl h-60 mx-auto object-cover rounded-lg shadow-lg">
+	</div>
+</section>
+
+
+<section class="px-56 py-5">
 	<div class="grid grid-cols-4 gap-10 text-center">
 		<!-- 팀리그 -->
 		<a href="${pageContext.request.contextPath}/usr/team/reservation"
 			class="flex flex-col items-center transition">
 			<div>
 				<img src="https://j.gifs.com/pZ9zQX.gif" alt="팀리그"
-					class="h-20 w-20 object-cover rounded-lg">
+					class="h-16 w-16 object-cover rounded-lg">
 			</div>
 			<p>구장 예약</p>
 		</a>
@@ -21,7 +32,7 @@
 			class="flex flex-col items-center transition">
 			<div>
 				<img src="https://j.gifs.com/K8A6Zl.gif" alt="팀원 모집"
-					class="h-20 w-20 object-cover rounded-lg">
+					class="h-16 w-16 object-cover rounded-lg">
 			</div>
 			<p>팀 리그</p>
 		</a>
@@ -31,7 +42,7 @@
 			class="flex flex-col items-center transition"> 
 			<div>
 			   <img src="https://j.gifs.com/Z8ZWV2.gif" alt="게스트 모집"
-			     class="h-20 w-20 object-cover rounded-lg">
+			     class="h-16 w-16 object-cover rounded-lg">
             </div>
 			<p>팀 찾기</p>
 		</a>
@@ -41,7 +52,7 @@
 			class="flex flex-col items-center transition">
 			<div>
 				<img src="https://j.gifs.com/46W9Rg.gif" alt="팀 만들기"
-					class="h-20 w-20 object-cover rounded-lg">
+					class="h-16 w-16 object-cover rounded-lg">
 			</div>
 			<p>팀 매칭</p>
 		</a>

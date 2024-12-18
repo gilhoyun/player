@@ -80,5 +80,5 @@ public class ChatService {
 	public void removeMemberFromRoom(String roomId, String memberId) {
 		chatDao.deleteMemberFromRoom(roomId, memberId);
 	}
-
+	
 }

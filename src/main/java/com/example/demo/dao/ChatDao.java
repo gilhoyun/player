@@ -62,19 +62,11 @@ public interface ChatDao {
 
 	// 메시지 저장
 	@Insert("""
-			    INSERT INTO chat_message (
-			        room_id,
-			        sender,
-			        content,
-			        timestamp,
-			        is_read
-			    ) VALUES (
-			        #{roomId},
-			        #{sender},
-			        #{content},
-			        #{timestamp},
-			        #{isRead}
-			    )
+			  INSERT INTO chat_message (
+			     room_id, sender, content, timestamp, is_read
+			 ) VALUES (
+			     #{roomId}, #{sender}, #{content}, NOW(), #{isRead}
+			 )
 			""")
 	void insertMessage(Chat chat);
 
@@ -124,7 +116,7 @@ public interface ChatDao {
 	void updateParticipantCount(@Param("roomId") String roomId, @Param("count") int count);
 
 	@Insert("""
-	       INSERT INTO chat_room_member (room_id, member_id)  -- 수정: member_ids -> member_id
+			     INSERT INTO chat_room_member (room_id, member_id)  -- 수정: member_ids -> member_id
 			VALUES (#{roomId}, #{memberId})
 						""")
 	void insertMemberToRoom(@Param("roomId") String roomId, @Param("memberId") String memberId);
@@ -136,46 +128,46 @@ public interface ChatDao {
 			WHERE crm.room_id = #{roomId}
 			    	""")
 	List<Member> selectRoomMembers(@Param("roomId") String roomId);
-	
-	@Select("""
-		    SELECT id, loginId, name, profileImage
-		    FROM member
-		""")
-		List<Member> selectAllMembers();
-
-	
-	@Select("""
-		    SELECT COUNT(*) 
-		    FROM chat_room_member 
-		    WHERE room_id = #{roomId}
-		""")
-		int countRoomMembers(@Param("roomId") String roomId);
 
 	@Select("""
-	        SELECT DISTINCT cr.room_id AS roomId,
-	               cr.room_name AS roomName,
-	               cr.created_by AS createdBy,
-	               cr.created_at AS createdAt,
-	               cr.participant_count AS participantCount
-	        FROM chat_room cr
-	        LEFT JOIN chat_room_member crm ON cr.room_id = crm.room_id
-	        WHERE cr.created_by = #{memberId} 
-	           OR crm.member_id = #{memberId}
-	        ORDER BY cr.created_at DESC
-	    """)
-	    List<ChatRoom> selectChatRoomsForMember(@Param("memberId") int memberId);
+			    SELECT id, loginId, name, profileImage
+			    FROM member
+			""")
+	List<Member> selectAllMembers();
 
 	@Select("""
-		    SELECT id, loginId, name, profileImage
-		    FROM member
-		    WHERE id = #{memberId}
-		""")
-		Member selectMemberById(@Param("memberId") String memberId);
+			    SELECT COUNT(*)
+			    FROM chat_room_member
+			    WHERE room_id = #{roomId}
+			""")
+	int countRoomMembers(@Param("roomId") String roomId);
+
+	@Select("""
+			    SELECT DISTINCT cr.room_id AS roomId,
+			           cr.room_name AS roomName,
+			           cr.created_by AS createdBy,
+			           cr.created_at AS createdAt,
+			           cr.participant_count AS participantCount
+			    FROM chat_room cr
+			    LEFT JOIN chat_room_member crm ON cr.room_id = crm.room_id
+			    WHERE cr.created_by = #{memberId}
+			       OR crm.member_id = #{memberId}
+			    ORDER BY cr.created_at DESC
+			""")
+	List<ChatRoom> selectChatRoomsForMember(@Param("memberId") int memberId);
+
+	@Select("""
+			    SELECT id, loginId, name, profileImage
+			    FROM member
+			    WHERE id = #{memberId}
+			""")
+	Member selectMemberById(@Param("memberId") String memberId);
 
 	@Delete("""
-		    DELETE FROM chat_room_member
-		    WHERE room_id = #{roomId} AND member_id = #{memberId}
-		""")
-		void deleteMemberFromRoom(@Param("roomId") String roomId, @Param("memberId") String memberId);
+			    DELETE FROM chat_room_member
+			    WHERE room_id = #{roomId} AND member_id = #{memberId}
+			""")
+	void deleteMemberFromRoom(@Param("roomId") String roomId, @Param("memberId") String memberId);
+	
 
 }

@@ -380,20 +380,20 @@ public class UsrTeamController {
 	        int startIndex = (page - 1) * itemsPerPage;
 	        int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
 
-	        // Ensure the sublist indices are valid
+
 	        if (startIndex >= totalItems) {
-	            startIndex = totalItems;  // If startIndex is beyond the totalItems, set it to totalItems
+	            startIndex = totalItems; 
 	        }
 
 	        if (startIndex < endIndex) {
 	            List<Map<String, String>> paginatedReservations = reservations.subList(startIndex, endIndex);
 	            model.addAttribute("reservations", paginatedReservations);
 	        } else {
-	            model.addAttribute("reservations", new ArrayList<>());  // Return an empty list if invalid range
+	            model.addAttribute("reservations", new ArrayList<>());  
 	        }
 
-	        // Pagination page range calculation (5 pages at a time)
-	        int fromPage = Math.max(1, (page - 1) / 5 * 5 + 1); // Ensure fromPage starts at 1
+
+	        int fromPage = Math.max(1, (page - 1) / 5 * 5 + 1);
 	        int toPage = Math.min(fromPage + 4, totalPages);
 
 	        model.addAttribute("page", page);

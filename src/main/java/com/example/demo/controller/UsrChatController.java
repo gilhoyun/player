@@ -92,10 +92,10 @@ public class UsrChatController {
         List<Chat> chatHistory = chatService.getChatHistory(roomId);
         List<Member> roomMembers = chatService.getRoomMembers(roomId);  // 채팅방에 참여한 회원 목록 조회
 
-        // Include member details like profile image and login ID
+
         for (Chat chat : chatHistory) {
             Member sender = chatService.getMemberById(chat.getSender());
-            chat.setSenderName(sender.getLoginId()); // Set the login ID
+            chat.setSenderName(sender.getLoginId()); 
             chat.setSenderProfileImage(sender.getProfileImage()); // Set the profile image
         }
 

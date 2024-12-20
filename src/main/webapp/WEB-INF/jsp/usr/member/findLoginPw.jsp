@@ -64,11 +64,11 @@
 			<table class="w-full text-left border-collapse">
 				<tr>
 					<th class="text-center py-2 px-4 font-medium text-gray-700 bg-gray-100">아이디</th>
-					<td class="py-2 px-4"><input class="border p-2 rounded w-full" type="text" name="loginId" /></td>
+					<td class="py-2 px-4"><input class="border p-2 rounded w-full" type="text" name="loginId" placeholder="아이디를 입력해주세요."/></td>
 				</tr>
 				<tr>
 					<th class="text-center py-2 px-4 font-medium text-gray-700 bg-gray-100">이메일</th>
-					<td class="py-2 px-4"><input class="border p-2 rounded w-full" type="text" name="email" /></td>
+					<td class="py-2 px-4"><input class="border p-2 rounded w-full" type="text" name="email" placeholder="이메일을 입력해주세요."/></td>
 				</tr>
 			</table>
 			<div class="flex justify-end mt-4">

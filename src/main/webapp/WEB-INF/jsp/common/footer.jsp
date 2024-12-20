@@ -34,17 +34,17 @@
             <a class="link link-hover">구장 예약</a>
         </nav>
         <nav>
-            <h6 class="footer-title">Company</h6>
-            <a class="link link-hover">About us</a>
-            <a class="link link-hover">Contact</a>
-            <a class="link link-hover">Jobs</a>
-            <a class="link link-hover">Press kit</a>
+            <h6 class="footer-title">게시글</h6>
+            <a class="link link-hover">공지사항</a>
+            <a class="link link-hover">자유 게시판</a>
+            <a class="link link-hover"></a>
+            <a class="link link-hover"></a>
         </nav>
         <nav>
-            <h6 class="footer-title">Legal</h6>
-            <a class="link link-hover">Terms of use</a>
-            <a class="link link-hover">Privacy policy</a>
-            <a class="link link-hover">Cookie policy</a>
+            <h6 class="footer-title">채팅</h6>
+            <a class="link link-hover">채팅 목록</a>
+            <a class="link link-hover">채팅방 생성</a>
+            <a class="link link-hover"></a>
         </nav>
     </footer>
 </body>

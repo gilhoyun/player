@@ -26,6 +26,18 @@
 		form.submit(); //입력한게 있을 때 실행(form에 있는게 그대로 전송)
 
 	}//form은 밑의 form의 this이다., value는 값이기 때문에 변수취급 할 수 있다.
+	
+	
+	async function kakaoLogin() {
+	    // 1. Get Kakao login URL
+	    const response = await fetch('/usr/kakao/getKakaoLoginUrl');
+	    const data = await response.json();
+	    
+	    // 2. Redirect to Kakao login page
+	    if(data.resultCode === "S-1") {
+	        window.location.href = data.data;
+	    }
+	}
 </script>
 
 <section class="px-auto py-8">
@@ -59,14 +71,7 @@
 				</table>
 			</div>
 		</form>
-		 <div class="mt-4 flex justify-center">
-            <a href="/usr/kakao/login" class="block">
-                <img src="https://i0.wp.com/forhappywomen.com/wp-content/uploads/2018/11/%EC%82%B0%EB%B6%80%EC%9D%B8%EA%B3%BC-%ED%8F%AC%ED%95%B4%ED%94%BC%EC%9A%B0%EB%A8%BC-%EB%AC%B8%EC%9D%98-%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%94%8C%EB%9F%AC%EC%8A%A4%EC%B9%9C%EA%B5%AC-%EB%B2%84%ED%8A%BC.png?resize=586%2C586&ssl=1" 
-                     alt="카카오 로그인 버튼"
-                     class="hover:opacity-90 transition"
-                     style="height: 45px;">
-            </a>
-        </div>
+		 <button onclick="kakaoLogin()">카카오 로그인</button>
 		<div class="mt-4 flex justify-center">
 			<div>
 				<a class="" href="findLoginId">아이디</a>/ <a class=""

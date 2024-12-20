@@ -67,5 +67,4 @@ public class MemberService {
                     + "</html>";
         sendEmail(member.getEmail(), subject, text);
     }
-	
 }

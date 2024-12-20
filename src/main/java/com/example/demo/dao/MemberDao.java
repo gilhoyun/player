@@ -58,5 +58,6 @@ public interface MemberDao {
 				AND email = #{email}
 			""")
 	Member getMemberByNameAndEmail(String name, String email);
+
 	
 }

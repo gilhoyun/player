@@ -91,7 +91,7 @@ const teamReplyModifyCancle = function(i) {
 
 
 <section class="py-8 ">
-	<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+	<div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md">
 		<h2 class="text-2xl font-semibold text-gray-800 mb-6">팀 살펴보기</h2>
 		<table class="w-full text-left border-collapse">
 			<thead>
@@ -141,8 +141,8 @@ const teamReplyModifyCancle = function(i) {
 </section>
 
 <section>
-	<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-		<h2 class="text-2xl font-semibold text-gray-800 mb-6">팀 댓글</h2>
+	<div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md">
+		<h2 class="text-2xl font-semibold text-gray-800 mb-6">댓글</h2>
 
 		<!-- Display existing team replies -->
 		<c:forEach var="reply" items="${replies}">

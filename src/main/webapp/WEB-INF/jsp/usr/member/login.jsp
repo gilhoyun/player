@@ -75,10 +75,14 @@
 			<span class="px-4 text-gray-500 text-sm">소셜 로그인</span>
 			<hr class="flex-grow border-t border-gray-300" />
 		</div>
-		<div class="mt-4 flex justify-center">
+		<div class="mt-4 flex justify-center space-x-4">
 			<a href="/usr/kakao/login"> <img
 				src="https://i0.wp.com/forhappywomen.com/wp-content/uploads/2018/11/%EC%82%B0%EB%B6%80%EC%9D%B8%EA%B3%BC-%ED%8F%AC%ED%95%B4%ED%94%BC%EC%9A%B0%EB%A8%BC-%EB%AC%B8%EC%9D%98-%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%94%8C%EB%9F%AC%EC%8A%A4%EC%B9%9C%EA%B5%AC-%EB%B2%84%ED%8A%BC.png?resize=586%2C586&ssl=1"
 				alt="카카오 로그인 버튼"
+				class="w-10 h-10 object-cover hover:opacity-80 transition" />
+			</a> <a href="/usr/naver/login"> <img
+				src="https://blog.kakaocdn.net/dn/bU1uVm/btqGsLHK8Ha/ndkom6FPH3Ld5BXtGd7pt0/img.png"
+				alt="네이버 로그인 버튼"
 				class="w-10 h-10 object-cover hover:opacity-80 transition" />
 			</a>
 		</div>

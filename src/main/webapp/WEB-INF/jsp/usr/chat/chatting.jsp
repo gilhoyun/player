@@ -25,8 +25,9 @@
 			<div class="mb-4">
 				<h3 class="text-lg font-semibold">
 					대화 상대 :
-					<c:forEach var="member" items="${roomMembers}">
-						<span class="ml-2">${member.loginId},</span>
+					<c:forEach var="member" items="${roomMembers}" varStatus="status">
+						<span class="ml-2">${member.loginId}<c:if
+								test="${!status.last}">,</c:if></span>
 					</c:forEach>
 				</h3>
 			</div>

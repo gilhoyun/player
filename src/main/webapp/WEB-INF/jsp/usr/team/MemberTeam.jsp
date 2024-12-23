@@ -7,7 +7,7 @@
 <%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 
 <section class="py-8">
-	<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+	<div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md">
 		<h2 class="text-2xl font-semibold text-gray-800 mb-6">내 팀 정보</h2>
 
 		<c:choose>

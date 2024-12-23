@@ -21,31 +21,63 @@
 </head>
 <body>
     <main>
-        <div class="p-10">
+        <div class="p-8">
             <p></p>
         </div>
     </main>
-    <footer class="footer bg-neutral text-neutral-content p-5 px-32">
-        <nav>
-            <h6 class="footer-title">팀</h6>
-            <a class="link link-hover" href="${pageContext.request.contextPath}/usr/team/teamList">팀 찾기</a>
-            <a class="link link-hover">팀 리그</a>
-            <a class="link link-hover">팀 매칭</a>
-            <a class="link link-hover">구장 예약</a>
-        </nav>
-        <nav>
-            <h6 class="footer-title">게시글</h6>
-            <a class="link link-hover">공지사항</a>
-            <a class="link link-hover">자유 게시판</a>
-            <a class="link link-hover"></a>
-            <a class="link link-hover"></a>
-        </nav>
-        <nav>
-            <h6 class="footer-title">채팅</h6>
-            <a class="link link-hover">채팅 목록</a>
-            <a class="link link-hover">채팅방 생성</a>
-            <a class="link link-hover"></a>
-        </nav>
-    </footer>
+    <div class="bar bg-gray-700">
+        <div class="footerWrap max-w-6xl mx-auto py-12 px-6">
+            <div class="flex justify-between w-full"> 
+                <div class="footerNav w-1/5">
+                    <ul class="list-none">
+                        <h3 class="text-lg font-bold text-white">팀</h3>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">팀 찾기</a></li>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">팀 리그</a></li>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">팀 매칭</a></li>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">구장 예약</a></li>
+                    </ul>
+                </div>
+                <div class="footerNav w-1/5">
+                    <ul class="list-none">
+                        <h3 class="text-lg font-bold text-white">채팅</h3>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">채팅 목록</a></li>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">채팅방 생성</a></li>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">공지 알림</a></li>
+                    </ul>
+                </div>
+                <div class="footerNav w-1/5">
+                    <ul class="list-none">
+                        <h3 class="text-lg font-bold text-white">게시글</h3>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">공지사항</a></li>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">자유 게시판</a></li>
+                    </ul>
+                </div>
+                <div class="footerNav w-1/5">
+                    <ul class="list-none">
+                        <h3 class="text-lg font-bold text-white">서비스</h3>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">고객 지원</a></li>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">문의하기</a></li>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">개인정보처리방침</a></li>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">이용 약관</a></li>
+                    </ul>
+                </div>
+                <div class="company w-1/5">
+                    <h2 class="text-xl font-bold text-white mb-3">
+                        <a href="#" class="text-stone-300 italic border-b-2 border-orange-300">PLAYER</a>
+                    </h2>
+                    <p class="text-sm text-gray-400 mb-6">언제든지 풋살을 즐기고 싶을 땐, Player</p>
+                    <div class="space-y-2">
+                        <div class="text-sm text-gray-400">
+                            <a href="#" class="hover:text-white">이용 약관</a> | 
+                            <a href="#" class="hover:text-white">개인정보 처리방침</a> | 
+                            <a href="#" class="hover:text-white">회사 소개</a>
+                        </div>
+                        <div class="text-xs text-gray-400">PLAYER | ooo시 00구 00로00 0000빌딩 0층 | 대표 메일 ooo@oooo.com</div>
+                        <div class="text-xs text-gray-400">주식회사 ####컴퍼니 | 사업자번호 000-00-00000 | 대표 ooo </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

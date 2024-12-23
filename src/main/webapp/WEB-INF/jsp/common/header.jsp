@@ -26,7 +26,7 @@
     <header class="bg-stone-400 text-white border border-gray-300 rounded-3xl h-15 mx-64 mt-5 shadow-xl transition-shadow duration-300 hover:shadow-2xl">
         <nav class="container mx-auto px-24 py-4 flex justify-between items-center h-full">
             <div class="flex items-center">
-                <a href="${pageContext.request.contextPath}/" class="text-xl font-bold hover:text-gray-200 transition">PLAYER</a>
+                <a href="${pageContext.request.contextPath}/" class="text-2xl font-bold hover:text-gray-200 transition">PLAYER</a>
             </div>
             <div class="flex items-center space-x-4">
 <%--                 <a href="${pageContext.request.contextPath}/" class="hover:text-gray-200 transition"> --%>
@@ -39,7 +39,7 @@
                 <!-- Board Links (Dropdown) -->
                 <div class="dropdown dropdown-end">
                     <!-- 게시글 메뉴 -->
-                    <a href="javascript:void(0);" class="hover:text-gray-200 text-center">게시글</a>
+                    <a href="javascript:void(0);" class="text-xl hover:text-gray-200 text-center">게시글</a>
                     <ul tabindex="0" class="menu menu-sm dropdown-content mt-6 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-black border border-gray-500">
                         <li><a href="${pageContext.request.contextPath}/usr/article/list?boardId=1">공지사항</a></li>
                         <li><a href="${pageContext.request.contextPath}/usr/article/list?boardId=2">자유</a></li>
@@ -48,7 +48,7 @@
 
                 <!-- 팀 메뉴 -->
                 <div class="dropdown dropdown-end">
-                    <a href="javascript:void(0);" class="hover:text-gray-200 text-center">팀</a>
+                    <a href="javascript:void(0);" class="text-xl hover:text-gray-200 text-center">팀</a>
                     <ul tabindex="0" class="menu menu-sm dropdown-content mt-6 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-black border border-gray-500">
                         <c:choose>
 
@@ -85,7 +85,7 @@
 
                 <!-- 메시지 아이콘 (팀 메뉴 오른쪽에 위치) -->
                 <a href="${pageContext.request.contextPath}/usr/chat/rooms"
-                   class="hover:text-gray-200 transition flex items-center ml-4">
+                   class="text-xl hover:text-gray-200 transition flex items-center ml-4">
                     <i class="fa-regular fa-message"></i>
                 </a>
 

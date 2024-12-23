@@ -52,31 +52,27 @@ return Array.from(new Uint8Array(hash))
 </script>
 
 <section class="px-auto py-8">
-	<div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
-		<form action="doCheckPw" method="post"
-			onsubmit="checkPwForm_onSubmit(this); return false;">
-			<div class="table-box">
-				<table class="w-full text-left border-collapse">
-					<tr>
-						<th
-							class="text-center py-2 px-4 font-medium text-gray-700 bg-gray-100">비밀번호
-							확인</th>
-						<td class="py-2 px-4"><input class="input input-bordered w-full max-w-xs"
-							type="text" name="loginPw" placeholder="비밀번호를 입력해주세요" /></td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<div class="flex justify-end mt-4">
-								<button
-									class="px-6 py-2 bg-stone-400 text-white rounded hover:bg-stone-500 transition">확인</button>
-							</div>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</form>
-		<div class="w-9/12 mx-auto mt-3 text-sm flex justify-between"></div>
-	</div>
+    <div class="max-w-2xl mx-auto p-8 bg-white rounded-xl shadow-lg">
+        <form action="doCheckPw" method="post" onsubmit="checkPwForm_onSubmit(this); return false;">
+            <div class="space-y-6">
+                <div class="flex items-center justify-between">
+                    <label for="loginPw" class="text-lg font-semibold text-gray-700">비밀번호 확인</label>
+                </div>
+                <div>
+                    <input class="input input-bordered w-full p-4 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition duration-200"
+                           type="password" name="loginPw" placeholder="비밀번호를 입력해주세요" />
+                </div>
+                <div class="flex justify-end mt-6">
+                    <button type="submit" class="px-6 py-3 bg-stone-600 text-white rounded-lg hover:bg-stone-700 focus:outline-none focus:ring-2 focus:ring-stone-500 transition duration-300">
+                        확인
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="w-9/12 mx-auto mt-4 text-sm text-gray-500 flex justify-between">
+            <!-- 추가적인 텍스트나 링크가 필요한 경우 여기에 작성할 수 있습니다. -->
+        </div>
+    </div>
 </section>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

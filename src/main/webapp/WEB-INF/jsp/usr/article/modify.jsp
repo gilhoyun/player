@@ -10,7 +10,7 @@
 
 <!-- input name은 폼을 제출할 때 서버로 전송, 서버에서는 이 id를 사용하여 어떤 게시글을 수정할 것인지 판단 -->
 <section class="px-auto py-8 ">
-	<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+	<div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md">
 		<form action="doModify" method="post" onsubmit="submitForm(this); return false;">
 			<input name="id" type="hidden" value="${article.id }" />
 			<div class="table-box">

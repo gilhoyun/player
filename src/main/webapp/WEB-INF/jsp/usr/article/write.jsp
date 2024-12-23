@@ -10,7 +10,7 @@
 
 
 <section class="px-auto py-8 ">
-	<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+	<div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md">
 		<form action="doWrite" method="post" onsubmit="submitForm(this); return false;">
 			<input name="id" type="hidden" value="${article.id }" />
 			<div class="table-box">

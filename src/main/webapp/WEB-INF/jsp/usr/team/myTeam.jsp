@@ -7,53 +7,69 @@
 <%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 
 <section class="py-8">
-	<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+	<div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md">
 		<h2 class="text-2xl font-semibold text-gray-800 mb-6">내 팀 정보</h2>
-
 		<c:choose>
 			<c:when test="${not empty teams}">
 				<c:forEach var="team" items="${teams}">
-					<div class="border-b pb-6 mb-6">
-						<table class="w-full text-left border-collapse">
-							<tr class="border-b">
-								<th
-									class="text-center p-4 font-medium text-gray-700 bg-gray-100">창단일</th>
-								<td class="p-4">${team.regDate.substring(0, 16)}</td>
-							</tr>
-							<tr class="border-b">
-								<th
-									class="text-center p-4 font-medium text-gray-700 bg-gray-100">정보
-									수정일</th>
-								<td class="p-4">${team.updateDate.substring(0, 16)}</td>
-							</tr>
-							<tr class="border-b">
-								<th
-									class="text-center p-4 font-medium text-gray-700 bg-gray-100">팀
-									명</th>
-								<td class="p-4">${team.teamName}</td>
-							</tr>
-							<tr class="border-b">
-								<th
-									class="text-center p-4 font-medium text-gray-700 bg-gray-100">지역</th>
-								<td class="p-4">${team.region}</td>
-							</tr>
-							<tr class="border-b">
-								<th
-									class="text-center p-4 font-medium text-gray-700 bg-gray-100">슬로건</th>
-								<td class="p-4">${team.slogan}</td>
-							</tr>
-							<tr class="border-b">
-								<th
-									class="text-center p-4 font-medium text-gray-700 bg-gray-100">팀
-									이미지</th>
-								<td class="p-4"><c:if test="${not empty team.teamImage}">
-										<img src="/usr/team/teamImage/${team.id}" alt="팀 이미지"
-											class="w-32 h-32 object-cover" />
-									</c:if> <c:if test="${empty team.teamImage}">
-										<p>이미지가 없습니다.</p>
-									</c:if></td>
-							</tr>
-						</table>
+					<div class="card w-full bg-base-100 shadow-xl">
+						<!-- Team Image and Name Section -->
+						<div class="card-body">
+							<div class="flex flex-col md:flex-row items-center gap-6">
+								<div class="avatar">
+									<div class="w-40 h-40 rounded-full ring ring-stone-400 ring-offset-base-100 ring-offset-2">
+										<c:choose>
+											<c:when test="${not empty team.teamImage}">
+												<img src="/usr/team/teamImage/${team.id}" alt="팀 이미지" />
+											</c:when>
+											<c:otherwise>
+												<div class="bg-base-300 flex items-center justify-center">
+													<svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20"
+														fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+															stroke-width="2"
+															d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+												</div>
+											</c:otherwise>
+										</c:choose>
+									</div>
+								</div>
+
+								<div class="text-center md:text-left">
+									<h2 class="text-3xl font-bold">${team.teamName}</h2>
+									<div class="badge badge-stone-300 badge-outline mt-2">${team.region}</div>
+									<p class="text-lg italic mt-2">"${team.slogan}"</p>
+								</div>
+							</div>
+
+							<!-- Stats Section -->
+							<div class="stats stats-vertical lg:stats-horizontal shadow mt-6">
+								<div class="stat">
+									<div class="stat-title">창단일</div>
+									<div class="stat-value text-lg">${team.regDate.substring(0, 16)}</div>
+								</div>
+
+								<div class="stat">
+									<div class="stat-title">정보 수정일</div>
+									<div class="stat-value text-lg">${team.updateDate.substring(0, 16)}</div>
+								</div>
+
+								<div class="stat">
+									<div class="stat-title">활동 지역</div>
+									<div class="stat-value text-lg">${team.region}</div>
+								</div>
+							</div>
+
+							<!-- Additional Info -->
+							<div class="collapse collapse-plus bg-base-200 mt-6">
+								<input type="checkbox" />
+								<div class="collapse-title text-xl font-medium">팀 슬로건</div>
+								<div class="collapse-content">
+									<p>${team.slogan}</p>
+								</div>
+							</div>
+						</div>
 					</div>
 
 					<c:if test="${rq.getLoginedMemberId() == team.createdBy}">
@@ -73,7 +89,7 @@
 
 					<c:if test="${rq.getLoginedMemberId() == team.createdBy}">
 						<form action="/usr/team/saveResults" method="post"
-							class="mt-6 p-4 bg-gray-50 rounded-lg shadow-md">
+							class="mt-6 p-4 bg-gray-100 rounded-lg shadow-md">
 							<input type="hidden" name="teamId" value="${team.id}" /> <input
 								type="hidden" name="teamName" value="${team.teamName}" />
 

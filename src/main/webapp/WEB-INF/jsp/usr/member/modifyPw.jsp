@@ -28,40 +28,38 @@ form.submit();
 }
 </script>
 
-<section class="py-8 ">
-	<div class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
-		<form action="doModifyPw" method="post"
-			onsubmit="modifyPwForm_onSubmit(this); return false;">
-			<div class="table-box">
-				<table class="w-full text-left border-collapse">
-					<tr>
-						<th
-							class="text-center py-2 px-4 font-medium text-gray-700 bg-gray-100">변경할
-							비밀번호</th>
-						<td class="py-2 px-4"><input
-							class="input input-bordered w-full max-w-xs" type="text"
-							name="loginPw" placeholder="변경할 비밀번호를 입력해주세요" /></td>
-					</tr>
-					<tr>
-						<th
-							class="text-center py-2 px-4 font-medium text-gray-700 bg-gray-100">비밀번호
-							확인</th>
-						<td class="py-2 px-4"><input
-							class="input input-bordered w-full max-w-xs" type="text"
-							name="loginPwChk" placeholder="비밀번호 확인을 입력해주세요" /></td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<div class="flex justify-end mt-4">
-								<button
-									class="px-6 py-2 bg-stone-400 text-white rounded hover:bg-stone-500 transition">확인</button>
-							</div>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</form>
-	</div>
+<section class="py-8 bg-gray-50">
+    <div class="max-w-3xl mx-auto p-8 bg-white rounded-xl shadow-lg">
+        <form action="doModifyPw" method="post" onsubmit="modifyPwForm_onSubmit(this); return false;">
+            <div class="space-y-6">
+                <!-- 변경할 비밀번호 입력 -->
+                <div class="flex items-center justify-between">
+                    <label for="loginPw" class="text-lg font-semibold text-gray-700">변경할 비밀번호</label>
+                </div>
+                <div>
+                    <input class="input input-bordered w-full p-4 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition duration-200"
+                           type="password" name="loginPw" id="loginPw" placeholder="변경할 비밀번호를 입력해주세요" />
+                </div>
+                
+                <!-- 비밀번호 확인 입력 -->
+                <div class="flex items-center justify-between">
+                    <label for="loginPwChk" class="text-lg font-semibold text-gray-700">비밀번호 확인</label>
+                </div>
+                <div>
+                    <input class="input input-bordered w-full p-4 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition duration-200"
+                           type="password" name="loginPwChk" id="loginPwChk" placeholder="비밀번호 확인을 입력해주세요" />
+                </div>
+
+                <!-- 확인 버튼 -->
+                <div class="flex justify-end mt-6">
+                    <button type="submit" class="px-6 py-3 bg-stone-400 text-white rounded-lg hover:bg-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-500 transition duration-300">
+                        확인
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
 </section>
+
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp"%>

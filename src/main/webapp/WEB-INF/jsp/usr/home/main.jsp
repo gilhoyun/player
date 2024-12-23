@@ -125,31 +125,11 @@
 						</div>
 					</c:forEach>
 				</div>
-
-				<!-- Pagination section -->
-				<div class="mt-5 flex justify-between items-center">
-					<div class="flex-grow flex justify-center">
-						<div class="join">
-							<c:set var="path"
-								value="?boardId=${board.id}&searchType=${searchType}&searchKeyword=${searchKeyword}" />
-
-							<c:if test="${fromPage != 1}">
-								<a href="${path}&page=1" class="join-item btn"><<</a>
-								<a href="${path}&page=${fromPage - 1}" class="join-item btn"><</a>
-							</c:if>
-
-							<c:forEach var="i" begin="${fromPage}" end="${toPage}">
-								<a href="${path}&page=${i}"
-									class="join-item btn btn-square ${page == i ? 'btn-active' : ''}">
-									${i} </a>
-							</c:forEach>
-
-							<c:if test="${toPage != totalPages}">
-								<a href="${path}&page=${toPage + 1}" class="join-item btn">></a>
-								<a href="${path}&page=${totalPages}" class="join-item btn">>></a>
-							</c:if>
-						</div>
-					</div>
+				<div class="flex justify-end mt-6">
+					<a href="/usr/team/reservation"
+						class="inline-flex items-center px-4 py-2 bg-stone-400 text-white font-semibold rounded hover:bg-stone-500 transition">
+						더 많은 구장을 보고 싶다면 <i class="fa-solid fa-arrow-right ml-2"></i>
+					</a>
 				</div>
 			</c:when>
 			<c:otherwise>

@@ -1,5 +1,3 @@
-server:
-  port: 8082
 spring:
   application:
     name: demo
@@ -29,8 +27,8 @@ spring:
             enable: true
 kakao:
  client_id: 0adf0657dcb2255caf8aec036b66bd0b
- redirect_uri: http://localhost:8082/usr/kakao/callback   
+ redirect_uri: http://localhost:8080/usr/kakao/callback   
 naver:
  client_id: KigeOVOPjSwocw63BS38
  client_secret: pda6zmoOyA
- redirect_uri: http://localhost:8082/usr/naver/callback
+ redirect_uri: http://localhost:8080/usr/naver/callback

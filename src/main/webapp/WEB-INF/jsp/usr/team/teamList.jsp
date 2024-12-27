@@ -43,7 +43,7 @@
                     <tr class="border-b">
                         <td class="text-center p-4">${team.getId()}</td>
                         <td class="hover:underline text-center p-4">
-                            <a href="detail?id=${team.getId()}">${team.getTeamName()}</a>
+                            <a href="detail?id=${team.getId()}">${team.getTeamName()} <span class="bg-gray-200 px-1 rounded"> <i class="fa-solid fa-user text-sm"></i>${teamMemberCounts[team.id]}</span></a>
                         </td>
                         <td class="text-center p-4">${team.getTeamLeaderLoginId()}</td>
                         <td class="text-center p-4">${team.getRegDate().substring(2,16)}</td>

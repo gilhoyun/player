@@ -175,12 +175,15 @@ public class UsrTeamController {
 	
 	
 	@GetMapping("/usr/team/teamList")
-	public String teamList(Model model,  @RequestParam(defaultValue = "1") int page,  @RequestParam(defaultValue = "teamName") String searchType, @RequestParam(defaultValue = "") String searchKeyword) {
+	public String teamList(Model model, @RequestParam(defaultValue = "1") int page,  
+	    @RequestParam(defaultValue = "teamName") String searchType, 
+	    @RequestParam(defaultValue = "") String searchKeyword) {
 
 	    int limitFrom = (page - 1) * 10;
 
 	    List<Team> teams = teamService.getTeams(limitFrom, searchType, searchKeyword);
 	    int teamsCnt = teamService.teamsCnt(searchType, searchKeyword);
+	    Map<Integer, Integer> teamMemberCounts = teamService.getTeamMemberCounts();
 
 	    int totalPagesCnt = (int) Math.ceil((double) teamsCnt / 10);
 
@@ -199,6 +202,7 @@ public class UsrTeamController {
 	    model.addAttribute("page", page);
 	    model.addAttribute("searchType", searchType);
 	    model.addAttribute("searchKeyword", searchKeyword);
+	    model.addAttribute("teamMemberCounts", teamMemberCounts);
 
 	    return "usr/team/teamList";
 	}

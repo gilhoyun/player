@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -160,10 +161,14 @@ public interface TeamDao {
 					ORDER BY points DESC, wins DESC, id ASC
 					""")
 			List<Team> getRankedTeams();
-		
-		
+
 			
-		
 
-
+			@Select("""
+				    SELECT t.id as teamId, COUNT(tm.id) as memberCount 
+				    FROM team t
+				    LEFT JOIN team_member tm ON t.id = tm.teamId
+				    GROUP BY t.id
+				    """)
+				List<Map<String, Object>> getTeamMemberCounts();
 }

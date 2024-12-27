@@ -1,19 +1,14 @@
 package com.example.demo.service;
 
 
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.dao.ArticleDao;
 import com.example.demo.dao.TeamDao;
-import com.example.demo.dto.Article;
-import com.example.demo.dto.Board;
-import com.example.demo.dto.Member;
 import com.example.demo.dto.Team;
-import com.example.demo.dto.TeamRanking;
 
 
 @Service
@@ -103,6 +98,19 @@ public class TeamService {
 
 	public List<Team> getRankedTeams() {
 		return teamDao.getRankedTeams();
+	}
+
+	public Map<Integer, Integer> getTeamMemberCounts() {
+	    List<Map<String, Object>> results = teamDao.getTeamMemberCounts();
+	    Map<Integer, Integer> teamMemberCounts = new HashMap<>();
+	    
+	    for (Map<String, Object> result : results) {
+	        int teamId = ((Number) result.get("teamId")).intValue();
+	        int memberCount = ((Number) result.get("memberCount")).intValue();
+	        teamMemberCounts.put(teamId, memberCount);
+	    }
+	    
+	    return teamMemberCounts;
 	}
 
 }

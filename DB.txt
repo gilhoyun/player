@@ -117,6 +117,26 @@ CREATE TABLE chat_room_member (
     FOREIGN KEY (member_id) REFERENCES MEMBER(id) ON DELETE CASCADE
 );
 
+
+CREATE TABLE `matching` (
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updateDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    hostTeamId INT UNSIGNED NOT NULL,
+    guestTeamId INT UNSIGNED DEFAULT NULL,
+    createdBy INT UNSIGNED NOT NULL,
+    matchDate DATETIME NOT NULL,                         -- 날짜와 시간을 하나로 통합
+    region VARCHAR(50) NOT NULL,                         -- 지역
+    stadium VARCHAR(100) NOT NULL,                       -- 구장 정보
+    playerCount VARCHAR(20) NOT NULL,                    -- 경기 인원
+    gender ENUM('MALE', 'FEMALE', 'MIXED') NOT NULL,
+    STATUS ENUM('WAITING', 'MATCHED', 'COMPLETED', 'CANCELLED') NOT NULL DEFAULT 'WAITING',
+    DESCRIPTION TEXT,                                    -- 기타 필요한 정보 입력
+    FOREIGN KEY (hostTeamId) REFERENCES team(id) ON DELETE CASCADE,
+    FOREIGN KEY (guestTeamId) REFERENCES team(id) ON DELETE SET NULL,
+    FOREIGN KEY (createdBy) REFERENCES MEMBER(id) ON DELETE CASCADE
+);
+
 INSERT INTO article
 	SET regDate = NOW()
 			, updateDate = NOW()
@@ -222,6 +242,7 @@ SELECT * FROM `team_member`;
 SELECT * FROM chat_room;
 SELECT * FROM chat_message;
 SELECT * FROM chat_room_member;
+SELECT * FROM `matching`;
 
 
 INSERT INTO article

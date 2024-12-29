@@ -37,11 +37,8 @@
 		</a>
 
 		<!-- 팀 만들기 -->
-<<<<<<< HEAD
+
 		<a href="${pageContext.request.contextPath}/usr/team/matchingList"
-=======
-		<a href="${pageContext.request.contextPath}/team/create"
->>>>>>> f51e8a63a584c6c67e9bc2505ea2f9ac7ebd6f13
 			class="flex flex-col items-center transition">
 			<div>
 				<img src="https://j.gifs.com/46W9Rg.gif" alt="팀 만들기"

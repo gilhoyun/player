@@ -8,7 +8,10 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.TeamDao;
+<<<<<<< HEAD
 import com.example.demo.dto.Matching;
+=======
+>>>>>>> f51e8a63a584c6c67e9bc2505ea2f9ac7ebd6f13
 import com.example.demo.dto.Team;
 
 
@@ -100,7 +103,11 @@ public class TeamService {
 	public List<Team> getRankedTeams() {
 		return teamDao.getRankedTeams();
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> f51e8a63a584c6c67e9bc2505ea2f9ac7ebd6f13
 	public Map<Integer, Integer> getTeamMemberCounts() {
 	    List<Map<String, Object>> results = teamDao.getTeamMemberCounts();
 	    Map<Integer, Integer> teamMemberCounts = new HashMap<>();
@@ -114,6 +121,7 @@ public class TeamService {
 	    return teamMemberCounts;
 	}
 
+<<<<<<< HEAD
 	public int getLastInsertId() {
 		return teamDao.getLastInsertId();
 	}
@@ -130,4 +138,6 @@ public class TeamService {
 	    return teamDao.getMatchingsCnt(searchType, searchKeyword);
 	}
 
+=======
+>>>>>>> f51e8a63a584c6c67e9bc2505ea2f9ac7ebd6f13
 }

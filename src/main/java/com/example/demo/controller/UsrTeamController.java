@@ -30,9 +30,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+<<<<<<< HEAD
 import com.example.demo.dto.Article;
 import com.example.demo.dto.Matching;
 import com.example.demo.dto.Reply;
+=======
+>>>>>>> f51e8a63a584c6c67e9bc2505ea2f9ac7ebd6f13
 import com.example.demo.dto.ResultData;
 import com.example.demo.dto.Rq;
 import com.example.demo.dto.Team;
@@ -178,7 +181,13 @@ public class UsrTeamController {
 	
 	
 	@GetMapping("/usr/team/teamList")
+<<<<<<< HEAD
 	public String teamList(Model model,  @RequestParam(defaultValue = "1") int page,  @RequestParam(defaultValue = "teamName") String searchType, @RequestParam(defaultValue = "") String searchKeyword) {
+=======
+	public String teamList(Model model, @RequestParam(defaultValue = "1") int page,  
+	    @RequestParam(defaultValue = "teamName") String searchType, 
+	    @RequestParam(defaultValue = "") String searchKeyword) {
+>>>>>>> f51e8a63a584c6c67e9bc2505ea2f9ac7ebd6f13
 
 	    int limitFrom = (page - 1) * 10;
 
@@ -414,6 +423,7 @@ public class UsrTeamController {
 	    }
 	}
 	
+<<<<<<< HEAD
 	@GetMapping("/usr/team/write")
     public String showWrite() {
         return "usr/team/write";
@@ -501,4 +511,6 @@ public class UsrTeamController {
 //		return "usr/article/detail";
 //	}
 	
+=======
+>>>>>>> f51e8a63a584c6c67e9bc2505ea2f9ac7ebd6f13
 }

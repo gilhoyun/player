@@ -8,9 +8,19 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+<<<<<<< HEAD
 
 import com.example.demo.dto.Matching;
 import com.example.demo.dto.Team;
+=======
+import org.springframework.web.multipart.MultipartFile;
+
+import com.example.demo.dto.Article;
+import com.example.demo.dto.Board;
+import com.example.demo.dto.Member;
+import com.example.demo.dto.Team;
+import com.example.demo.dto.TeamRanking;
+>>>>>>> f51e8a63a584c6c67e9bc2505ea2f9ac7ebd6f13
 
 @Mapper
 public interface TeamDao {
@@ -158,6 +168,11 @@ public interface TeamDao {
 					""")
 			List<Team> getRankedTeams();
 
+<<<<<<< HEAD
+=======
+			
+
+>>>>>>> f51e8a63a584c6c67e9bc2505ea2f9ac7ebd6f13
 			@Select("""
 				    SELECT t.id as teamId, COUNT(tm.id) as memberCount 
 				    FROM team t
@@ -165,6 +180,7 @@ public interface TeamDao {
 				    GROUP BY t.id
 				    """)
 				List<Map<String, Object>> getTeamMemberCounts();
+<<<<<<< HEAD
 
 			@Select("""
 					SELECT LAST_INSERT_ID();
@@ -250,4 +266,6 @@ public interface TeamDao {
 			        </script>
 			        """)
 			int getMatchingsCnt(String searchType, String searchKeyword);
+=======
+>>>>>>> f51e8a63a584c6c67e9bc2505ea2f9ac7ebd6f13
 }

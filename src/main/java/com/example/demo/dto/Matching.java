@@ -1,6 +1,8 @@
 package com.example.demo.dto;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +27,36 @@ public class Matching {
     private String description;          // 기타 정보
     private String name;
     private LocalDateTime createdDate;
-    private int matchCount;
+    
+    public String getDayOfWeek() {
+        if (this.matchDate == null || this.matchDate.isEmpty()) {
+            return null; // 날짜가 없는 경우 null 반환
+        }
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime dateTime = LocalDateTime.parse(this.matchDate, formatter);
+            DayOfWeek dayOfWeek = dateTime.getDayOfWeek();
+            // 요일을 한글로 반환
+            switch (dayOfWeek) {
+                case MONDAY:
+                    return "월요일";
+                case TUESDAY:
+                    return "화요일";
+                case WEDNESDAY:
+                    return "수요일";
+                case THURSDAY:
+                    return "목요일";
+                case FRIDAY:
+                    return "금요일";
+                case SATURDAY:
+                    return "토요일";
+                case SUNDAY:
+                    return "일요일";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null; // 날짜 파싱 실패 시 null 반환
+    }
 }
 

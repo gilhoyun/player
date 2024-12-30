@@ -216,7 +216,7 @@ public interface TeamDao {
 			            </choose>
 			        </if>
 			        GROUP BY M.id
-			        ORDER BY M.id DESC
+			        ORDER BY M.matchDate ASC, M.id ASC
 			        LIMIT #{limitFrom}, 10
 			        </script>
 			        """)

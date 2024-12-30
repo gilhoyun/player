@@ -71,22 +71,24 @@
 								${matching.matchDate.substring(11, 16)}</div>
 							<div>
 								<div class="font-medium">
-									<a href="detail?id=${matching.id}" class="hover:underline">
+									<a href="matchingDetail?id=${matching.id}" class="hover:underline">
 										${matching.stadium} </a>
 								</div>
-								<div class="text-sm text-gray-500">
-									${matching.description}</div>
+								<div class="flex items-center space-x-2 text-xs text-gray-500">
+									<span>${matching.genderInKorean}</span><span class="mx-1">/</span>
+									<span>${matching.region}</span><span class="mx-1">/</span>
+									<span>${matching.playerCount}</span>
+								</div>
 							</div>
 						</div>
 						<div class="flex items-center space-x-3">
-							<div class="text-sm font-medium">${matching.playerCount}</div>
 							<c:choose>
 								<c:when test="${matching.status == 'MATCHED'}">
 									<span
 										class="px-4 py-2 bg-red-500 text-white rounded-md text-sm">마감</span>
 								</c:when>
 								<c:when test="${matching.status == 'WAITING'}">
-									<a href="apply?id=${matching.id}"
+									<a href="matchingDetail?id=${matching.id}"
 										class="px-4 py-2 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600 transition">
 										신청가능 </a>
 								</c:when>

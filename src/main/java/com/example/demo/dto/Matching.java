@@ -58,5 +58,21 @@ public class Matching {
         }
         return null; // 날짜 파싱 실패 시 null 반환
     }
+    
+    public String getGenderInKorean() {
+        if (gender == null) {
+            return "";
+        }
+        switch (gender) {
+            case "MALE":
+                return "남자 매치";
+            case "FEMALE":
+                return "여자 매치";
+            case "MIXED":
+                return "남녀 모두 매치";
+            default:
+                return "";
+        }
+    }
 }
 

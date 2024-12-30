@@ -432,7 +432,9 @@ public class UsrTeamController {
 	        hostTeamId = rq.getLoginedMemberId();
 	    }
 	    
-	    teamService.writeMatching(hostTeamId, rq.getLoginedMemberId(), matchDate, region, stadium, playerCount, gender, description);
+	    String formattedPlayerCount = playerCount + " vs " + playerCount;
+	    
+	    teamService.writeMatching(hostTeamId, rq.getLoginedMemberId(), matchDate, region, stadium, formattedPlayerCount, gender, description);
 
 	    int id = teamService.getLastInsertId();
 
@@ -472,37 +474,15 @@ public class UsrTeamController {
         return "usr/team/matchingList";
     }
 
-//	@GetMapping("/usr/article/detail")
-//	public String showDetail(HttpServletRequest req, HttpServletResponse resp, Model model, int id) {
-//		
-//		Cookie[] cookies = req.getCookies();
-//		boolean isViewed = false;
-//
-//		if (cookies != null) {
-//			for (Cookie cookie : cookies) {
-//				if (cookie.getName().equals("viewedArticle_" + id)) {
-//					isViewed = true;
-//					break;
-//				}
-//			}
-//		}
-//
-//		if (!isViewed) {
-//			articleService.increaseViews(id);
-//			Cookie cookie = new Cookie("viewedArticle_" + id, "true");
-//			cookie.setMaxAge(60*30);
-//			resp.addCookie(cookie);
-//		}
-//	
-//		Article article = articleService.getArticlebyId(id);
-//		
-//		List<Reply> replies = replyService.getReplies("article", id);
-//		
-//		model.addAttribute("article", article);
-//		model.addAttribute("replies", replies);
-//
-//		return "usr/article/detail";
-//	}
+	@GetMapping("/usr/team/matchingDetail")
+	public String showDetail(HttpServletRequest req, HttpServletResponse resp, Model model, int id) {
+		
+		Matching matching = teamService.getMatchingbyId(id);
+		
+		model.addAttribute("matching", matching);
+
+		return "usr/team/matchingDetail";
+	}
 	
 
 }

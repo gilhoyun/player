@@ -119,8 +119,8 @@ public class TeamService {
 		return teamDao.getLastInsertId();
 	}
 
-	public void writeMatching(int hostTeamId, int loginedMemberId, String matchDate, String region, String stadium, String playerCount, String gender, String description) {
-		teamDao.writeMatching(hostTeamId, loginedMemberId, matchDate, region, stadium, playerCount, gender, description);
+	public void writeMatching(int hostTeamId, int loginedMemberId, String matchDate, String region, String stadium, String formattedPlayerCount, String gender, String description) {
+		teamDao.writeMatching(hostTeamId, loginedMemberId, matchDate, region, stadium, formattedPlayerCount, gender, description);
 	}
 
 	public List<Matching> getMatchings(int limitFrom, String searchType, String searchKeyword) {
@@ -129,6 +129,10 @@ public class TeamService {
 
 	public int getMatchingsCnt(String searchType, String searchKeyword) {
 	    return teamDao.getMatchingsCnt(searchType, searchKeyword);
+	}
+
+	public Matching getMatchingbyId(int id) {
+		return teamDao.getMatchingbyId(id);
 	}
 
 }

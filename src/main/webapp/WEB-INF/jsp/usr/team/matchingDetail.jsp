@@ -6,6 +6,8 @@
 <%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 
 <section class=" py-8">
+    
+    
     <!-- Match Details Section -->
     <div class="max-w-5xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
         <!-- Match Title -->

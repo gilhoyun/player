@@ -15,6 +15,8 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -418,9 +420,85 @@ public class UsrTeamController {
 	
 
 	@GetMapping("/usr/team/write")
-    public String showWrite() {
-        return "usr/team/write";
-    }
+	public String showWrite(Model model) {
+	    try {
+	        // API 호출 및 데이터 파싱 로직
+	        StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088");
+	        urlBuilder.append("/" + URLEncoder.encode("6779454974676f6834334550777359", "UTF-8"));
+	        urlBuilder.append("/" + URLEncoder.encode("json", "UTF-8"));
+	        urlBuilder.append("/" + URLEncoder.encode("ListPublicReservationSport", "UTF-8"));
+	        urlBuilder.append("/" + URLEncoder.encode("1", "UTF-8"));
+	        urlBuilder.append("/" + URLEncoder.encode("40", "UTF-8"));
+	        urlBuilder.append("/" + URLEncoder.encode("풋살장", "UTF-8"));
+
+	        URL url = new URL(urlBuilder.toString());
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	        conn.setRequestMethod("GET");
+	        conn.setRequestProperty("Content-type", "application/json");
+
+	        BufferedReader rd;
+	        if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+	            rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
+	        } else {
+	            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8));
+	        }
+
+	        StringBuilder sb = new StringBuilder();
+	        String line;
+	        while ((line = rd.readLine()) != null) {
+	            sb.append(line);
+	        }
+	        rd.close();
+	        conn.disconnect();
+
+	        // Parse JSON
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        JsonNode rootNode = objectMapper.readTree(sb.toString());
+	        JsonNode rowsNode = rootNode.path("ListPublicReservationSport").path("row");
+
+	        // Extract unique regions and stadiums
+	        Set<String> regions = new TreeSet<>(); // TreeSet for automatic sorting
+	        Map<String, List<Map<String, String>>> stadiumsByRegion = new HashMap<>();
+
+	        for (JsonNode node : rowsNode) {
+	            String fullPlaceName = node.path("PLACENM").asText();
+	            String[] parts = fullPlaceName.split(">");
+	            
+	            // 메인 지역명 추출 (예: "서울특별시")
+	            String region = parts[0].trim();
+	            // 실제 구장명 추출 (예: "난지천 공원 풋살장")
+	            String stadiumName = parts.length > 1 ? parts[1].trim() : parts[0].trim();
+	            
+	            regions.add(region);
+	            
+	            Map<String, String> stadiumInfo = new HashMap<>();
+	            stadiumInfo.put("name", stadiumName);
+	            stadiumInfo.put("fullName", fullPlaceName); // 전체 이름도 저장
+	            
+	            stadiumsByRegion.computeIfAbsent(region, k -> new ArrayList<>())
+	                           .add(stadiumInfo);
+	        }
+
+	        // 각 지역의 구장 목록 정렬
+	        for (List<Map<String, String>> stadiums : stadiumsByRegion.values()) {
+	            stadiums.sort((a, b) -> a.get("name").compareTo(b.get("name")));
+	        }
+
+	        model.addAttribute("regions", regions);
+	        model.addAttribute("stadiumsByRegion", objectMapper.writeValueAsString(stadiumsByRegion));
+
+	        return "usr/team/write";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "usr/team/write";
+	    }
+	}
+
+	// Helper method to extract region from place name
+	private String extractRegion(String placeName) {
+	    // Assuming place names start with region (e.g., "강남구 xx풋살장")
+	    return placeName.split(" ")[0];
+	}
 
 	@PostMapping("/usr/team/doWrite")
 	@ResponseBody

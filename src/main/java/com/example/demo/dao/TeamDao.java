@@ -184,9 +184,10 @@ public interface TeamDao {
 		                stadium = #{stadium},
 		                playerCount = #{formattedPlayerCount},
 		                gender = #{gender},
-		                description = #{description}
+		                description = #{description},
+		                imgUrl = #{imgUrl}
 		            """)
-		    void writeMatching(int hostTeamId, int createdBy, String matchDate, String region, String stadium, String formattedPlayerCount, String gender, String description);
+		    void writeMatching(int hostTeamId, int createdBy, String matchDate, String region, String stadium, String formattedPlayerCount, String gender, String description, byte[] imgUrl);
 			
 			@Select("""
 			        <script>

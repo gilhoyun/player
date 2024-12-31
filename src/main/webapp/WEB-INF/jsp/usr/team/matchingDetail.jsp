@@ -6,8 +6,6 @@
 <%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 
 <section class=" py-8">
-    
-    
     <!-- Match Details Section -->
     <div class="max-w-5xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
         <!-- Match Title -->
@@ -18,6 +16,11 @@
             <p class="text-gray-600 mt-2">
                 ${matching.matchDate} <!-- 2024년 12월 30일 월요일 20:00 -->
             </p>
+        </div>
+
+        <!-- Match Image -->
+        <div class="p-6">
+            <img src="${matching.imgUrl}" alt="Stadium Image" class="w-full h-60 object-cover rounded-lg">
         </div>
 
         <!-- Match Info Grid -->

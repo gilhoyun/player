@@ -27,6 +27,7 @@ public class Matching {
     private String description;          // 기타 정보
     private String name;
     private LocalDateTime createdDate;
+    private String imgUrl;
     
     public String getDayOfWeek() {
         if (this.matchDate == null || this.matchDate.isEmpty()) {

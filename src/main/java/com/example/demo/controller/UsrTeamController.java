@@ -502,17 +502,29 @@ public class UsrTeamController {
 
 	@PostMapping("/usr/team/doWrite")
 	@ResponseBody
-	public String doWrite(HttpServletRequest req, @RequestParam(required = false) Integer hostTeamId, String matchDate, String region, String stadium, String playerCount, String gender, String description) {
+	public String doWrite(HttpServletRequest req, @RequestParam(required = false) Integer hostTeamId, String matchDate, String region, String stadium, String playerCount, String gender, String description, @RequestParam("imgUrl") MultipartFile imgUrl) {
 	    Rq rq = (Rq) req.getAttribute("rq");
-	    
+
 	    // hostTeamId가 null이면 로그인한 사용자의 ID로 설정
 	    if (hostTeamId == null) {
 	        hostTeamId = rq.getLoginedMemberId();
 	    }
-	    
+
+	    byte[] stadiumImageData = null;
+
+	    try {
+	        if (!imgUrl.isEmpty()) {
+	            stadiumImageData = imgUrl.getBytes(); // 구장 이미지 파일 데이터를 바이트 배열로 변환
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return Util.jsReturn("구장 이미지 업로드 실패", null);
+	    }
+
 	    String formattedPlayerCount = playerCount + " vs " + playerCount;
-	    
-	    teamService.writeMatching(hostTeamId, rq.getLoginedMemberId(), matchDate, region, stadium, formattedPlayerCount, gender, description);
+
+	    // 매칭 작성 및 구장 이미지 저장
+	    teamService.writeMatching(hostTeamId, rq.getLoginedMemberId(), matchDate, region, stadium, formattedPlayerCount, gender, description, stadiumImageData);
 
 	    int id = teamService.getLastInsertId();
 

@@ -8,7 +8,9 @@
 <section class="py-8">
 <div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md">
     <h2 class="text-2xl font-semibold text-gray-800 mb-6">팀 매칭 등록</h2>
-    <form action="doWrite" method="post">
+    <!-- enctype="multipart/form-data" 추가 -->
+    <form action="doWrite" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="imgUrl" id="imgUrl">
         <table class="w-full text-left border-collapse">
             <colgroup>
                 <col width="180">
@@ -41,7 +43,6 @@
                         <input type="hidden" name="fullStadiumName" id="fullStadiumName">
                     </td>
                 </tr>
-                <!-- Rest of the form remains the same -->
                 <tr>
                     <th class="py-2 px-4 font-medium text-gray-700 bg-gray-100 text-center">경기 인원(? vs ?)</th>
                     <td class="py-2 px-4">
@@ -65,6 +66,13 @@
                         <textarea name="description" class="border p-2 rounded w-full" rows="5" placeholder="추가 설명을 입력하세요"></textarea>
                     </td>
                 </tr>
+                <!-- 파일 업로드 추가 -->
+                <tr>
+                    <th class="py-2 px-4 font-medium text-gray-700 bg-gray-100 text-center">구장 이미지</th>
+                    <td class="py-2 px-4">
+                        <input type="file" name="imgUrl" class="border p-2 rounded w-full" accept="image/*">
+                    </td>
+                </tr>
             </tbody>
         </table>
         <div class="mt-4 text-right">
@@ -77,16 +85,16 @@
 <script>
     // JSON 데이터를 JavaScript 객체로 안전하게 파싱
     const stadiumsByRegion = JSON.parse('<c:out value="${stadiumsByRegion}" escapeXml="false"/>');
-    
+
     document.getElementById('regionSelect').addEventListener('change', function() {
         const region = this.value;
         const stadiumSelect = document.getElementById('stadiumSelect');
         const fullStadiumNameInput = document.getElementById('fullStadiumName');
-        
+
         // 구장 선택 옵션 초기화
         stadiumSelect.innerHTML = '<option value="">구장을 선택하세요</option>';
         fullStadiumNameInput.value = '';
-        
+
         if (region && stadiumsByRegion[region]) {
             // 선택된 지역의 풋살장 목록을 표시
             stadiumsByRegion[region].forEach(stadiumInfo => {

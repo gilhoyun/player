@@ -516,7 +516,7 @@ public class UsrTeamController {
 
 	    int id = teamService.getLastInsertId();
 
-	    return Util.jsReturn("매칭이 등록되었습니다.", String.format("detail?id=%d", id));
+	    return Util.jsReturn("매칭이 등록되었습니다.", String.format("matchingDetail?id=%d", id));
 	}
 	
 

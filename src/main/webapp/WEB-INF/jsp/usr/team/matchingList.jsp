@@ -89,7 +89,7 @@
 								</c:when>
 								<c:when test="${matching.status == 'WAITING'}">
 									<a href="matchingDetail?id=${matching.id}"
-										class="px-4 py-2 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600 transition">
+										class="px-4 py-2 bg-stone-400 text-white rounded hover:bg-stone-500 transition">
 										신청가능 </a>
 								</c:when>
 							</c:choose>
@@ -124,7 +124,7 @@
 			<c:if test="${rq.getLoginedMemberId() != -1 and rq.hasTeam()}">
 				<div>
 					<a
-						class="px-4 py-2 bg-stone-400 text-white rounded hover:bg-stone-600 transition"
+						class="px-4 py-2 bg-stone-400 text-white rounded hover:bg-stone-500 transition"
 						href="/usr/team/write">등록</a>
 				</div>
 			</c:if>

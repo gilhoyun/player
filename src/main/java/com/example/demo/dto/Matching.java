@@ -28,6 +28,8 @@ public class Matching {
     private String name;
     private LocalDateTime createdDate;
     private String imgUrl;
+    private String detailContent;
+    private String payAtName;
     
     public String getDayOfWeek() {
         if (this.matchDate == null || this.matchDate.isEmpty()) {

@@ -502,7 +502,7 @@ public class UsrTeamController {
 
 	@PostMapping("/usr/team/doWrite")
 	@ResponseBody
-	public String doWrite(HttpServletRequest req, @RequestParam(required = false) Integer hostTeamId, String matchDate, String region, String stadium, String playerCount, String gender, String description, @RequestParam("imgUrl") MultipartFile imgUrl) {
+	public String doWrite(HttpServletRequest req, @RequestParam(required = false) Integer hostTeamId, String matchDate, String region, String stadium, String playerCount, String gender, String description) {
 	    Rq rq = (Rq) req.getAttribute("rq");
 
 	    // hostTeamId가 null이면 로그인한 사용자의 ID로 설정
@@ -510,21 +510,10 @@ public class UsrTeamController {
 	        hostTeamId = rq.getLoginedMemberId();
 	    }
 
-	    byte[] stadiumImageData = null;
-
-	    try {
-	        if (!imgUrl.isEmpty()) {
-	            stadiumImageData = imgUrl.getBytes(); // 구장 이미지 파일 데이터를 바이트 배열로 변환
-	        }
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	        return Util.jsReturn("구장 이미지 업로드 실패", null);
-	    }
-
 	    String formattedPlayerCount = playerCount + " vs " + playerCount;
 
 	    // 매칭 작성 및 구장 이미지 저장
-	    teamService.writeMatching(hostTeamId, rq.getLoginedMemberId(), matchDate, region, stadium, formattedPlayerCount, gender, description, stadiumImageData);
+	    teamService.writeMatching(hostTeamId, rq.getLoginedMemberId(), matchDate, region, stadium, formattedPlayerCount, gender, description);
 
 	    int id = teamService.getLastInsertId();
 
@@ -564,15 +553,86 @@ public class UsrTeamController {
         return "usr/team/matchingList";
     }
 
-	@GetMapping("/usr/team/matchingDetail")
-	public String showDetail(HttpServletRequest req, HttpServletResponse resp, Model model, int id) {
-		
-		Matching matching = teamService.getMatchingbyId(id);
-		
-		model.addAttribute("matching", matching);
+    @GetMapping("/usr/team/matchingDetail")
+    public String showDetail(HttpServletRequest req, HttpServletResponse resp, Model model, int id) {
+        Matching matching = teamService.getMatchingbyId(id);
 
-		return "usr/team/matchingDetail";
-	}
+        try {
+            // API URL 구성
+            StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088");
+            urlBuilder.append("/" + URLEncoder.encode("6779454974676f6834334550777359", "UTF-8"));
+            urlBuilder.append("/" + URLEncoder.encode("json", "UTF-8"));
+            urlBuilder.append("/" + URLEncoder.encode("ListPublicReservationSport", "UTF-8"));
+            urlBuilder.append("/" + URLEncoder.encode("1", "UTF-8"));
+            urlBuilder.append("/" + URLEncoder.encode("40", "UTF-8"));
+            urlBuilder.append("/" + URLEncoder.encode("풋살장", "UTF-8"));
+
+            URL url = new URL(urlBuilder.toString());
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-type", "application/json");
+
+            BufferedReader rd;
+            if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+                rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
+            } else {
+                rd = new BufferedReader(new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8));
+            }
+
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                sb.append(line);
+            }
+            rd.close();
+            conn.disconnect();
+
+            // JSON 파싱
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode rootNode = objectMapper.readTree(sb.toString());
+            JsonNode rowsNode = rootNode.path("ListPublicReservationSport").path("row");
+
+            // 매칭의 구장 이름과 일치하는 정보 찾기
+            String matchingStadiumImage = null;
+            String detailContent = null;
+            for (JsonNode node : rowsNode) {
+                String fullPlaceName = node.path("PLACENM").asText();
+                String imgUrl = node.path("IMGURL").asText();
+                String dtlCont = node.path("DTLCONT").asText();
+                String payAtName = node.path("PAYATNM").asText(); 
+
+                // 구장 이름이 일치하면 이미지 URL과 상세정보 저장
+                if (fullPlaceName.contains(matching.getStadium())) {
+                    matchingStadiumImage = imgUrl;
+                    // 줄바꿈 문자 정규화
+                    detailContent = dtlCont.replaceAll("\\r\\n|\\r|\\n", "<br/>");
+                    matching.setPayAtName(payAtName);
+                    break;
+                }
+            }
+
+            // 이미지 URL 및 상세정보 기본값 설정
+            if (matchingStadiumImage == null || matchingStadiumImage.isEmpty()) {
+                matchingStadiumImage = "/resource/images/default-stadium.jpg";
+            }
+            if (detailContent == null || detailContent.isEmpty()) {
+                detailContent = "해당 구장에 대한 추가 정보가 없습니다.";
+            }
+
+            matching.setImgUrl(matchingStadiumImage);
+            matching.setDetailContent(detailContent);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 에러 발생 시 기본값 설정
+            matching.setImgUrl("/resource/images/default-stadium.jpg");
+            matching.setDetailContent("정보를 불러오는 중 오류가 발생했습니다.");
+        }
+
+        model.addAttribute("matching", matching);
+        return "usr/team/matchingDetail";
+    }
+
 	
 
 }

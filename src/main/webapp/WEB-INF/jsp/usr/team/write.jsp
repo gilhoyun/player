@@ -66,13 +66,6 @@
                         <textarea name="description" class="border p-2 rounded w-full" rows="5" placeholder="추가 설명을 입력하세요"></textarea>
                     </td>
                 </tr>
-                <!-- 파일 업로드 추가 -->
-                <tr>
-                    <th class="py-2 px-4 font-medium text-gray-700 bg-gray-100 text-center">구장 이미지</th>
-                    <td class="py-2 px-4">
-                        <input type="file" name="imgUrl" class="border p-2 rounded w-full" accept="image/*">
-                    </td>
-                </tr>
             </tbody>
         </table>
         <div class="mt-4 text-right">

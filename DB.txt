@@ -257,5 +257,9 @@ SELECT NOW()
         , CONCAT('내용_', FLOOR(RAND() * 10000))
     FROM article;
     
+
+SELECT * 
+FROM matching
+WHERE id = 1
     
     
